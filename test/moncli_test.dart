@@ -1,4 +1,4 @@
-import 'package:moncli/moncli.dart';
+import 'package:moncli/lib.dart';
 import 'package:test/test.dart';
 
 // void main() {
