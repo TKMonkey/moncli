@@ -1,6 +1,7 @@
 import 'package:args/command_runner.dart';
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/command/comand.dart';
+import 'package:moncli/src/logger/logger.dart';
 
 import 'command_line_app.dart';
 
@@ -47,11 +48,11 @@ class Moncli extends CommandLineApp {
   void addArgument(String argumentName, String helpMessage, bool isActive) {}
 
   @override
-  void runCommand(Iterable<String> arguments) {
+  void runCommand(Iterable<String> arguments) async {
     if (!hasCommand(arguments)) {
       executeOptions(arguments);
     } else {
-      runner.run(arguments).catchError(
+      await runner.run(arguments).catchError(
         (error) {
           if (error is! UsageException) throw error;
           dcli.printerr(dcli.red(error.message));

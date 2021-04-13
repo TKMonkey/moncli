@@ -1,9 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:dcli/dcli.dart' as dcli;
 
 import 'package:args/command_runner.dart';
+import 'package:io/ansi.dart';
+import 'package:io/io.dart';
 import 'package:moncli/src/base/base_command.dart';
+import 'package:moncli/src/logger/logger.dart';
 
 class InstallCommand extends CommandBase {
   InstallCommand() {
@@ -22,13 +24,14 @@ class InstallCommand extends CommandBase {
   final description = 'Install (or update) a new package or packages:';
 
   @override
-  String get invocation => dcli.yellow('moncli install [packages]');
+  String get invocation => printerr.yellowStr('moncli install [packages]');
 
   @override
-  FutureOr<void> run() async {
+  Future<void> run() async {
     if (!dcli.exists('pubspec.yaml')) {
-      dcli.printerr('No pubspec.yaml file in project.');
-      exit(1);
+      printerr.red('No pubspec.yaml file in project.');
+      //generateDone('Done');
+      // exit(1);
     }
 
     if (argResults?.rest.isEmpty == true) {
@@ -38,9 +41,13 @@ class InstallCommand extends CommandBase {
       //   print(element);
       // });
 
-      dcli.printerr('INIT INSTALL');
+      printerr.white('INIT INSTALL');
 
       // return install(argResults.rest, argResults['dev']);
     }
   }
+}
+
+Future<void> nada() async {
+  await Future.delayed(Duration(seconds: 1), () {});
 }
