@@ -1,11 +1,8 @@
 import 'dart:async';
-import 'package:dcli/dcli.dart' as dcli;
 
 import 'package:args/command_runner.dart';
-import 'package:io/ansi.dart';
-import 'package:io/io.dart';
 import 'package:moncli/src/base/base_command.dart';
-import 'package:moncli/src/logger/logger.dart';
+import 'package:moncli/src/utils/utils.dart';
 
 class InstallCommand extends CommandBase {
   InstallCommand() {
@@ -28,7 +25,7 @@ class InstallCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    if (!dcli.exists('pubspec.yaml')) {
+    if (!existsFile('pubspec.yaml')) {
       printerr.red('No pubspec.yaml file in project.');
       //generateDone('Done');
       // exit(1);
@@ -41,13 +38,9 @@ class InstallCommand extends CommandBase {
       //   print(element);
       // });
 
-      printerr.white('INIT INSTALL');
+      printerr.w('INIT INSTALL');
 
       // return install(argResults.rest, argResults['dev']);
     }
   }
-}
-
-Future<void> nada() async {
-  await Future.delayed(Duration(seconds: 1), () {});
 }

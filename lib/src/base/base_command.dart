@@ -1,11 +1,7 @@
 import 'package:args/command_runner.dart';
-import 'package:moncli/src/logger/logger.dart';
-import 'package:moncli/src/logger/printerr.dart';
 
 abstract class CommandBase extends Command {
   String? invocationSuffix;
-
-  Printerr get printerr => const Printerr();
 
   @override
   String get invocation {

@@ -1,7 +1,6 @@
 import 'package:args/command_runner.dart';
-import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/command/comand.dart';
-import 'package:moncli/src/logger/logger.dart';
+import 'package:moncli/src/utils/utils.dart';
 
 import 'command_line_app.dart';
 
@@ -55,8 +54,9 @@ class Moncli extends CommandLineApp {
       await runner.run(arguments).catchError(
         (error) {
           if (error is! UsageException) throw error;
-          dcli.printerr(dcli.red(error.message));
-          dcli.printerr(error.usage);
+          printerr
+            ..red(error.message)
+            ..w(error.usage);
         },
       );
     }

@@ -1,5 +1,5 @@
 import 'package:args/command_runner.dart';
-import 'package:dcli/dcli.dart' as dcli;
+import 'package:moncli/src/utils/utils.dart';
 
 abstract class CommandLineApp {
   CommandLineApp({required this.runner}) {
@@ -43,7 +43,7 @@ abstract class CommandLineApp {
     final results = parser.parse(arguments);
 
     if (results.wasParsed('help') || arguments.isEmpty) {
-      dcli.printerr(usage);
+      printerr.w(usage);
     }
 
     if (results.wasParsed('printer')) {
@@ -51,16 +51,17 @@ abstract class CommandLineApp {
     }
 
     if (results.wasParsed('version')) {
-      dcli.printerr(version);
+      printerr.w(version);
     }
   }
 
   void printInformation() {
-    dcli.printerr('\n$printer\n');
-    dcli.printerr(dcli.yellow(description));
-    dcli.printerr('$name $version');
-    dcli.printerr('Author: $author');
-    dcli.printerr('$license');
-    dcli.printerr('\nVisit here: $url');
+    printerr
+      ..w('\n$printer\n')
+      ..yellow(description)
+      ..w('$name $version')
+      ..w('Author: $author')
+      ..w('$license')
+      ..w('\nVisit here: $url');
   }
 }
