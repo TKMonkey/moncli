@@ -4,8 +4,8 @@ import 'package:args/command_runner.dart';
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/utils/utils.dart';
 
-class InstallCommand extends CommandBase {
-  InstallCommand() {
+class InstallSubCommand extends CommandBase {
+  InstallSubCommand() {
     argParser.addFlag(
       'dev',
       abbr: 'd',
@@ -32,13 +32,13 @@ class InstallCommand extends CommandBase {
     commandUtils.existsPubspec();
 
     if (argsIsEmpty) {
-      throw UsageException('not package passed for a install command.', usage);
+      throw UsageException('not package passed for a remove command.', usage);
     } else {
       // argResults!.rest.forEach((element) {
       //   print(element);
       // });
 
-      logger.info('INIT INSTALL');
+      logger.info('INIT Remove');
 
       // return install(argResults.rest, argResults['dev']);
     }

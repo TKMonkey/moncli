@@ -1,11 +1,11 @@
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/utils/utils.dart';
 
-class AssetManagerCommand extends CommandBase {
-  AssetManagerCommand() {
+class AssetManagerSubCommand extends CommandBase {
+  AssetManagerSubCommand() {
     argParser.addFlag(
       'nocreate',
-      abbr: '-n',
+      abbr: 'n',
       negatable: false,
       help: 'No create the AssetManager class in Dart',
     );

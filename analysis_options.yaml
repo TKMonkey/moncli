@@ -17,4 +17,5 @@ linter:
     avoid_positional_boolean_parameters: false
     public_member_api_docs: false
     lines_longer_than_80_chars: false
+    avoid_relative_lib_imports: true
     

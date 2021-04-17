@@ -1,4 +1,4 @@
-import 'package:moncli/src/utils/utils.dart';
+import 'utils.dart';
 
 abstract class CommandUtils {}
 
