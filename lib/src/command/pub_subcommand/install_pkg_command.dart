@@ -18,16 +18,18 @@ class InstallCommand extends CommandBase {
   final name = 'install';
 
   @override
-  final description = 'Install (or update) a new package or packages:';
+  final description = 'Install (or update) a new package or packages';
 
   @override
-  String get invocation => 'moncli install [packages]';
+  String get invocation => Logger.yellow('moncli install [packages]');
+
+  @override
+  PubCommandUtils get commandUtils => PubCommandUtils();
 
   @override
   Future<void> run() async {
-    if (!existsFile('pubspec.yaml')) {
-      throw const FormatException('No pubspec.yaml file in project.');
-    }
+    logger.info('--Install--');
+    commandUtils.existsPubspec();
 
     if (argsIsEmpty) {
       throw UsageException('not package passed for a install command.', usage);

@@ -9,7 +9,7 @@ environment:
 dependencies:
  args: ^2.0.0
  dcli: ^0.51.9
- io: ^1.0.0
+ ansicolor: ^2.0.1
  
 
 dev_dependencies:

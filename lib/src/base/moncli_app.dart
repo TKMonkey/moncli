@@ -24,7 +24,7 @@ class Moncli with CommandLineApp {
   }
 
   void _configureCommand() {
-    runner.addCommand(InstallCommand());
+    runner.addCommand(PubCommand());
   }
 
   @override

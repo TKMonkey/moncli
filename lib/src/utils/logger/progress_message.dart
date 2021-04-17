@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:io/ansi.dart';
+
+import 'logger.dart';
 
 /// Writes progress message to stdout.
 mixin ProgressMessage {
@@ -30,14 +31,14 @@ mixin ProgressMessage {
       _index++;
       final char = _progressAnimation[_index % _progressAnimation.length];
       stdout.write(
-        '''${lightGreen.wrap('\b${'\b' * (message.length + 4)}$char')} $message...''',
+        '''${Logger.green('\b${'\b' * (message.length + 4)}$char')} $message...''',
       );
     });
     return ([String? update]) {
       _stopwatch.stop();
       final time = (_stopwatch.elapsed.inMilliseconds / 1000.0).toStringAsFixed(1);
       stdout.write(
-        '''${lightGreen.wrap('\b${'\b' * (message.length + 4)}✓')} ${update ?? message} (${time}ms)\n''',
+        '''${Logger.green('\b${'\b' * (message.length + 4)}✓')} ${update ?? message} (${time}ms)\n''',
       );
       _timer?.cancel();
     };

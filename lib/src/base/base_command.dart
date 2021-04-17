@@ -1,4 +1,5 @@
 import 'package:args/command_runner.dart';
+import 'package:moncli/src/utils/utils.dart';
 
 abstract class CommandBase extends Command {
   String? invocationSuffix;
@@ -17,6 +18,8 @@ abstract class CommandBase extends Command {
   String get name;
 
   bool get argsIsEmpty => argResults?.rest.isEmpty == true;
+
+  late CommandUtils commandUtils;
 
   // @override
   // FutureOr<void> run() {
