@@ -26,12 +26,10 @@ class InstallCommand extends CommandBase {
   @override
   Future<void> run() async {
     if (!existsFile('pubspec.yaml')) {
-      printerr.red('No pubspec.yaml file in project.');
-      //generateDone('Done');
-      // exit(1);
+      throw const FormatException('No pubspec.yaml file in project.');
     }
 
-    if (argResults?.rest.isEmpty == true) {
+    if (argsIsEmpty) {
       throw UsageException('not package passed for a install command.', usage);
     } else {
       // argResults!.rest.forEach((element) {

@@ -16,6 +16,8 @@ abstract class CommandBase extends Command {
   @override
   String get name;
 
+  bool get argsIsEmpty => argResults?.rest.isEmpty == true;
+
   // @override
   // FutureOr<void> run() {
   //   formatFiles(LocalSaveLog().lastCreatedFiles(true));

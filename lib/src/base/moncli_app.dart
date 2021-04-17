@@ -53,10 +53,15 @@ class Moncli extends CommandLineApp {
     } else {
       await runner.run(arguments).catchError(
         (error) {
-          if (error is! UsageException) throw error;
-          printerr
-            ..red(error.message)
-            ..w(error.usage);
+          if (error is UsageException) {
+            printerr
+              ..red(error.message)
+              ..w(error.usage);
+          } else if (error is FormatException) {
+            printerr..red(error.message);
+          } else {
+            throw error;
+          }
         },
       );
     }
