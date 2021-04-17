@@ -1,42 +1,27 @@
 import 'package:args/command_runner.dart';
 import 'package:moncli/src/utils/utils.dart';
 
-abstract class CommandLineApp {
-  CommandLineApp({required this.runner}) {
-    runner.argParser.addFlag(
-      'printer',
-      abbr: 'p',
-      negatable: false,
-      help: 'Print the information for the cli.',
-    );
+mixin CommandLineApp {
+  final CommandRunner runner = CommandRunner('Moncli', _description);
 
-    runner.argParser.addFlag(
-      'version',
-      abbr: 'v',
-      negatable: false,
-      help: 'Print the version for the cli.',
-    );
-  }
-
-  final CommandRunner runner;
+  static const _description = 'CLI package manager and template for Flutter.';
 
   late final String name;
   late final String version;
   late final String author;
   late final String license;
   late final String url;
-  late final String printer;
 
-  late final String description;
+  String get description => _description;
 
-  void runCommand(Iterable<String> arguments);
+  String get usage => runner.usage;
+
+  Future<void> runCommand(Iterable<String> arguments);
 
   void addArgument(String argumentName, String helpMessage, bool isActive);
 
   bool hasCommand(Iterable<String> arguments) =>
       runner.commands.keys.any((x) => arguments.contains(x));
-
-  String get usage => runner.usage;
 
   void executeOptions(Iterable<String> arguments) async {
     final parser = runner.argParser;
@@ -64,4 +49,13 @@ abstract class CommandLineApp {
       ..w('$license')
       ..w('\nVisit here: $url');
   }
+
+  String get printer => '''
+      ███   ║███  ███████╗ ████╗   ██╗       ██████╗ ██╗      ██╗ 
+      ██╚═██╗ ██  ██║  ██║ ██║██╗  ██║      ██╔════╝ ██║      ██║
+      ██║ ██║ ██  ██║  ██║ ██║ ╚██ ██║  ╔╝  ██║      ██║      ██║
+      ██║ ╚═╝ ██  ██║  ██║ ██║  ╚████║ ╔╝   ██║      ██║      ██║
+      ██║     ██  ███████║ ██║    ███║      ╚██████╗ ███████╗ ██║
+      ╚╝      ╚╝  ╚══════╝ ╚═╝    ╚══╝       ╚═════╝ ╚══════╝ ╚═╝                                             
+''';
 }

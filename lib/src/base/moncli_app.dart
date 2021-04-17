@@ -4,12 +4,24 @@ import 'package:moncli/src/utils/utils.dart';
 
 import 'command_line_app.dart';
 
-class Moncli extends CommandLineApp {
-  Moncli() : super(runner: CommandRunner('Moncli', _description)) {
+class Moncli with CommandLineApp {
+  Moncli() {
+    runner.argParser.addFlag(
+      'printer',
+      abbr: 'p',
+      negatable: false,
+      help: 'Print the information for the cli.',
+    );
+
+    runner.argParser.addFlag(
+      'version',
+      abbr: 'v',
+      negatable: false,
+      help: 'Print the version for the cli.',
+    );
+
     _configureCommand();
   }
-
-  static const _description = 'CLI package manager and template for Flutter.';
 
   void _configureCommand() {
     runner.addCommand(InstallCommand());
@@ -31,23 +43,10 @@ class Moncli extends CommandLineApp {
   String get url => 'https://github.com/TKMonkey/moncli';
 
   @override
-  String get printer => '''
-      ███   ║███  ███████╗ ████╗   ██╗       ██████╗ ██╗      ██╗ 
-      ██╚═██╗ ██  ██║  ██║ ██║██╗  ██║      ██╔════╝ ██║      ██║
-      ██║ ██║ ██  ██║  ██║ ██║ ╚██ ██║  ╔╝  ██║      ██║      ██║
-      ██║ ╚═╝ ██  ██║  ██║ ██║  ╚████║ ╔╝   ██║      ██║      ██║
-      ██║     ██  ███████║ ██║    ███║      ╚██████╗ ███████╗ ██║
-      ╚╝      ╚╝  ╚══════╝ ╚═╝    ╚══╝       ╚═════╝ ╚══════╝ ╚═╝                                             
-''';
-
-  @override
-  String get description => _description;
-
-  @override
   void addArgument(String argumentName, String helpMessage, bool isActive) {}
 
   @override
-  void runCommand(Iterable<String> arguments) async {
+  Future<void> runCommand(Iterable<String> arguments) async {
     if (!hasCommand(arguments)) {
       executeOptions(arguments);
     } else {
