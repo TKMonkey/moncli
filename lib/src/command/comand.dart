@@ -1,1 +1,1 @@
-export 'install_command.dart';
+export 'pub/install_command.dart';

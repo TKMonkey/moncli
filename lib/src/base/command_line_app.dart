@@ -28,7 +28,7 @@ mixin CommandLineApp {
     final results = parser.parse(arguments);
 
     if (results.wasParsed('help') || arguments.isEmpty) {
-      printerr.w(usage);
+      logger.info(usage);
     }
 
     if (results.wasParsed('printer')) {
@@ -36,18 +36,18 @@ mixin CommandLineApp {
     }
 
     if (results.wasParsed('version')) {
-      printerr.w(version);
+      logger.info(version);
     }
   }
 
   void printInformation() {
-    printerr
-      ..w('\n$printer\n')
-      ..yellow(description)
-      ..w('$name $version')
-      ..w('Author: $author')
-      ..w('$license')
-      ..w('\nVisit here: $url');
+    logger
+      ..info('\n$printer\n')
+      ..warn(description)
+      ..info('$name $version')
+      ..info('Author: $author')
+      ..info('$license')
+      ..info('\nVisit here: $url');
   }
 
   String get printer => '''

@@ -53,11 +53,11 @@ class Moncli with CommandLineApp {
       await runner.run(arguments).catchError(
         (error) {
           if (error is UsageException) {
-            printerr
-              ..red(error.message)
-              ..w(error.usage);
+            logger
+              ..err(error.message)
+              ..info(error.usage);
           } else if (error is FormatException) {
-            printerr..red(error.message);
+            logger.err(error.message);
           } else {
             throw error;
           }

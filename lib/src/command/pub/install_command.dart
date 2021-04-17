@@ -21,7 +21,7 @@ class InstallCommand extends CommandBase {
   final description = 'Install (or update) a new package or packages:';
 
   @override
-  String get invocation => printerr.yellowStr('moncli install [packages]');
+  String get invocation => 'moncli install [packages]';
 
   @override
   Future<void> run() async {
@@ -36,7 +36,7 @@ class InstallCommand extends CommandBase {
       //   print(element);
       // });
 
-      printerr.w('INIT INSTALL');
+      logger.info('INIT INSTALL');
 
       // return install(argResults.rest, argResults['dev']);
     }
