@@ -20,7 +20,7 @@ class RemoveSubCommand extends CommandBase {
   final description = 'Remove a package or packages';
 
   @override
-  String get invocation => Logger.yellow('moncli remove [packages]');
+  String get invocation => yellow('moncli remove [packages]');
 
   @override
   PubCommandUtils get commandUtils => PubCommandUtils();

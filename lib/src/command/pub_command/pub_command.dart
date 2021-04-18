@@ -19,5 +19,5 @@ class PubCommand extends CommandBase {
   String get name => 'pub';
 
   @override
-  String get invocation => 'moncli pub ${Logger.yellow('[subCommand]')}';
+  String get invocation => 'moncli pub ${yellow('[subCommand]')}';
 }

@@ -19,7 +19,7 @@ class AssetManagerSubCommand extends CommandBase {
       'Read and write all assets in pubspec and create the AssetManager class';
 
   @override
-  String get invocation => Logger.yellow('moncli assets');
+  String get invocation => yellow('moncli assets');
 
   @override
   PubCommandUtils get commandUtils => PubCommandUtils();

@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:moncli/lib.dart';
-import 'package:dcli/dcli.dart' as dcli;
 
 void main(List<String> arguments) async {
-  Moncli().runCommand(arguments);
+  await Moncli().runCommand(arguments);
   // testDCLI(arguments);
 }
 

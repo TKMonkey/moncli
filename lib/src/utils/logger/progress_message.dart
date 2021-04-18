@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'logger.dart';
+import 'package:moncli/src/utils/logger/colors.dart';
 
 /// Writes progress message to stdout.
 mixin ProgressMessage {
@@ -31,14 +31,14 @@ mixin ProgressMessage {
       _index++;
       final char = _progressAnimation[_index % _progressAnimation.length];
       stdout.write(
-        '''${Logger.green('\b${'\b' * (message.length + 4)}$char')} $message...''',
+        '''${green('\b${'\b' * (message.length + 4)}$char')} $message...''',
       );
     });
     return ([String? update]) {
       _stopwatch.stop();
       final time = (_stopwatch.elapsed.inMilliseconds / 1000.0).toStringAsFixed(1);
       stdout.write(
-        '''${Logger.green('\b${'\b' * (message.length + 4)}✓')} ${update ?? message} (${time}ms)\n''',
+        '''${green('\b${'\b' * (message.length + 4)}✓')} ${update ?? message} (${time}ms)\n''',
       );
       _timer?.cancel();
     };

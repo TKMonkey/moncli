@@ -1,20 +1,17 @@
 import 'package:dcli/dcli.dart' show PubSpec;
+import 'package:moncli/src/models/package_model.dart';
 import 'package:pubspec/pubspec.dart' show HostedReference;
 
-void addToDependenciesUtil(PubSpec pub, String name, String version) {
-  final dependency = {
-    name: HostedReference.fromJson(version),
+void addToDependenciesUtil(PubSpec pub, List<PackageModel> list, bool isDev) {
+  final packages = {
+    for (var pkg in list) pkg.name: HostedReference.fromJson(pkg.version)
   };
 
-  pub.pubspec.dependencies.addAll(dependency);
-}
-
-void addToDevDependenciesUtil(PubSpec pub, String name, String version) {
-  final dependency = {
-    name: HostedReference.fromJson(version),
-  };
-
-  pub.pubspec.devDependencies.addAll(dependency);
+  if (isDev) {
+    pub.pubspec.devDependencies.addAll(packages);
+  } else {
+    pub.pubspec.dependencies.addAll(packages);
+  }
 }
 
 void saveFileUtil(PubSpec pub) {

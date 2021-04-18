@@ -12,7 +12,7 @@ class UnusedPkgSubCommand extends CommandBase {
   }
 
   @override
-  final name = 'unused';
+  final name = 'assets';
 
   @override
   final description = 'See the unused package in pubspec.yaml';

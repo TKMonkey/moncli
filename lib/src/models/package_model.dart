@@ -23,4 +23,11 @@ class PackageModel {
         version: version ?? this.version,
         isValid: isValid ?? this.isValid,
       );
+
+  @override
+  String toString() => isValid ? _validString() : _invalidString();
+
+  String _invalidString() => 'NoValid, name: $name, isDev: $isDev';
+
+  String _validString() => 'name: $name, version: $version, isDev: $isDev';
 }

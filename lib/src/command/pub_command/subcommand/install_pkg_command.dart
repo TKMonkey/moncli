@@ -25,31 +25,32 @@ class InstallSubCommand extends CommandBase {
   final description = 'Install (or update) a new package or packages';
 
   @override
-  String get invocation => Logger.yellow('moncli install [packages]');
+  String get invocation => yellow('moncli install [packages]');
 
   @override
   PubCommandUtils get commandUtils => PubCommandUtils();
 
   @override
   Future<void> run() async {
-    logger.info('--Install--');
+    logger.info('----- Init install package -----');
     commandUtils.existsPubspec();
 
     if (argsIsEmpty) {
       throw UsageException('not package passed for a remove command.', usage);
     } else {
-      commandUtils.loadPubspec();
-      // argResults!.rest.forEach((element) {
-      //   print(element);
-      // });
+      bool isDev = argResults!['dev'];
+      final packageList = (await Future.wait(argResults!.rest
+              .map((pack) async => await getPackageFromPub(pack, isDev))
+              .toList()))
+          .splitMatch((pkg) => pkg.isValid);
 
-      logger.info('INIT Install');
-
-      // return install(argResults.rest, argResults['dev']);
+      commandUtils
+        ..addToDependencies(packageList.matched, isDev)
+        ..saveFile();
     }
   }
 
-  Future<PackageModel> install(String pkgName, bool isDev) async {
+  Future<PackageModel> getPackageFromPub(String pkgName, bool isDev) async {
     final url = Uri.parse('https://pub.dev/api/packages/$pkgName');
 
     final response = await http.get(url);

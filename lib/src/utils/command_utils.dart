@@ -1,4 +1,5 @@
 import 'package:dcli/dcli.dart' show PubSpec;
+import 'package:moncli/src/models/package_model.dart';
 import 'package:moncli/src/utils/files/pubspec_file.dart';
 
 import 'utils.dart';
@@ -8,16 +9,9 @@ abstract class CommandUtils {}
 class PubCommandUtils implements CommandUtils {
   late final PubSpec _pubspecFile;
 
-  void loadPubspec() {
+  void addToDependencies(List<PackageModel> list, bool isDev) {
     _pubspecFile = PubSpec.fromFile('pubspec.yaml');
-  }
-
-  void addToDependencies(String name, String version) {
-    addToDependenciesUtil(_pubspecFile, name, version);
-  }
-
-  void addToDevDependencies(String name, String version) {
-    addToDevDependenciesUtil(_pubspecFile, name, version);
+    addToDependenciesUtil(_pubspecFile, list, isDev);
   }
 
   void saveFile() {

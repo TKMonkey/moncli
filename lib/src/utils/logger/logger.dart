@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:ansicolor/ansicolor.dart';
+import 'package:moncli/src/utils/logger/colors.dart';
 
 /// A basic Logger which wraps [print] and applies various styles.
 /// Copy from Mason library
@@ -42,10 +41,4 @@ class Logger {
 
   /// Writes delayed message to stdout.
   void delayed(String message) => _queue.add(message);
-
-  static final red = AnsiPen()..red();
-  static final green = AnsiPen()..green();
-  static final white = AnsiPen()..white();
-  static final cyan = AnsiPen()..cyan(bold: true);
-  static final yellow = AnsiPen()..yellow(bold: true);
 }
