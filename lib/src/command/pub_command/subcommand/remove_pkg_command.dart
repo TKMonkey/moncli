@@ -37,7 +37,7 @@ class RemoveSubCommand extends CommandBase {
       //   print(element);
       // });
 
-      logger.info('INIT INSTALL');
+      logger.info('INIT Remove');
 
       // return install(argResults.rest, argResults['dev']);
     }

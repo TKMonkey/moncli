@@ -1,5 +1,5 @@
-import 'package:dcli/dcli.dart' as dcli;
+import 'package:dcli/dcli.dart' show exists;
 
-bool existsFile(String path) {
-  return dcli.exists(path);
+bool existsUtil(String path) {
+  return exists(path);
 }

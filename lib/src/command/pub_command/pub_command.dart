@@ -1,11 +1,14 @@
 import 'package:moncli/src/base/base_command.dart';
+import 'package:moncli/src/command/pub_command/subcommand_export.dart';
 import 'package:moncli/src/utils/utils.dart';
-import 'pub_subcommand/all_subcommand_export.dart';
 
 class PubCommand extends CommandBase {
   PubCommand() {
     addSubcommand(InstallSubCommand());
     addSubcommand(AssetManagerSubCommand());
+    addSubcommand(RemoveSubCommand());
+    addSubcommand(RunScriptSubCommand());
+    addSubcommand(UnusedPkgSubCommand());
   }
 
   @override

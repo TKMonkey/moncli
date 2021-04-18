@@ -1,1 +1,1 @@
-export 'pub_command.dart';
+export 'pub_command/pub_command.dart';
