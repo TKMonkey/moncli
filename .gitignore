@@ -11,3 +11,8 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+# test files
+filetest
+filetest/*
+filetest/pubspec_test.yaml

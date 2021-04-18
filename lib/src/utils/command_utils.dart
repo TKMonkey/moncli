@@ -7,10 +7,12 @@ import 'utils.dart';
 abstract class CommandUtils {}
 
 class PubCommandUtils implements CommandUtils {
+  final pubspec = 'TEST'.isEmpty ? 'pubspec.yaml' : 'envtest/pubspec_test.yaml';
+
   late final PubSpec _pubspecFile;
 
   void addToDependencies(List<PackageModel> list, bool isDev) {
-    _pubspecFile = PubSpec.fromFile('pubspec.yaml');
+    _pubspecFile = PubSpec.fromFile(pubspec);
     addToDependenciesUtil(_pubspecFile, list, isDev);
   }
 
@@ -19,7 +21,7 @@ class PubCommandUtils implements CommandUtils {
   }
 
   bool existsPubspec() {
-    if (!existsUtil('pubspec.yaml')) {
+    if (!existsUtil(pubspec)) {
       throw const FormatException('No pubspec.yaml file in project.');
     }
 
