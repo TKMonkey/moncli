@@ -2,20 +2,29 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:args/command_runner.dart';
+import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/models/package_model.dart';
+import 'package:moncli/src/models/pubspec_model.dart';
+import 'package:moncli/src/utils/files/yaml_util.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 class InstallSubCommand extends CommandBase {
   InstallSubCommand() {
-    argParser.addFlag(
-      'dev',
-      abbr: 'd',
-      negatable: false,
-      help: 'Install (or update) a package in a dev dependency',
-    );
+    argParser
+      ..addFlag(
+        'dev',
+        abbr: 'd',
+        negatable: false,
+        help: 'Install (or update) a package in a dev dependency',
+      )
+      ..addFlag(
+        'sort',
+        abbr: 's',
+        negatable: false,
+        help: 'Sort packages was installed in pubspec.yaml',
+      );
   }
 
   @override
@@ -35,19 +44,23 @@ class InstallSubCommand extends CommandBase {
     logger.info('----- Init install package -----');
     commandUtils.existsPubspec();
 
-    if (argsIsEmpty) {
-      throw UsageException('not package passed for a remove command.', usage);
-    } else {
-      bool isDev = argResults!['dev'];
-      final packageList = (await Future.wait(argResults!.rest
-              .map((pack) async => await getPackageFromPub(pack, isDev))
-              .toList()))
-          .splitMatch((pkg) => pkg.isValid);
+    readYaml(pubspecDirectory);
 
-      commandUtils
-        ..addToDependencies(packageList.matched, isDev)
-        ..saveFile();
-    }
+    // if (argsIsEmpty) {
+    //   throw UsageException('not package passed for a install command.', usage);
+    // } else {
+    //   bool isDev = argResults!['dev'];
+    //   bool doSort = argResults!['sort'];
+
+    //   final packageList = (await Future.wait(argResults!.rest
+    //           .map((pack) async => await getPackageFromPub(pack, isDev))
+    //           .toList()))
+    //       .splitMatch((pkg) => pkg.isValid);
+
+    //   PubSpecModel.load(isDev)
+    //     ..addToDependencies(packageList.matched)
+    //     ..saveFile(doSort);
+    // }
   }
 
   Future<PackageModel> getPackageFromPub(String pkgName, bool isDev) async {
