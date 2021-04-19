@@ -2,13 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dcli/dcli.dart' as dcli;
+import 'package:args/args.dart';
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/models/package_model.dart';
 import 'package:moncli/src/models/pubspec_model.dart';
+import 'package:moncli/src/models/yaml_model.dart';
 import 'package:moncli/src/utils/files/yaml_util.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:yaml/yaml.dart';
 
 class InstallSubCommand extends CommandBase {
   InstallSubCommand() {
@@ -41,26 +43,42 @@ class InstallSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    logger.info('----- Init install package -----');
-    commandUtils.existsPubspec();
+    commandUtils
+      ..existsPubspec()
+      ..argsIsEmpty(argsIsEmpty, name);
 
-    readYaml(pubspecDirectory);
+    await install(argResults!);
 
-    // if (argsIsEmpty) {
-    //   throw UsageException('not package passed for a install command.', usage);
-    // } else {
-    //   bool isDev = argResults!['dev'];
-    //   bool doSort = argResults!['sort'];
+    // final a = getModifiableNode();
+    // print(a);
 
-    //   final packageList = (await Future.wait(argResults!.rest
-    //           .map((pack) async => await getPackageFromPub(pack, isDev))
-    //           .toList()))
-    //       .splitMatch((pkg) => pkg.isValid);
-
-    //   PubSpecModel.load(isDev)
-    //     ..addToDependencies(packageList.matched)
-    //     ..saveFile(doSort);
+    // final modifiable = (getModifiableNode(yaml)['dependencies'] as Map).entries;
+    // for (var n in modifiable) {
+    //   print(n);
     // }
+
+    // final strYaml = toYamlString(yaml);
+    // File('filetest/pubspec-output.yaml').writeAsStringSync(strYaml);
+    // print(strYaml);
+    // await install(argResults!, commandUtils.readYaml());
+  }
+
+  Future<void> install(ArgResults argResults) async {
+    bool isDev = argResults['dev'];
+    bool doSort = argResults['sort'];
+
+    final packageList = (await Future.wait(argResults.rest
+            .map((pack) async => await getPackageFromPub(pack, isDev))
+            .toList()))
+        .splitMatch((pkg) => pkg.isValid);
+
+    YamlModel.pubspec(isDev, doSort)
+      ..addDependencies(packageList.matched)
+      ..saveYaml();
+    // final dependencies = yaml.getDependencies();
+    // final a = dependencies.subNodes.removeLast();
+
+    // print(dependencies.subNodes.toString());
   }
 
   Future<PackageModel> getPackageFromPub(String pkgName, bool isDev) async {

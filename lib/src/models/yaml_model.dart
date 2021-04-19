@@ -1,44 +1,102 @@
+import 'dart:collection';
+import 'dart:io';
+
+import 'package:moncli/src/models/pubspec_model.dart';
+import 'package:yaml/yaml.dart';
+
 import 'node_model.dart';
+import 'package_model.dart';
 
 class YamlModel {
+  YamlModel.pubspec(this.isDev, this.doSort) {
+    var file = File(pubspecDirectory);
+
+    _readYamlMap(file);
+    _readPrimaryNode(file);
+  }
+
   final nodes = <Node>[];
+  final bool isDev;
+  final bool doSort;
+  late final Map yaml;
 
-  void readYaml(List<String> lines) {
-    for (var i = 0; i < lines.length; i++) {
-      if (isKeyNode(lines[i])) {
-        final kn = KeyNode(lines[i]);
-        nodes.add(kn);
+  void addDependencies(List<PackageModel> list) {
+    final dependenciesStr = (isDev ? 'dev_dependencies' : 'dependencies');
 
-        var innerIndex = i + 1;
+    final dependencies = Map.of(
+      (yaml[dependenciesStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
+    )..addAll({for (var pkg in list) pkg.name: pkg.version});
 
-        while (isValidRange(innerIndex, lines.length) && isSubNode(lines[innerIndex])) {
-          final sn = SubNode(lines[innerIndex]);
+    yaml[dependenciesStr] = doSort
+        ? SplayTreeMap.from(
+            dependencies,
+            (key1, key2) => compareMap(
+              dependencies,
+              key1,
+              key2,
+            ),
+          )
+        : dependencies;
 
-          nodes.add(sn);
-          kn.add(sn);
+    print(yaml[dependenciesStr]);
+  }
 
-          innerIndex++;
-        }
-        i += innerIndex - 1 - i;
-      } else if (isEmptyNode(lines[i])) {
-        nodes.add(EmptyNode(lines[i]));
-      } else if (isCommentNode(lines[i])) {
-        nodes.add(CommentNode(lines[i]));
+  void saveYaml() {}
+
+  int compareMap(Map map, key1, key2) {
+    if (map[key1] is Map) {
+      return -1;
+    }
+
+    return key1.compareTo(key2);
+  }
+
+  void _readPrimaryNode(File file) {
+    final lines = file.readAsLinesSync();
+
+    for (var line in lines) {
+      if (isKeyNode(line)) {
+        nodes.add(KeyNode(line));
+      } else if (isEmptyNode(line)) {
+        nodes.add(EmptyNode(line));
+      } else if (isCommentNode(line)) {
+        nodes.add(CommentNode(line));
       }
     }
   }
 
-  bool isValidRange(int i, int length) => i + 1 <= length;
+  void _readYamlMap(File file) {
+    yaml = Map.of(
+      loadYaml(file.readAsStringSync()).map(
+        (key, value) => MapEntry(
+          key,
+          _getModifiableNode(value),
+        ),
+      ),
+    );
+  }
 
-  bool isEmptyNode(String line) => line.isEmpty;
+  dynamic _getModifiableNode(node) {
+    if (node is Map) {
+      return Map.of(node.map((key, value) => MapEntry(key, _getModifiableNode(value))));
+    } else if (node is Iterable) {
+      return List.of(node.map(_getModifiableNode));
+    } else {
+      return node;
+    }
+  }
 
-  bool isCommentNode(String line) => line.trimLeft().startsWith('#');
+  bool isEmptyNode(String line) =>
+      line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyNode;
+
+  bool isCommentNode(String line) => line.startsWith('#');
 
   bool isSubNode(String line) => line.startsWith(' ') || !line.contains(':');
 
   bool isKeyNode(String line) =>
       !isEmptyNode(line) && !isCommentNode(line) && !isSubNode(line);
 
-  @override
-  String toString() => nodes.map((e) => e.line).toList().join('\n');
+  String showPrimaryNodes() => nodes.map((e) => e.line).toList().join('\n');
+
+  String showYamlObject() => yaml.toString();
 }
