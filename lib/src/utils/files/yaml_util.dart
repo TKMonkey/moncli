@@ -16,7 +16,7 @@ void toYamlString(
       writeYamlString({node.key: yaml[node.key]}, sbk);
 
       /// moves text to be inline with [hyphen '-']
-      sb.writeln(sbk.toString().replaceAll(RegExp(r'-\s\n\s*'), '- '));
+      sb.write(sbk.toString().replaceAll(RegExp(r'-\s\n\s*'), '- '));
     } else {
       sb.writeln(node.line);
     }
@@ -105,7 +105,9 @@ String _multiLine(String s, bool quotes, int indent) {
         length = 80;
       }
     }
-    if (length > s.length && s.length > 0) {
+    final strLength = s.length;
+
+    if (length > strLength && s.isNotEmpty) {
       returnString += '\n${' ' * indent}$s';
     }
 
@@ -140,41 +142,16 @@ void _mapToYamlString(Map node, int indent, StringSink ss, bool isTopLevel) {
   });
 }
 
-Iterable<String> _sortKeys(Map m) {
-  final simple = [];
-  final maps = [];
-  final other = [];
-  final complete = [];
-
-  m.forEach((k, v) {
-    if (v is String) {
-      simple.add(k);
-    } else if (v is Map) {
-      maps.add(k);
-    } else {
-      other.add(k);
-    }
-  });
-
-  simple.sort();
-  maps.sort();
-  other.sort();
-
-  complete..addAll(simple)..addAll(maps)..addAll(other);
-
-  return complete.map((e) => e.toString());
-}
-
 void _listToYamlString(Iterable node, int indent, StringSink ss, bool isTopLevel) {
   if (!isTopLevel) {
     ss.writeln();
     indent += 2;
   }
-  node.forEach((v) {
+  for (var n in node) {
     _writeIndent(indent, ss);
     ss.write('- ');
-    _writeYamlType(v, indent, ss, false);
-  });
+    _writeYamlType(n, indent, ss, false);
+  }
 }
 
 void _writeIndent(int indent, StringSink ss) => ss.write(' ' * indent);
