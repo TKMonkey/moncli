@@ -1,5 +1,5 @@
 import 'package:moncli/src/models/yaml_model.dart';
-
+import 'package:dcli/dcli.dart' as dcli;
 import 'utils.dart';
 
 abstract class CommandUtils {}
@@ -11,23 +11,24 @@ final pubspecDirectory1 =
     environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
 
 class PubCommandUtils implements CommandUtils {
-  bool existsPubspec() {
+  void existsPubspec() {
     if (!existsUtil(pubspecDirectory)) {
       throw const FormatException('No pubspec.yaml file in project.');
     }
-
-    return true;
   }
 
-  bool argsIsEmpty(bool empty, String commanName) {
+  void argsIsEmpty(bool empty, String commanName) {
     if (empty) {
       throw FormatException('not package passed for a $commanName command.');
     }
-
-    return true;
   }
 
   void run(Future runFunction) async {
-    await runFunction;
+    final isFlutter = await runFunction;
+    updatePubspec(isFlutter);
+  }
+
+  void updatePubspec(bool isFlutter) {
+    (isFlutter ? 'flutter pub get' : 'pub get').run;
   }
 }

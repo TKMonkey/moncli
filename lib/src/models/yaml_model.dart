@@ -102,6 +102,8 @@ class YamlModel {
     }
   }
 
+  bool get isFlutter => yaml['dependencies'].containsKey('flutter');
+
   bool isEmptyNode(String line) =>
       line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyNode;
 

@@ -8,7 +8,7 @@ import 'package:moncli/src/utils/reports/report_utils.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> install(ArgResults argResults) async {
+Future<bool> install(ArgResults argResults) async {
   bool isDev = argResults['dev'];
   bool doSort = argResults['sort'];
 
@@ -17,11 +17,13 @@ Future<void> install(ArgResults argResults) async {
           .toList()))
       .splitMatch((pkg) => pkg.isValid);
 
-  YamlModel.pubspec(isDev, doSort)
+  final yaml = YamlModel.pubspec(isDev, doSort)
     ..addDependencies(packageList.matched)
     ..saveYaml();
 
   installReport(packageList);
+
+  return yaml.isFlutter;
 }
 
 Future<PackageModel> getPackageFromPub(String pkgName, bool isDev) async {
