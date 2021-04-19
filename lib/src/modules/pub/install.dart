@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
 import 'package:moncli/src/models/yaml_model.dart';
+import 'package:moncli/src/utils/reports/report_utils.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +20,8 @@ Future<void> install(ArgResults argResults) async {
   YamlModel.pubspec(isDev, doSort)
     ..addDependencies(packageList.matched)
     ..saveYaml();
+
+  installReport(packageList);
 }
 
 Future<PackageModel> getPackageFromPub(String pkgName, bool isDev) async {

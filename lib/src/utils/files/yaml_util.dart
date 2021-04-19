@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:moncli/src/models/node_model.dart';
 import 'package:moncli/src/models/yaml_model.dart';
 
-/// Serializes [node] into a String and returns it.
+/// Serializes [yaml] into a String and returns it.
 void toYamlString(
   Map yaml,
   List<Node> listNodes,
 ) {
   var sb = StringBuffer();
-
-  print(yaml['dependencies']);
 
   for (var node in listNodes) {
     if (node is KeyNode) {
