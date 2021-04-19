@@ -1,11 +1,20 @@
 import 'dart:collection';
 import 'dart:io';
 
-import 'package:moncli/src/models/pubspec_model.dart';
+import 'package:moncli/src/utils/files/yaml_util.dart';
 import 'package:yaml/yaml.dart';
 
 import 'node_model.dart';
 import 'package_model.dart';
+
+final environment = 'TEST';
+
+final mainDirectory = environment.isEmpty ? '' : 'filetest';
+final pubspecDirectory =
+    environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
+
+final outputDirectory =
+    environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec-output.yaml';
 
 class YamlModel {
   YamlModel.pubspec(this.isDev, this.doSort) {
@@ -22,6 +31,7 @@ class YamlModel {
 
   void addDependencies(List<PackageModel> list) {
     final dependenciesStr = (isDev ? 'dev_dependencies' : 'dependencies');
+    final otherStr = (!isDev ? 'dev_dependencies' : 'dependencies');
 
     final dependencies = Map.of(
       (yaml[dependenciesStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
@@ -38,10 +48,16 @@ class YamlModel {
           )
         : dependencies;
 
-    print(yaml[dependenciesStr]);
+    final otherDependencies = Map.of(
+      (yaml[otherStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
+    );
+
+    yaml[otherStr] = otherDependencies;
   }
 
-  void saveYaml() {}
+  void saveYaml() {
+    toYamlString(yaml, nodes);
+  }
 
   int compareMap(Map map, key1, key2) {
     if (map[key1] is Map) {

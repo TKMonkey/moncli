@@ -1,8 +1,4 @@
-import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/pubspec_model.dart';
 import 'package:moncli/src/models/yaml_model.dart';
-import 'package:moncli/src/utils/files/pubspec_file.dart';
-import 'package:moncli/src/utils/files/yaml_util.dart';
 
 import 'utils.dart';
 
@@ -29,5 +25,9 @@ class PubCommandUtils implements CommandUtils {
     }
 
     return true;
+  }
+
+  void run(Future runFunction) async {
+    await runFunction;
   }
 }

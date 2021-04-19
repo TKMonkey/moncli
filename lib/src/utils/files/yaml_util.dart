@@ -1,17 +1,30 @@
 import 'dart:io';
-import 'package:moncli/src/models/pubspec_model.dart';
-import 'package:moncli/src/models/yaml_model.dart';
-import 'package:yaml/yaml.dart';
 
-var _sort = false;
+import 'package:moncli/src/models/node_model.dart';
+import 'package:moncli/src/models/yaml_model.dart';
 
 /// Serializes [node] into a String and returns it.
-String toYamlString(node, {bool sort = false}) {
+void toYamlString(
+  Map yaml,
+  List<Node> listNodes,
+) {
   var sb = StringBuffer();
-  writeYamlString(node, sb);
 
-  /// moves text to be inline with [hyphen '-']
-  return sb.toString().replaceAll(RegExp(r'-\s\n\s*'), '- ');
+  print(yaml['dependencies']);
+
+  for (var node in listNodes) {
+    if (node is KeyNode) {
+      var sbk = StringBuffer();
+      writeYamlString({node.key: yaml[node.key]}, sbk);
+
+      /// moves text to be inline with [hyphen '-']
+      sb.writeln(sbk.toString().replaceAll(RegExp(r'-\s\n\s*'), '- '));
+    } else {
+      sb.writeln(node.line);
+    }
+
+    File(outputDirectory).writeAsStringSync(sb.toString());
+  }
 }
 
 /// Serializes [node] into a String and writes it to the [sink].
@@ -27,7 +40,6 @@ void _writeYamlType(node, int indent, StringSink ss, bool isTopLevel) {
   } else if (node is String) {
     _writeYamlString(node, ss, indent + 2);
   } else if (node is double) {
-    print(node);
     ss.writeln('!!float $node');
   } else {
     ss.writeln(node);
@@ -35,7 +47,11 @@ void _writeYamlType(node, int indent, StringSink ss, bool isTopLevel) {
 }
 
 /// Provides formatting if [node] is a String and writes to the `sink`.
-void _writeYamlString(String node, StringSink ss, int indent) {
+void _writeYamlString(
+  String node,
+  StringSink ss,
+  int indent,
+) {
   /// quotes single length special characters
   if (node.length == 1 && specialCharacters.contains(node)) {
     ss..writeln("'${_escapeString(node)}'");
@@ -61,6 +77,9 @@ void _writeYamlString(String node, StringSink ss, int indent) {
 
 /// cleanly formats multi-line strings, using 80 character max
 String _multiLine(String s, bool quotes, int indent) {
+  if (s.isEmpty) {
+    return s;
+  }
   if (specialCharacters.contains(s[0])) {
     quotes = true;
   }
@@ -116,21 +135,11 @@ void _mapToYamlString(Map node, int indent, StringSink ss, bool isTopLevel) {
     indent += 2;
   }
 
-  if (_sort) {
-    final keys = _sortKeys(node);
-
-    keys.forEach((k) {
-      _writeIndent(indent, ss);
-      ss..write(k)..write(': ');
-      _writeYamlType(node[k], indent, ss, false);
-    });
-  } else {
-    node.forEach((k, v) {
-      _writeIndent(indent, ss);
-      ss..write(k)..write(': ');
-      _writeYamlType(v, indent, ss, false);
-    });
-  }
+  node.forEach((k, v) {
+    _writeIndent(indent, ss);
+    ss..write(k)..write(': ');
+    _writeYamlType(v, indent, ss, false);
+  });
 }
 
 Iterable<String> _sortKeys(Map m) {
