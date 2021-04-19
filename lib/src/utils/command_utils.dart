@@ -24,6 +24,10 @@ class PubCommandUtils implements CommandUtils {
   }
 
   void run(Future runFunction) async {
+    await runFunction;
+  }
+
+  void runAndUpdate(Future<bool> runFunction) async {
     final isFlutter = await runFunction;
     updatePubspec(isFlutter);
   }

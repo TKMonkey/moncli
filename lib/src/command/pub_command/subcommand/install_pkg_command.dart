@@ -38,6 +38,6 @@ class InstallSubCommand extends CommandBase {
     commandUtils
       ..existsPubspec()
       ..argsIsEmpty(argsIsEmpty, name)
-      ..run(install(argResults!));
+      ..runAndUpdate(install(argResults!));
   }
 }
