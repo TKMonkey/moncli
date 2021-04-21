@@ -1,0 +1,36 @@
+name: AssetsManager Config
+description: A Config to create a better experience with plugin
+
+
+# Input assets directory
+# The directory where you save your assets files, images, videos, etc
+assets_folder: assets
+
+# Output config
+#The directory for output file this folder, must be into \lib
+folder_output: constants
+
+#You can use a list of this options for generate at end(postfix) of var in dart
+#            - folder_name
+#            - extension_file
+#            - empty (Default)
+#            - provide personal `postfix`
+post_fix: 
+
+#You can use a list of this options for generate at start(prefix) of var in dart
+#            - folder_name
+#            - extension_file
+#            - empty (Default)
+#            - provide personal `prefix`
+pre_fix: 
+
+#The 'assets values' in the pubspec generate like one these strategy
+#           - folder: Only list folder (Default)
+#           - file: List all files
+pubspec_strategy:
+
+# Output assets config
+#Name of class output dart class
+name_assets_class: AssetsManager
+#Name of file for output in dart
+name_assets_file: assets_manager

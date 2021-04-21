@@ -6,9 +6,9 @@ class PubCommand extends CommandBase {
   PubCommand() {
     addSubcommand(AssetManagerSubCommand());
     addSubcommand(InstallSubCommand());
-    addSubcommand(OrderSubCommand());
     addSubcommand(RemoveSubCommand());
     addSubcommand(RunScriptSubCommand());
+    addSubcommand(SortSubCommand());
     addSubcommand(UnusedPkgSubCommand());
   }
 

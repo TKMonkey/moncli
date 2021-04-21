@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/utils/utils.dart';
-import 'order.dart';
+import 'sort.dart';
 
-class OrderSubCommand extends CommandBase {
+class SortSubCommand extends CommandBase {
   @override
   final name = 'order';
 
