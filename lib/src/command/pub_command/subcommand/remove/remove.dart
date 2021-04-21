@@ -5,11 +5,9 @@ import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> remove(ArgResults argResults) async {
   bool isDev = argResults['dev'];
-
-  final packageList =
-      argResults.rest.map((pack) => getPackageModel(pack, isDev)).toList();
-
   final yaml = YamlModel.pubspec(isDev: isDev);
+
+  final packageList = argResults.rest.map((pack) => PackageModel(pack)).toList();
 
   final packageReturnedList =
       (yaml.removeDependencies(packageList)).splitMatch((pkg) => pkg.isValid);
@@ -18,10 +16,6 @@ Future<bool> remove(ArgResults argResults) async {
   removeReport(packageReturnedList);
 
   return yaml.containsFlutter;
-}
-
-PackageModel getPackageModel(String pkgName, bool isDev) {
-  return PackageModel(pkgName, isDev: isDev);
 }
 
 void removeReport(ListMatch<PackageModel> list) {

@@ -7,6 +7,8 @@ import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/files/yaml_util.dart';
 import 'package:yaml/yaml.dart';
 
+final mainDependencies = 'dependencies';
+final devDependencies = 'dev_dependencies';
 mixin YamlFunctions {
   final nodes = <Node>[];
   late final bool isDev;
@@ -19,14 +21,14 @@ mixin YamlFunctions {
   }
 
   void addDependencies(List<PackageModel> list) {
-    final mainDependencies = (isDev ? 'dev_dependencies' : 'dependencies');
-    final otherDependencies = (!isDev ? 'dev_dependencies' : 'dependencies');
-    _orderDependenciesStr(mainDependencies, list);
+    final dependencies = (isDev ? devDependencies : mainDependencies);
+    final otherDependencies = (!isDev ? devDependencies : mainDependencies);
+    _orderDependenciesStr(dependencies, list);
     _formatOtherDependencies(otherDependencies);
   }
 
   List<PackageModel> removeDependencies(List<PackageModel> list) {
-    final mainDependencies = (isDev ? 'dev_dependencies' : 'dependencies');
+    final dependenciesStr = (isDev ? devDependencies : mainDependencies);
     final dependencies = Map.of(
       (yaml[mainDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     );
@@ -44,11 +46,8 @@ mixin YamlFunctions {
   }
 
   void orderDependencies() {
-    final mainDependencies = 'dependencies';
-    final otherDependencies = 'dev_dependencies';
-
     _orderDependenciesStr(mainDependencies, []);
-    _orderDependenciesStr(otherDependencies, []);
+    _orderDependenciesStr(devDependencies, []);
   }
 
   String getScriptFromPubspec(String key) {
@@ -71,6 +70,12 @@ mixin YamlFunctions {
     }
 
     return command ?? '';
+  }
+
+  Map getDependencies() {
+    return Map.of(
+      (yaml[mainDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
+    );
   }
 
   void saveYaml() {

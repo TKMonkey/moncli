@@ -1,6 +1,8 @@
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/utils/utils.dart';
 
+import 'unused.dart';
+
 class UnusedPkgSubCommand extends CommandBase {
   UnusedPkgSubCommand() {
     argParser.addFlag(
@@ -25,9 +27,9 @@ class UnusedPkgSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    logger.info('--Unused--');
-    commandUtils.existsPubspec();
-
-    logger.info('INIT unused');
+    commandUtils
+      ..existsPubspec()
+      ..runAndUpdate(unused(argResults!));
+    ;
   }
 }
