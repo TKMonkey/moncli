@@ -1,3 +1,4 @@
+import 'package:args/args.dart';
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/utils.dart';
@@ -19,10 +20,11 @@ class RunScriptSubCommand extends CommandBase {
   Future<void> run() async {
     commandUtils
       ..existsPubspec()
-      ..argsIsEmpty(argsIsEmpty, 'not script passed for a $name command.');
-
-    final script = YamlModel.pubspec().getScriptFromPubspec(argResults!.rest.first);
-
-    commandUtils.run(script);
+      ..argsIsEmpty(argsIsEmpty, 'not script passed for a $name command.')
+      ..runAndExecute(runFunction(argResults!));
   }
+}
+
+Future<String> runFunction(ArgResults argResults) async {
+  return YamlModel.pubspec().getScriptFromPubspec(argResults.rest.first);
 }

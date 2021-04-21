@@ -22,7 +22,7 @@ mixin YamlFunctions {
     final mainDependencies = (isDev ? 'dev_dependencies' : 'dependencies');
     final otherDependencies = (!isDev ? 'dev_dependencies' : 'dependencies');
     _orderDependenciesStr(mainDependencies, list);
-    _orderOtherDependencies(otherDependencies);
+    _formatOtherDependencies(otherDependencies);
   }
 
   List<PackageModel> removeDependencies(List<PackageModel> list) {
@@ -41,6 +41,14 @@ mixin YamlFunctions {
     yaml[mainDependencies] = dependencies;
 
     return returnValues;
+  }
+
+  void orderDependencies() {
+    final mainDependencies = 'dependencies';
+    final otherDependencies = 'dev_dependencies';
+
+    _orderDependenciesStr(mainDependencies, []);
+    _orderDependenciesStr(otherDependencies, []);
   }
 
   String getScriptFromPubspec(String key) {
@@ -94,7 +102,7 @@ mixin YamlFunctions {
         : dependencies;
   }
 
-  void _orderOtherDependencies(String otherDependencies) {
+  void _formatOtherDependencies(String otherDependencies) {
     final dependencies = Map.of(
       (yaml[otherDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     );

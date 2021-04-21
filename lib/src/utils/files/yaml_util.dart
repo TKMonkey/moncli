@@ -75,50 +75,49 @@ void _writeYamlString(
 
 /// cleanly formats multi-line strings, using 80 character max
 String _multiLine(String s, bool quotes, int indent) {
-  if (s.isEmpty) {
-    return s;
-  }
-  if (specialCharacters.contains(s[0])) {
-    quotes = true;
-  }
-  if (s.length <= 80) {
-    if (quotes) {
-      if (s.contains("'")) {
-        return '"$s"';
-      } else {
-        return "'$s'";
-      }
-    } else {
-      return s;
-    }
-  } else {
-    quotes = s[0] == ' ';
-    var returnString = '>';
-    var length = 80;
-    while (s.length > length) {
-      var index = s.lastIndexOf(' ', length);
-      if (index == -1) {
-        length += 10;
-      } else {
-        returnString += '\n${' ' * indent}${s.substring(0, index + 1)}';
-        s = s.substring(index + 1);
-        length = 80;
-      }
-    }
-    final strLength = s.length;
+  return s;
+  // if (s.isEmpty) {return s;}
+  // if (specialCharacters.contains(s[0])) {
+  //   quotes = true;
+  // }
+  // if (s.length <= 80) {
+  //   if (quotes) {
+  //     if (s.contains("'")) {
+  //       return '"$s"';
+  //     } else {
+  //       return "'$s'";
+  //     }
+  //   } else {
+  //     return s;
+  //   }
+  // } else {
+  //   quotes = s[0] == ' ';
+  //   var returnString = '>';
+  //   var length = 80;
+  //   while (s.length > length) {
+  //     var index = s.lastIndexOf(' ', length);
+  //     if (index == -1) {
+  //       length += 10;
+  //     } else {
+  //       returnString += '\n${' ' * indent}${s.substring(0, index + 1)}';
+  //       s = s.substring(index + 1);
+  //       length = 80;
+  //     }
+  //   }
+  //   final strLength = s.length;
 
-    if (length > strLength && s.isNotEmpty) {
-      returnString += '\n${' ' * indent}$s';
-    }
+  //   if (length > strLength && s.isNotEmpty) {
+  //     returnString += '\n${' ' * indent}$s';
+  //   }
 
-    if (quotes) {
-      returnString =
-          returnString.replaceFirst('>-\n${' ' * indent}', ">-\n${' ' * indent}\'");
-      returnString += "'";
-    }
+  //   if (quotes) {
+  //     returnString =
+  //         returnString.replaceFirst('>-\n${' ' * indent}', ">-\n${' ' * indent}\'");
+  //     returnString += "'";
+  //   }
 
-    return returnString;
-  }
+  //   return returnString;
+  // }
 }
 
 String _withEscapes(String s) => s

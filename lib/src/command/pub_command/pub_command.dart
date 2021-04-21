@@ -4,8 +4,9 @@ import 'package:moncli/src/utils/utils.dart';
 
 class PubCommand extends CommandBase {
   PubCommand() {
-    addSubcommand(InstallSubCommand());
     addSubcommand(AssetManagerSubCommand());
+    addSubcommand(InstallSubCommand());
+    addSubcommand(OrderSubCommand());
     addSubcommand(RemoveSubCommand());
     addSubcommand(RunScriptSubCommand());
     addSubcommand(UnusedPkgSubCommand());

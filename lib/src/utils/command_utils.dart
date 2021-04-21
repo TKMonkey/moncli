@@ -23,7 +23,9 @@ class PubCommandUtils implements CommandUtils {
     }
   }
 
-  void run(String commandToRun) async {
+  void runAndExecute(Future<String> runFunction) async {
+    final commandToRun = await runFunction;
+
     if (commandToRun.isNotEmpty) commandToRun.run;
   }
 
