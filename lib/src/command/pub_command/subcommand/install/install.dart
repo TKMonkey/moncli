@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/yaml_model.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 

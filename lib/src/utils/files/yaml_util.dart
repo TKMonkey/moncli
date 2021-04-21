@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:moncli/src/models/node_model.dart';
-import 'package:moncli/src/models/yaml_model.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 
 /// Serializes [yaml] into a String and returns it.
 void toYamlString(

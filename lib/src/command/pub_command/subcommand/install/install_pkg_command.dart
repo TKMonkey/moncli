@@ -37,7 +37,7 @@ class InstallSubCommand extends CommandBase {
   Future<void> run() async {
     commandUtils
       ..existsPubspec()
-      ..argsIsEmpty(argsIsEmpty, name)
+      ..argsIsEmpty(argsIsEmpty, 'not package passed for a $name command.')
       ..runAndUpdate(install(argResults!));
   }
 }

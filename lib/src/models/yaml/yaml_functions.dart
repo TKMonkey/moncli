@@ -1,10 +1,13 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:moncli/src/models/node_model.dart';
 import 'package:moncli/src/models/package_model.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/files/yaml_util.dart';
+import 'package:yaml/yaml.dart';
 
-abstract class YamlFunctions {
+mixin YamlFunctions {
   final nodes = <Node>[];
   late final bool isDev;
   late final bool doSort;
@@ -38,6 +41,28 @@ abstract class YamlFunctions {
     yaml[mainDependencies] = dependencies;
 
     return returnValues;
+  }
+
+  String getScriptFromPubspec(String key) {
+    final scripts = yaml['scripts'];
+    _noFoundScriptKey(scripts);
+
+    String? command = '';
+
+    if (scripts is String && scripts.contains('.yaml')) {
+      final scriptFile = _getScriptFile(scripts);
+      command = scriptFile[key];
+    } else if (scripts is String) {
+      command = scripts;
+    } else {
+      command = Map.of(scripts)[key];
+    }
+
+    if (command == null) {
+      _noFoundScript(key);
+    }
+
+    return command ?? '';
   }
 
   void saveYaml() {
@@ -75,5 +100,20 @@ abstract class YamlFunctions {
     );
 
     yaml[otherDependencies] = dependencies;
+  }
+
+  Map<String, dynamic> _getScriptFile(String scripts) {
+    final file = File('$mainDirectory/$scripts');
+    return Map.of(loadYaml(file.readAsStringSync()));
+  }
+
+  void _noFoundScript(String key) {
+    throw FormatException('command $key not found');
+  }
+
+  void _noFoundScriptKey(dynamic scripts) {
+    if (scripts == null) {
+      throw const FormatException('Please, add param \"scripts\" in your pubspec.yaml');
+    }
   }
 }

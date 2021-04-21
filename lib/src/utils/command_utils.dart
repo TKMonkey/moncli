@@ -1,4 +1,4 @@
-import 'package:moncli/src/models/yaml_model.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:dcli/dcli.dart' as dcli;
 import 'utils.dart';
 
@@ -17,14 +17,14 @@ class PubCommandUtils implements CommandUtils {
     }
   }
 
-  void argsIsEmpty(bool empty, String commanName) {
+  void argsIsEmpty(bool empty, String commanError) {
     if (empty) {
-      throw FormatException('not package passed for a $commanName command.');
+      throw FormatException(commanError);
     }
   }
 
-  void run(Future runFunction) async {
-    await runFunction;
+  void run(String commandToRun) async {
+    if (commandToRun.isNotEmpty) commandToRun.run;
   }
 
   void runAndUpdate(Future<bool> runFunction) async {

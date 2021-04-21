@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:moncli/src/models/yaml/yaml_functions.dart';
 import 'package:yaml/yaml.dart';
 
-import 'node_model.dart';
+import '../node_model.dart';
 
 final environment = 'TEST';
 

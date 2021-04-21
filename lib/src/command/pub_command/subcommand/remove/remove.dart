@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/yaml_model.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> remove(ArgResults argResults) async {

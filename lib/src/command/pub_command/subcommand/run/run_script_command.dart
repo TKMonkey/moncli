@@ -1,4 +1,5 @@
 import 'package:moncli/src/base/base_command.dart';
+import 'package:moncli/src/models/yaml/yaml_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class RunScriptSubCommand extends CommandBase {
@@ -16,9 +17,12 @@ class RunScriptSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    logger.info('--Assets--');
-    commandUtils.existsPubspec();
+    commandUtils
+      ..existsPubspec()
+      ..argsIsEmpty(argsIsEmpty, 'not script passed for a $name command.');
 
-    logger.info('INIT ASSSETS');
+    final script = YamlModel.pubspec().getScriptFromPubspec(argResults!.rest.first);
+
+    commandUtils.run(script);
   }
 }
