@@ -28,11 +28,11 @@ class PubCommandUtils implements CommandUtils {
   }
 
   void runAndUpdate(Future<bool> runFunction) async {
-    final isFlutter = await runFunction;
-    updatePubspec(isFlutter);
+    final containsFlutter = await runFunction;
+    updatePubspec(containsFlutter);
   }
 
-  void updatePubspec(bool isFlutter) {
-    (isFlutter ? 'flutter pub get' : 'pub get').run;
+  void updatePubspec(bool containsFlutter) {
+    (containsFlutter ? 'flutter pub get' : 'pub get').run;
   }
 }

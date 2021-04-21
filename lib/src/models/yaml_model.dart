@@ -1,11 +1,9 @@
-import 'dart:collection';
 import 'dart:io';
 
-import 'package:moncli/src/utils/files/yaml_util.dart';
+import 'package:moncli/src/models/yaml/yaml_functions.dart';
 import 'package:yaml/yaml.dart';
 
 import 'node_model.dart';
-import 'package_model.dart';
 
 final environment = 'TEST';
 
@@ -16,55 +14,13 @@ final pubspecDirectory =
 final outputDirectory =
     environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec-output.yaml';
 
-class YamlModel {
-  YamlModel.pubspec(this.isDev, this.doSort) {
+class YamlModel with YamlFunctions {
+  YamlModel.pubspec({bool isDev = false, bool doSort = false}) {
+    initData(isDev, doSort);
     var file = File(pubspecDirectory);
 
     _readYamlMap(file);
     _readPrimaryNode(file);
-  }
-
-  final nodes = <Node>[];
-  final bool isDev;
-  final bool doSort;
-  late final Map yaml;
-
-  void addDependencies(List<PackageModel> list) {
-    final dependenciesStr = (isDev ? 'dev_dependencies' : 'dependencies');
-    final otherStr = (!isDev ? 'dev_dependencies' : 'dependencies');
-
-    final dependencies = Map.of(
-      (yaml[dependenciesStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
-    )..addAll({for (var pkg in list) pkg.name: pkg.version});
-
-    yaml[dependenciesStr] = doSort
-        ? SplayTreeMap.from(
-            dependencies,
-            (key1, key2) => compareMap(
-              dependencies,
-              key1,
-              key2,
-            ),
-          )
-        : dependencies;
-
-    final otherDependencies = Map.of(
-      (yaml[otherStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
-    );
-
-    yaml[otherStr] = otherDependencies;
-  }
-
-  void saveYaml() {
-    toYamlString(yaml, nodes);
-  }
-
-  int compareMap(Map map, key1, key2) {
-    if (map[key1] is Map) {
-      return -1;
-    }
-
-    return key1.compareTo(key2);
   }
 
   void _readPrimaryNode(File file) {
@@ -102,7 +58,7 @@ class YamlModel {
     }
   }
 
-  bool get isFlutter => yaml['dependencies'].containsKey('flutter');
+  bool get containsFlutter => yaml['dependencies'].containsKey('flutter');
 
   bool isEmptyNode(String line) =>
       line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyNode;
