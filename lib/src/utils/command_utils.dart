@@ -1,20 +1,48 @@
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/base/constants.dart';
 import 'package:dcli/dcli.dart' as dcli;
+import 'package:moncli/src/templates/templates_constants.dart';
+import 'logger/prompt.dart';
 import 'utils.dart';
 
-abstract class CommandUtils {}
+abstract class CommandUtils {
+  bool existsAndCreateTemplateFolder() {
+    final exists = existsUtil(templateFolder);
+    var response = true;
+    if (!exists) {
+      response = confirmDcli('Do you want to create ${green('template folder')} ?');
+      print('Response: $response');
+      if (response) createFolderUtils(templateFolder);
+    }
 
-final environment = 'TEST';
+    return response;
+  }
+}
 
-final mainDirectory = environment.isEmpty ? '' : 'filetest';
-final pubspecDirectory1 =
-    environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
-
-class PubCommandUtils implements CommandUtils {
+class PubCommandUtils extends CommandUtils {
   void existsPubspec() {
     if (!existsUtil(pubspecDirectory)) {
       throw const FormatException('No pubspec.yaml file in project.');
     }
+  }
+
+  bool createAssetsTemplate() {
+    final outputFile = '$templateFolder/$assetsTemplateName';
+    final responseFolder = existsAndCreateTemplateFolder();
+
+    var response = false;
+    if (responseFolder) {
+      final exists = existsUtil(outputFile);
+      if (!exists) {
+        response =
+            confirmDcli('Do you want to create ${green('assets template file')} ?');
+      } else {
+        response =
+            confirmDcli('Do you want to ${yellow('override assets template file')} ?');
+      }
+    }
+
+    if (response) copyFileUtils(assetsPath, outputFile);
+    return response;
   }
 
   void argsIsEmpty(bool empty, String commanError) {

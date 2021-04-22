@@ -1,18 +1,10 @@
 import 'dart:io';
 
+import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/yaml/yaml_functions.dart';
 import 'package:yaml/yaml.dart';
 
 import '../node_model.dart';
-
-final environment = 'TEST';
-
-final mainDirectory = environment.isEmpty ? '' : 'filetest';
-final pubspecDirectory =
-    environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
-
-final outputDirectory =
-    environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec-output.yaml';
 
 class YamlModel with YamlFunctions {
   YamlModel.pubspec({bool isDev = false, bool doSort = false}) {

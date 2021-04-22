@@ -1,3 +1,4 @@
+import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/utils/utils.dart';
 
@@ -26,9 +27,7 @@ class AssetManagerSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    logger.info('--Assets--');
     commandUtils.existsPubspec();
-
-    logger.info('INIT ASSSETS');
+    final created = commandUtils.createAssetsTemplate();
   }
 }
