@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:moncli/src/models/package_model.dart';
+import 'package:moncli/src/models/pub_package.dart';
 import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
@@ -7,7 +7,7 @@ Future<bool> remove(ArgResults argResults) async {
   bool isDev = argResults['dev'];
   final yaml = Pubspec.init(isDev: isDev);
 
-  final packageList = argResults.rest.map((pack) => PackageModel(pack)).toList();
+  final packageList = argResults.rest.map((pack) => PubPackageModel(pack)).toList();
 
   final packageReturnedList =
       (yaml.removeDependencies(packageList)).splitMatch((pkg) => pkg.isValid);
@@ -18,7 +18,7 @@ Future<bool> remove(ArgResults argResults) async {
   return yaml.containsFlutter;
 }
 
-void removeReport(ListMatch<PackageModel> list) {
+void removeReport(ListMatch<PubPackageModel> list) {
   if (list.matched.isNotEmpty) {
     logger.success('> The next packages were removed from pubspec.yaml:');
     for (var pack in list.matched) {

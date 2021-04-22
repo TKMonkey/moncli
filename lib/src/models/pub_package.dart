@@ -1,5 +1,5 @@
-class PackageModel {
-  const PackageModel(
+class PubPackageModel {
+  const PubPackageModel(
     this.name, {
     this.isDev = false,
     this.version = '',
@@ -11,13 +11,13 @@ class PackageModel {
   final String version;
   final bool isValid;
 
-  PackageModel copyWith({
+  PubPackageModel copyWith({
     String? name,
     bool? isDev,
     String? version,
     bool? isValid,
   }) =>
-      PackageModel(
+      PubPackageModel(
         name ?? this.name,
         isDev: isDev ?? this.isDev,
         version: version ?? this.version,

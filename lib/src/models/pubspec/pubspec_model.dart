@@ -4,9 +4,9 @@ import 'package:moncli/src/base/constants.dart';
 
 import 'package:yaml/yaml.dart';
 
-import '../node_model.dart';
+import '../yaml/line.dart';
 import 'mixin_pubspec_functions.dart';
-import 'mixin_yaml_printer.dart';
+import '../yaml/mixin_yaml_printer.dart';
 
 class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
   Pubspec.init({bool isDev = false, bool doSort = false}) {
@@ -22,11 +22,11 @@ class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
 
     for (var line in lines) {
       if (isKeyNode(line)) {
-        nodes.add(KeyNode(line));
+        nodes.add(KeyLine(line));
       } else if (isEmptyNode(line)) {
-        nodes.add(EmptyNode(line));
+        nodes.add(EmptyLine(line));
       } else if (isCommentNode(line)) {
-        nodes.add(CommentNode(line));
+        nodes.add(CommentLine(line));
       }
     }
   }
@@ -59,7 +59,7 @@ class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
   bool get containsFlutter => yaml['dependencies'].containsKey('flutter');
 
   bool isEmptyNode(String line) =>
-      line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyNode;
+      line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyLine;
 
   bool isCommentNode(String line) => line.startsWith('#');
 

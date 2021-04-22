@@ -1,5 +1,5 @@
-abstract class Node {
-  const Node(this.line);
+abstract class Line {
+  const Line(this.line);
 
   final String line;
 
@@ -7,24 +7,24 @@ abstract class Node {
   String toString() => line;
 }
 
-class EmptyNode extends Node {
-  const EmptyNode(String line) : super(line);
+class EmptyLine extends Line {
+  const EmptyLine(String line) : super(line);
 }
 
-class KeyNode extends Node {
-  KeyNode(String line) : super(line) {
+class KeyLine extends Line {
+  KeyLine(String line) : super(line) {
     final split = line.split(' ');
     key = _getKey(split);
     value = _getValue(split);
     other = _getOther(split);
   }
 
-  final subNodes = <Node>[];
+  final subNodes = <Line>[];
   late final String key;
   late final String value;
   late final String other;
 
-  void add(Node subNode) {
+  void add(Line subNode) {
     subNodes.add(subNode);
   }
 
@@ -35,10 +35,10 @@ class KeyNode extends Node {
   String _getOther(List<String> split) => split.length > 2 ? split[2] : '';
 }
 
-class CommentNode extends Node {
-  const CommentNode(String line) : super(line);
+class CommentLine extends Line {
+  const CommentLine(String line) : super(line);
 }
 
-class SubNode extends Node {
-  const SubNode(String line) : super(line);
+class SubLine extends Line {
+  const SubLine(String line) : super(line);
 }

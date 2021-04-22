@@ -2,14 +2,15 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/node_model.dart';
-import 'package:moncli/src/models/package_model.dart';
+import 'package:moncli/src/base/exceptions/key_no_found_exception.dart';
+import 'package:moncli/src/models/yaml/line.dart';
+import 'package:moncli/src/models/pub_package.dart';
 import 'package:yaml/yaml.dart';
 
 final mainDependencies = 'dependencies';
 final devDependencies = 'dev_dependencies';
 mixin PubspecFunctionsMixin {
-  final nodes = <Node>[];
+  final nodes = <Line>[];
   late final bool isDev;
   late final bool doSort;
   late final Map yaml;
@@ -19,20 +20,20 @@ mixin PubspecFunctionsMixin {
     this.doSort = doSort;
   }
 
-  void addDependencies(List<PackageModel> list) {
+  void addDependencies(List<PubPackageModel> list) {
     final dependencies = (isDev ? devDependencies : mainDependencies);
     final otherDependencies = (!isDev ? devDependencies : mainDependencies);
     _orderDependenciesStr(dependencies, list);
     _formatOtherDependencies(otherDependencies);
   }
 
-  List<PackageModel> removeDependencies(List<PackageModel> list) {
+  List<PubPackageModel> removeDependencies(List<PubPackageModel> list) {
     final dependenciesStr = (isDev ? devDependencies : mainDependencies);
     final dependencies = Map.of(
       (yaml[dependenciesStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     );
 
-    final returnValues = <PackageModel>[];
+    final returnValues = <PubPackageModel>[];
     for (final dependency in list) {
       returnValues.add(dependency.copyWith(
         isValid: dependencies.remove(dependency.name) != null,
@@ -85,7 +86,7 @@ mixin PubspecFunctionsMixin {
     return key1.compareTo(key2);
   }
 
-  void _orderDependenciesStr(String mainDependencies, List<PackageModel> list) {
+  void _orderDependenciesStr(String mainDependencies, List<PubPackageModel> list) {
     final dependencies = Map.of(
       (yaml[mainDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     )..addAll({for (var pkg in list) pkg.name: pkg.version});
@@ -121,7 +122,7 @@ mixin PubspecFunctionsMixin {
 
   void _noFoundScriptKey(dynamic scripts) {
     if (scripts == null) {
-      throw const FormatException('Please, add param \"scripts\" in your pubspec.yaml');
+      throw const KeyNoFoundException('scripts');
     }
   }
 }

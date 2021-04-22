@@ -1,18 +1,18 @@
 import 'dart:io';
 
 import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/node_model.dart';
+import 'package:moncli/src/models/yaml/line.dart';
 
 mixin YamlPrinterMixin {
   /// Serializes [yaml] into a String and returns it.
   void toYamlString(
     Map yaml,
-    List<Node> listNodes,
+    List<Line> listLines,
   ) {
     var sb = StringBuffer();
 
-    for (var node in listNodes) {
-      if (node is KeyNode) {
+    for (var node in listLines) {
+      if (node is KeyLine) {
         var sbk = StringBuffer();
         writeYamlString({node.key: yaml[node.key]}, sbk);
 
