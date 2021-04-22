@@ -1,11 +1,11 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> remove(ArgResults argResults) async {
   bool isDev = argResults['dev'];
-  final yaml = YamlModel.pubspec(isDev: isDev);
+  final yaml = Pubspec.init(isDev: isDev);
 
   final packageList = argResults.rest.map((pack) => PackageModel(pack)).toList();
 

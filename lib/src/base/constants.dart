@@ -2,10 +2,14 @@ final environment = 'TEST';
 
 final mainDirectory = environment.isEmpty ? '' : 'filetest';
 
-final pubspecDirectory =
+final pubspecFile =
     environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
 
-final outputDirectory =
+final outputFile =
     environment.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec-output.yaml';
 
 final templateFolder = environment.isEmpty ? 'templates' : '$mainDirectory/templates';
+
+const assetsPath = 'lib/src/templates/$assetsTemplateName';
+
+const assetsTemplateName = 'assets_manager_config.yaml';

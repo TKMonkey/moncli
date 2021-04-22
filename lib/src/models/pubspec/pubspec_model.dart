@@ -1,15 +1,17 @@
 import 'dart:io';
 
 import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/yaml/yaml_functions.dart';
+
 import 'package:yaml/yaml.dart';
 
 import '../node_model.dart';
+import 'mixin_pubspec_functions.dart';
+import 'mixin_yaml_printer.dart';
 
-class YamlModel with YamlFunctions {
-  YamlModel.pubspec({bool isDev = false, bool doSort = false}) {
+class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
+  Pubspec.init({bool isDev = false, bool doSort = false}) {
     initData(isDev, doSort);
-    var file = File(pubspecDirectory);
+    var file = File(pubspecFile);
 
     _readYamlMap(file);
     _readPrimaryNode(file);
@@ -48,6 +50,10 @@ class YamlModel with YamlFunctions {
     } else {
       return node;
     }
+  }
+
+  void saveYaml() {
+    toYamlString(yaml, nodes);
   }
 
   bool get containsFlutter => yaml['dependencies'].containsKey('flutter');

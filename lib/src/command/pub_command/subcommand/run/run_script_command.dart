@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/base/base_command.dart';
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class RunScriptSubCommand extends CommandBase {
@@ -26,5 +26,5 @@ class RunScriptSubCommand extends CommandBase {
 }
 
 Future<String> runFunction(ArgResults argResults) async {
-  return YamlModel.pubspec().getScriptFromPubspec(argResults.rest.first);
+  return Pubspec.init().getScriptFromPubspec(argResults.rest.first);
 }

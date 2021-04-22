@@ -1,6 +1,5 @@
 import 'package:moncli/src/base/constants.dart';
-import 'package:dcli/dcli.dart' as dcli;
-import 'package:moncli/src/templates/templates_constants.dart';
+import 'package:dcli/dcli.dart' show StringAsProcess;
 import 'logger/prompt.dart';
 import 'utils.dart';
 
@@ -20,7 +19,7 @@ abstract class CommandUtils {
 
 class PubCommandUtils extends CommandUtils {
   void existsPubspec() {
-    if (!existsUtil(pubspecDirectory)) {
+    if (!existsUtil(pubspecFile)) {
       throw const FormatException('No pubspec.yaml file in project.');
     }
   }

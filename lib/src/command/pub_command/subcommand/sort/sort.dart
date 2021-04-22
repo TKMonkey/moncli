@@ -1,7 +1,7 @@
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 
 Future<bool> order() async {
-  final yaml = YamlModel.pubspec(doSort: true)
+  final yaml = Pubspec.init(doSort: true)
     ..orderDependencies()
     ..saveYaml();
 

@@ -4,13 +4,11 @@ import 'dart:io';
 import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/node_model.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/utils/command_utils.dart';
-import 'package:moncli/src/utils/files/yaml_util.dart';
 import 'package:yaml/yaml.dart';
 
 final mainDependencies = 'dependencies';
 final devDependencies = 'dev_dependencies';
-mixin YamlFunctions {
+mixin PubspecFunctionsMixin {
   final nodes = <Node>[];
   late final bool isDev;
   late final bool doSort;
@@ -31,7 +29,7 @@ mixin YamlFunctions {
   List<PackageModel> removeDependencies(List<PackageModel> list) {
     final dependenciesStr = (isDev ? devDependencies : mainDependencies);
     final dependencies = Map.of(
-      (yaml[mainDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
+      (yaml[dependenciesStr] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     );
 
     final returnValues = <PackageModel>[];
@@ -77,10 +75,6 @@ mixin YamlFunctions {
     return Map.of(
       (yaml[mainDependencies] ?? {}).map((key, value) => MapEntry(key, value ?? '')),
     );
-  }
-
-  void saveYaml() {
-    toYamlString(yaml, nodes);
   }
 
   int compareMap(Map map, key1, key2) {

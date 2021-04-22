@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,7 +16,7 @@ Future<bool> install(ArgResults argResults) async {
           .toList()))
       .splitMatch((pkg) => pkg.isValid);
 
-  final yaml = YamlModel.pubspec(isDev: isDev, doSort: doSort)
+  final yaml = Pubspec.init(isDev: isDev, doSort: doSort)
     ..addDependencies(packageList.matched)
     ..saveYaml();
 

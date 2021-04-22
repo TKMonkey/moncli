@@ -1,12 +1,12 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/models/package_model.dart';
-import 'package:moncli/src/models/yaml/yaml_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec_model.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> unused(ArgResults argResults) async {
   bool remove = argResults['remove'];
 
-  final yaml = YamlModel.pubspec();
+  final yaml = Pubspec.init();
 
   final dependencies = yaml.getDependencies();
   final listUnused = <PackageModel>[];
