@@ -1,4 +1,5 @@
 import 'package:args/command_runner.dart';
+import 'package:moncli/src/base/exceptions/exceptions.dart';
 import 'package:moncli/src/command/comand.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'command_line_app.dart';
@@ -57,7 +58,9 @@ class Moncli with CommandLineApp {
               ..info(error.usage);
           } else if (error is FormatException) {
             logger.err(error.message);
-          } else {
+          } else if (error is KeyNoFoundException) {
+            logger.err(error.toString());
+          } else if (error is! ValidatorsException) {
             throw error;
           }
         },

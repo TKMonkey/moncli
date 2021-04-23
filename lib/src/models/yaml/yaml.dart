@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:moncli/src/base/exceptions/exceptions.dart';
+import 'package:moncli/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 import 'element_validator.dart';
 import 'line.dart';
@@ -36,15 +37,15 @@ abstract class YamlModel with YamlPrinterMixin {
     return value;
   }
 
-  Map<String, String> validate(List<ElementValidator> validators) {
+  void validate(List<ElementValidator> validators) {
     for (var validator in validators) {
       validator.setValidator(yaml[validator.key]);
     }
 
-    return {
+    reportErrorsValidator({
       for (var validator in validators.where((element) => !element.isValid))
         validator.key: validator.reason
-    };
+    });
   }
 
   dynamic _getModifiableNode(node) {
@@ -54,6 +55,17 @@ abstract class YamlModel with YamlPrinterMixin {
       return List.of(node.map(_getModifiableNode));
     } else {
       return node ?? '';
+    }
+  }
+
+  void reportErrorsValidator(Map<String, String> validateMap) {
+    if (validateMap.isNotEmpty) {
+      logger.err('Errors with validators');
+      for (var element in validateMap.entries) {
+        logger.info('${yellow(element.key)}: ${element.value}');
+      }
+
+      throw const ValidatorsException();
     }
   }
 }

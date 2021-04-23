@@ -24,23 +24,24 @@ class PubCommandUtils extends CommandUtils {
     }
   }
 
-  bool createAssetsTemplate({bool override = true}) {
+  bool createAssetsTemplate({bool overwrite = false}) {
     final responseFolder = existsAndCreateTemplateFolder();
 
     var response = false;
+    var exists = false;
 
     if (responseFolder) {
-      final exists = existsUtil(assetsOutputPath);
+      exists = existsUtil(assetsOutputPath);
       if (!exists) {
         response =
             confirmDcli('Do you want to create ${green('assets template file')} ?');
-      } else if (override) {
+      } else if (overwrite) {
         logger.alert('The file will be overwritten');
       }
     }
+    if (overwrite || response) copyFileUtils(assetsTemplatePath, assetsOutputPath);
 
-    if (override || response) copyFileUtils(assetsTemplatePath, assetsOutputPath);
-    return override || response;
+    return exists || response;
   }
 
   void argsIsEmpty(bool empty, String commanError) {

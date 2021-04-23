@@ -13,7 +13,7 @@ class AssetManagerSubCommand extends CommandBase {
         help: 'No create the AssetManager class in Dart',
       )
       ..addFlag(
-        'override',
+        'overwrite',
         abbr: 'o',
         negatable: false,
         help: 'Override current asset_manager_config with default template',
@@ -35,10 +35,12 @@ class AssetManagerSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
+    bool overwrite = argResults!['overwrite'];
     commandUtils.existsPubspec();
-    final created = commandUtils.createAssetsTemplate();
+    final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
     if (created) {
       print('-Created-');
+
       AssetManager.read()
         ..validateData()
         ..create();

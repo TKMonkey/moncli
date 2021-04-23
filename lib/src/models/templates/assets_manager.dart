@@ -13,8 +13,7 @@ class AssetManager extends YamlModel implements ITemplate {
 
   @override
   void validateData() {
-    final response = validate(validators);
-    print(response);
+    validate(validators);
   }
 
   @override
@@ -32,7 +31,6 @@ class AssetManager extends YamlModel implements ITemplate {
       validValues: [
         'folder',
         'file',
-        'default',
         '',
       ],
     ),
