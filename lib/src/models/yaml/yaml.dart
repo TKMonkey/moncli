@@ -20,10 +20,6 @@ abstract class YamlModel with YamlPrinterMixin {
     );
   }
 
-  void saveYaml(List<Line> lines) {
-    toYamlString(yaml, lines);
-  }
-
   dynamic? getNode(String key) {
     return yaml[key];
   }

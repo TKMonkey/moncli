@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/models/pub_package.dart';
-import 'package:moncli/src/models/pubspec/pubspec_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> remove(ArgResults argResults) async {

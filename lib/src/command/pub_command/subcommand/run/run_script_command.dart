@@ -1,6 +1,6 @@
 import 'package:args/args.dart';
 import 'package:moncli/src/base/base_command.dart';
-import 'package:moncli/src/models/pubspec/pubspec_model.dart';
+import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class RunScriptSubCommand extends CommandBase {
