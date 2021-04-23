@@ -22,7 +22,7 @@ mixin YamlPrinterMixin {
         sb.writeln(node.line);
       }
 
-      File(outputFile).writeAsStringSync(sb.toString());
+      File(outputPubPath).writeAsStringSync(sb.toString());
     }
   }
 

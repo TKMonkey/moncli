@@ -1,15 +1,23 @@
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
+import 'package:moncli/src/models/templates/assets_manager.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class AssetManagerSubCommand extends CommandBase {
   AssetManagerSubCommand() {
-    argParser.addFlag(
-      'nocreate',
-      abbr: 'n',
-      negatable: false,
-      help: 'No create the AssetManager class in Dart',
-    );
+    argParser
+      ..addFlag(
+        'nocreate',
+        abbr: 'n',
+        negatable: false,
+        help: 'No create the AssetManager class in Dart',
+      )
+      ..addFlag(
+        'override',
+        abbr: 'o',
+        negatable: false,
+        help: 'Override current asset_manager_config with default template',
+      );
   }
 
   @override
@@ -29,5 +37,11 @@ class AssetManagerSubCommand extends CommandBase {
   Future<void> run() async {
     commandUtils.existsPubspec();
     final created = commandUtils.createAssetsTemplate();
+    if (created) {
+      print('-Created-');
+      AssetManager.read()
+        ..validateData()
+        ..create();
+    }
   }
 }

@@ -1,8 +1,8 @@
 class ElementValidator {
   ElementValidator({
     required this.key,
-    required this.isRequired,
-    required this.validValues,
+    this.isRequired = true,
+    this.validValues = const [],
   });
 
   final String key;

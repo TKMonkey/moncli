@@ -11,7 +11,7 @@ import '../yaml/mixin_yaml_printer.dart';
 class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
   Pubspec.init({bool isDev = false, bool doSort = false}) {
     initData(isDev, doSort);
-    var file = File(pubspecFile);
+    var file = File(pubspecFileName);
 
     _readYamlMap(file);
     _readPrimaryNode(file);

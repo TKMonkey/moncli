@@ -6,7 +6,7 @@ import 'line.dart';
 import 'mixin_yaml_printer.dart';
 
 abstract class YamlModel with YamlPrinterMixin {
-  late final Map<String, dynamic> yaml;
+  late final Map yaml;
 
   void readYamlMap(File file) {
     yaml = Map.of(
@@ -36,13 +36,13 @@ abstract class YamlModel with YamlPrinterMixin {
     return value;
   }
 
-  Map<String, String> validateData(List<ElementValidator> validators) {
+  Map<String, String> validate(List<ElementValidator> validators) {
     for (var validator in validators) {
       validator.setValidator(yaml[validator.key]);
     }
 
     return {
-      for (var validator in validators.where((element) => element.isValid))
+      for (var validator in validators.where((element) => !element.isValid))
         validator.key: validator.reason
     };
   }
@@ -53,7 +53,7 @@ abstract class YamlModel with YamlPrinterMixin {
     } else if (node is Iterable) {
       return List.of(node.map(_getModifiableNode));
     } else {
-      return node;
+      return node ?? '';
     }
   }
 }

@@ -1,6 +1,19 @@
 name: AssetsManager Config
 description: A Config to create a better experience with plugin
 
+# Explanation and Structure:
+#
+# assets_folder: 
+#        - required
+#        - 
+# folder_output: required
+# post_fix: optional
+# pre_fix: optional
+# pre_fix: optional
+# pubspec_strategy: optional -  default: folder
+# name_assets_class: required
+# name_assets_file: required
+
 
 # Input assets directory
 # The directory where you save your assets files, images, videos, etc
@@ -30,7 +43,8 @@ pre_fix:
 pubspec_strategy:
 
 # Output assets config
-#Name of class output dart class
+#Name of class output dart class, the generator conver this in CamelCase
 name_assets_class: AssetsManager
-#Name of file for output in dart
+
+#Name of file for output in dart, the generator conver this in snake_case
 name_assets_file: assets_manager

@@ -5,12 +5,12 @@ import 'utils.dart';
 
 abstract class CommandUtils {
   bool existsAndCreateTemplateFolder() {
-    final exists = existsUtil(templateFolder);
+    final exists = existsUtil(templateFolderPath);
     var response = true;
     if (!exists) {
       response = confirmDcli('Do you want to create ${green('template folder')} ?');
       print('Response: $response');
-      if (response) createFolderUtils(templateFolder);
+      if (response) createFolderUtils(templateFolderPath);
     }
 
     return response;
@@ -19,29 +19,28 @@ abstract class CommandUtils {
 
 class PubCommandUtils extends CommandUtils {
   void existsPubspec() {
-    if (!existsUtil(pubspecFile)) {
+    if (!existsUtil(pubspecFileName)) {
       throw const FormatException('No pubspec.yaml file in project.');
     }
   }
 
-  bool createAssetsTemplate() {
-    final outputFile = '$templateFolder/$assetsTemplateName';
+  bool createAssetsTemplate({bool override = true}) {
     final responseFolder = existsAndCreateTemplateFolder();
 
     var response = false;
+
     if (responseFolder) {
-      final exists = existsUtil(outputFile);
+      final exists = existsUtil(assetsOutputPath);
       if (!exists) {
         response =
             confirmDcli('Do you want to create ${green('assets template file')} ?');
-      } else {
-        response =
-            confirmDcli('Do you want to ${yellow('override assets template file')} ?');
+      } else if (override) {
+        logger.alert('The file will be overwritten');
       }
     }
 
-    if (response) copyFileUtils(assetsPath, outputFile);
-    return response;
+    if (override || response) copyFileUtils(assetsTemplatePath, assetsOutputPath);
+    return override || response;
   }
 
   void argsIsEmpty(bool empty, String commanError) {
