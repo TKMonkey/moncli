@@ -5,5 +5,5 @@ Future<bool> order() async {
     ..orderDependencies()
     ..saveYaml();
 
-  return yaml.containsFlutter;
+  return yaml.containsFlutterKey;
 }

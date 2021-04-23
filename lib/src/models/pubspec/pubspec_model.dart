@@ -56,7 +56,7 @@ class Pubspec with PubspecFunctionsMixin, YamlPrinterMixin {
     toYamlString(yaml, nodes);
   }
 
-  bool get containsFlutter => yaml['dependencies'].containsKey('flutter');
+  bool get containsFlutterKey => yaml['dependencies'].containsKey('flutter');
 
   bool isEmptyNode(String line) =>
       line.isEmpty && nodes.isNotEmpty && nodes.last is! EmptyLine;

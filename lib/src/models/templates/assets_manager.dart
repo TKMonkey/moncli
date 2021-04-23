@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:args/args.dart';
 import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/templates/i_template.dart';
 import 'package:moncli/src/models/yaml/element_validator.dart';
@@ -17,7 +18,9 @@ class AssetManager extends YamlModel implements ITemplate {
   }
 
   @override
-  void create() {}
+  void create(ArgResults? argResults) {
+    bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
+  }
 
   @override
   List<ElementValidator> validators = [

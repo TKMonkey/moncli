@@ -30,7 +30,7 @@ Future<bool> unused(ArgResults argResults) async {
 
   unusedReport(listUnused);
 
-  return yaml.containsFlutter;
+  return yaml.containsFlutterKey;
 }
 
 void unusedReport(List<PubPackageModel> list) {

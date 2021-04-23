@@ -35,15 +35,15 @@ class AssetManagerSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    bool overwrite = argResults!['overwrite'];
+    bool overwrite = argResults != null ? argResults!['overwrite'] : false;
+
     commandUtils.existsPubspec();
+
     final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
     if (created) {
-      print('-Created-');
-
       AssetManager.read()
         ..validateData()
-        ..create();
+        ..create(argResults);
     }
   }
 }

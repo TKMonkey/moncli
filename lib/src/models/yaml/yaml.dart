@@ -37,6 +37,10 @@ abstract class YamlModel with YamlPrinterMixin {
     return value;
   }
 
+  void assignNewValueNode(String key, dynamic value) {
+    yaml[key] = value;
+  }
+
   void validate(List<ElementValidator> validators) {
     for (var validator in validators) {
       validator.setValidator(yaml[validator.key]);

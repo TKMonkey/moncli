@@ -22,7 +22,7 @@ Future<bool> install(ArgResults argResults) async {
 
   installReport(packageList);
 
-  return yaml.containsFlutter;
+  return yaml.containsFlutterKey;
 }
 
 Future<PubPackageModel> getPackageFromPub(String pkgName, bool isDev) async {

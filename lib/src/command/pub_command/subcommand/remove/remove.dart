@@ -15,7 +15,7 @@ Future<bool> remove(ArgResults argResults) async {
   yaml.saveYaml();
   removeReport(packageReturnedList);
 
-  return yaml.containsFlutter;
+  return yaml.containsFlutterKey;
 }
 
 void removeReport(ListMatch<PubPackageModel> list) {
