@@ -1,6 +1,6 @@
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
-import 'package:moncli/src/models/templates/assets_manager.dart';
+import 'package:moncli/src/models/templates/asset/asset_manager.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class AssetManagerSubCommand extends CommandBase {

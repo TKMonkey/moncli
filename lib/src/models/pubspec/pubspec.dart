@@ -103,8 +103,9 @@ class Pubspec extends YamlModel with PubspecMixin {
 
   bool get containsFlutterKey => getNode('dependencies').containsKey('flutter');
 
+  bool get containsAssetsKey => getNode('flutter').containsKey('assets');
+
   Map<String, dynamic> _getScriptFile(String scriptsFile) {
-    final slash = mainDirectory.isNotEmpty ? '/' : '';
     final path = '$mainDirectory$slash$scriptsFile';
 
     final file = File(path);

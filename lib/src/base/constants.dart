@@ -1,6 +1,7 @@
 const env = 'TEST';
 
 final mainDirectory = env.isEmpty ? '' : 'filetest';
+final slash = mainDirectory.isNotEmpty ? '/' : '';
 
 final pubspecFileName = env.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec_test.yaml';
 final outputPubPath = env.isEmpty ? 'pubspec.yaml' : '$mainDirectory/pubspec-output.yaml';

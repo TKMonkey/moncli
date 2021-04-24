@@ -20,7 +20,7 @@ abstract class YamlModel with YamlPrinterMixin {
     );
   }
 
-  dynamic? getNode(String key) {
+  T? getNode<T>(String key) {
     return yaml[key];
   }
 

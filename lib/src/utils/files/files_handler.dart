@@ -1,4 +1,4 @@
-import 'package:dcli/dcli.dart' show exists, StringAsProcess, createDir, copy;
+import 'package:dcli/dcli.dart' show exists, StringAsProcess, createDir, copy, find;
 
 bool existsUtil(String path) {
   return exists(path);
@@ -20,4 +20,8 @@ bool isUsedInProject(String name) {
   } catch (e) {
     return false;
   }
+}
+
+List<String> getListOfFiles(String path) {
+  return find('*.*', recursive: true, workingDirectory: path).toList();
 }
