@@ -11,12 +11,24 @@ import 'package:moncli/src/utils/utils.dart';
 
 class AssetManager extends YamlModel implements ITemplate {
   AssetManager.read() {
-    var file = File(assetsOutputPath);
+    final file = File(assetsOutputPath);
     readYamlMap(file);
   }
 
   static const String _folderKey = 'assets_folder';
   static const String _excludeSubFolderKey = 'exclude_subfolders';
+  static const String _excludeExtensionTypeKey = 'exclude_extension_type';
+
+  late final String assetsFolder;
+  late final List excludeSubFolder;
+  late final List excludeExtensionType;
+
+  @override
+  void getAllElements() {
+    assetsFolder = '$mainDirectory$slash${getNode<String>(_folderKey, '')}';
+    excludeSubFolder = getNode<List>(_excludeSubFolderKey, []);
+    excludeExtensionType = getNode<List>(_excludeExtensionTypeKey, []);
+  }
 
   @override
   void validateData() {
@@ -26,13 +38,15 @@ class AssetManager extends YamlModel implements ITemplate {
   @override
   void create(ArgResults? argResults) {
     bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
-    final assetsFolder = '$mainDirectory$slash${getNode<String>(_folderKey)!}';
 
-    print('assetsFolder: $assetsFolder');
+    final listFiles = getListOfFiles(assetsFolder)
+        .map((e) => AssetsFile.init(assetsFolder, e))
+        .where((af) =>
+            !excludeSubFolder.any((element) => af.parentFolder.contains(element)) &&
+            !excludeExtensionType.any((element) => af.type == element));
 
-    final listFiles = getListOfFiles(assetsFolder);
-    listFiles.map((e) => AssetsFile.init(assetsFolder, e)).forEach((element) {
-      print('-->> ${element.toString()}');
+    listFiles.forEach((element) {
+      print(element.toString());
     });
 
     //final pub = Pubspec.init();
@@ -43,6 +57,7 @@ class AssetManager extends YamlModel implements ITemplate {
   @override
   List<ElementValidator> validators = [
     ElementValidator(key: _folderKey),
+    ElementValidator(key: _excludeSubFolderKey, isRequired: false),
     ElementValidator(key: _excludeSubFolderKey, isRequired: false),
     ElementValidator(key: 'folder_output'),
     ElementValidator(key: 'post_fix', isRequired: false),

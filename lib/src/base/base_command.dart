@@ -8,7 +8,7 @@ abstract class CommandBase extends Command {
   String get invocation {
     return invocationSuffix != null && invocationSuffix?.isNotEmpty == true
         ? '${super.invocation} $invocationSuffix'
-        : '${super.invocation}';
+        : super.invocation;
   }
 
   @override

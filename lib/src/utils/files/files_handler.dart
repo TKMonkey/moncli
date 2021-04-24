@@ -23,5 +23,5 @@ bool isUsedInProject(String name) {
 }
 
 List<String> getListOfFiles(String path) {
-  return find('*.*', recursive: true, workingDirectory: path).toList();
+  return find('*.*', workingDirectory: path).toList();
 }

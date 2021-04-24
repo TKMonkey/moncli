@@ -20,8 +20,8 @@ abstract class YamlModel with YamlPrinterMixin {
     );
   }
 
-  T? getNode<T>(String key) {
-    return yaml[key];
+  T getNode<T>(String key, T defaultValue) {
+    return yaml[key] ?? defaultValue;
   }
 
   dynamic getNodeException(String key, {String? fileName}) {
@@ -38,14 +38,14 @@ abstract class YamlModel with YamlPrinterMixin {
   }
 
   void validate(List<ElementValidator> validators) {
-    for (var validator in validators) {
-      validator.setValidator(yaml[validator.key]);
-    }
+    final filter = validators
+        .map((validator) => validator..setValidator(yaml[validator.key]))
+        .where((element) => !element.isValid)
+        .toList()
+        .asMap()
+        .map((key, validator) => MapEntry(validator.key, validator.reason));
 
-    reportErrorsValidator({
-      for (var validator in validators.where((element) => !element.isValid))
-        validator.key: validator.reason
-    });
+    reportErrorsValidator(filter);
   }
 
   dynamic _getModifiableNode(node) {
@@ -61,7 +61,7 @@ abstract class YamlModel with YamlPrinterMixin {
   void reportErrorsValidator(Map<String, String> validateMap) {
     if (validateMap.isNotEmpty) {
       logger.err('Errors with validators');
-      for (var element in validateMap.entries) {
+      for (final element in validateMap.entries) {
         logger.info('${yellow(element.key)}: ${element.value}');
       }
 

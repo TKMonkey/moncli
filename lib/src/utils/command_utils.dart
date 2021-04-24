@@ -9,7 +9,6 @@ abstract class CommandUtils {
     var response = true;
     if (!exists) {
       response = confirmDcli('Do you want to create ${green('template folder')} ?');
-      print('Response: $response');
       if (response) createFolderUtils(templateFolderPath);
     }
 

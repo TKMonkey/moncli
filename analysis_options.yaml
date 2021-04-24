@@ -2,20 +2,16 @@
 # projects at Google. For details and rationale,
 # see https://github.com/dart-lang/pedantic#enabled-lints.
 # include: package:pedantic/analysis_options.yaml
-# include: package:lint/analysis_options_package.yaml
-include: package:very_good_analysis/analysis_options.2.0.0.yaml
+include: package:lint/analysis_options_package.yaml
+# include: package:very_good_analysis/analysis_options.2.0.0.yaml
 
 
 analyzer:
 #   exclude:
 #     - path/to/excluded/files/**
 
-# TODO: Remove public_member_api_docs
-
 linter:
   rules:
     avoid_positional_boolean_parameters: false
-    public_member_api_docs: false
-    lines_longer_than_80_chars: false
     avoid_relative_lib_imports: true
     

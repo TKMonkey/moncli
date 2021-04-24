@@ -23,7 +23,7 @@ mixin CommandLineApp {
   bool hasCommand(Iterable<String> arguments) =>
       runner.commands.keys.any((x) => arguments.contains(x));
 
-  void executeOptions(Iterable<String> arguments) async {
+  Future<void> executeOptions(Iterable<String> arguments) async {
     final parser = runner.argParser;
     final results = parser.parse(arguments);
 
@@ -46,7 +46,7 @@ mixin CommandLineApp {
       ..warn(description)
       ..info('$name $version')
       ..info('Author: $author')
-      ..info('$license')
+      ..info(license)
       ..info('\nVisit here: $url');
   }
 
