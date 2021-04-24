@@ -8,8 +8,8 @@ import 'package:yaml/yaml.dart';
 
 import 'mixin_pubspec.dart';
 
-final dependenciesKey = 'dependencies';
-final devDependenciesKey = 'dev_dependencies';
+const dependenciesKey = 'dependencies';
+const devDependenciesKey = 'dev_dependencies';
 
 class Pubspec extends YamlModel with PubspecMixin {
   Pubspec.init({this.isDev = false, this.doSort = false}) {
@@ -45,7 +45,7 @@ class Pubspec extends YamlModel with PubspecMixin {
 
   List<PubPackageModel> removeDependencies(List<PubPackageModel> list) {
     final key = isDev ? devDependenciesKey : dependenciesKey;
-    final dep = formatDependecies(getNode(key, {}));
+    final dep = formatDependecies(getNode(key));
 
     final returnValues = <PubPackageModel>[];
     for (final dependency in list)
@@ -63,14 +63,14 @@ class Pubspec extends YamlModel with PubspecMixin {
   void orderDependencies({List<PubPackageModel> list = const []}) {
     final devDependencies = orderDependenciesMap(
       devDependenciesKey,
-      getNode(devDependenciesKey, {}),
+      getNode(devDependenciesKey),
       list: list,
       sort: doSort,
     );
 
     final dependencies = orderDependenciesMap(
       dependenciesKey,
-      getNode(dependenciesKey, {}),
+      getNode(dependenciesKey),
       list: list,
       sort: doSort,
     );
@@ -80,7 +80,7 @@ class Pubspec extends YamlModel with PubspecMixin {
   }
 
   String getScriptFromPubspec(String key) {
-    final scripts = getNodeException(key);
+    final scripts = getNodeOrException(key);
     var command = '';
 
     if (scripts is String && scripts.contains('.yaml')) {
@@ -99,11 +99,12 @@ class Pubspec extends YamlModel with PubspecMixin {
     return command;
   }
 
-  Map getDependencies() => formatDependecies(getNode(dependenciesKey, {}));
+  Map getDependencies() => formatDependecies(getNode(dependenciesKey));
 
-  bool get containsFlutterKey => getNode('dependencies', {}).containsKey('flutter');
+  bool get containsFlutterKey =>
+      getNodeOrDefault('dependencies', {}).containsKey('flutter');
 
-  bool get containsAssetsKey => getNode('flutter', {}).containsKey('assets');
+  bool get containsAssetsKey => getNodeOrDefault('flutter', {}).containsKey('assets');
 
   Map<String, dynamic> _getScriptFile(String scriptsFile) {
     final path = '$mainDirectory$slash$scriptsFile';

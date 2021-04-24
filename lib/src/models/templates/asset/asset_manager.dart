@@ -13,21 +13,40 @@ class AssetManager extends YamlModel implements ITemplate {
   AssetManager.read() {
     final file = File(assetsOutputPath);
     readYamlMap(file);
+    getAllElements();
   }
 
   static const String _folderKey = 'assets_folder';
   static const String _excludeSubFolderKey = 'exclude_subfolders';
   static const String _excludeExtensionTypeKey = 'exclude_extension_type';
+  static const String _folderOutputKey = 'folder_output';
+  static const String _postFixKey = 'post_fix';
+  static const String _preFixKey = 'pre_fix';
+  static const String _pubspecStrategyKey = 'pubspec_strategy';
+  static const String _nameAssetsClassKey = 'name_assets_class';
+  static const String _nameAssetsFileKey = 'name_assets_file';
 
   late final String assetsFolder;
   late final List excludeSubFolder;
   late final List excludeExtensionType;
+  late final String folderOutput;
+  late final String postFix;
+  late final String preFix;
+  late final String pubspecStrategy;
+  late final String nameAssetsClass;
+  late final String nameAssetsFileKey;
 
   @override
   void getAllElements() {
-    assetsFolder = '$mainDirectory$slash${getNode<String>(_folderKey, '')}';
-    excludeSubFolder = getNode<List>(_excludeSubFolderKey, []);
-    excludeExtensionType = getNode<List>(_excludeExtensionTypeKey, []);
+    assetsFolder = '$mainDirectory$slash${getNodeOrDefaultValue(_folderKey)}';
+    excludeSubFolder = getNodeOrDefaultValue(_excludeSubFolderKey);
+    excludeExtensionType = getNodeOrDefaultValue(_excludeExtensionTypeKey);
+    folderOutput = getNodeOrDefaultValue(_folderOutputKey);
+    postFix = getNodeOrDefaultValue(_postFixKey);
+    preFix = getNodeOrDefaultValue(_preFixKey);
+    pubspecStrategy = getNodeOrDefaultValue(_pubspecStrategyKey);
+    nameAssetsClass = getNodeOrDefaultValue(_nameAssetsClassKey);
+    nameAssetsFileKey = getNodeOrDefaultValue(_nameAssetsFileKey);
   }
 
   @override
@@ -59,11 +78,11 @@ class AssetManager extends YamlModel implements ITemplate {
     ElementValidator(key: _folderKey),
     ElementValidator(key: _excludeSubFolderKey, isRequired: false),
     ElementValidator(key: _excludeSubFolderKey, isRequired: false),
-    ElementValidator(key: 'folder_output'),
-    ElementValidator(key: 'post_fix', isRequired: false),
-    ElementValidator(key: 'pre_fix', isRequired: false),
+    ElementValidator(key: _folderOutputKey),
+    ElementValidator(key: _postFixKey, isRequired: false),
+    ElementValidator(key: _preFixKey, isRequired: false),
     ElementValidator(
-      key: 'pubspec_strategy',
+      key: _pubspecStrategyKey,
       isRequired: false,
       validValues: [
         'folder',
@@ -71,12 +90,25 @@ class AssetManager extends YamlModel implements ITemplate {
         '',
       ],
     ),
-    ElementValidator(key: 'name_assets_class'),
-    ElementValidator(key: 'name_assets_file'),
+    ElementValidator(key: _nameAssetsClassKey),
+    ElementValidator(key: _nameAssetsFileKey),
   ];
 
   @override
   Map<String, dynamic> defaultValue = {
-    'pubspec_strategy': '',
+    _folderKey: '',
+    _excludeSubFolderKey: [],
+    _excludeExtensionTypeKey: [],
+    _folderOutputKey: '',
+    _postFixKey: '',
+    _preFixKey: '',
+    _pubspecStrategyKey: 'folder',
+    _nameAssetsClassKey: '',
+    _nameAssetsFileKey: '',
   };
+
+  @override
+  T getNodeOrDefaultValue<T>(String key) {
+    return getNodeOrDefault<T>(key, defaultValue[key]);
+  }
 }

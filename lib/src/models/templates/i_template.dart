@@ -8,4 +8,5 @@ abstract class ITemplate {
 
   late final List<ElementValidator> validators;
   late final Map<String, dynamic> defaultValue;
+  T getNodeOrDefaultValue<T>(String key);
 }

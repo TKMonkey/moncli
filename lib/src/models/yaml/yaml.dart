@@ -3,7 +3,6 @@ import 'package:moncli/src/base/exceptions/exceptions.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
 import 'element_validator.dart';
-import 'line.dart';
 import 'mixin_yaml_printer.dart';
 
 abstract class YamlModel with YamlPrinterMixin {
@@ -20,11 +19,15 @@ abstract class YamlModel with YamlPrinterMixin {
     );
   }
 
-  T getNode<T>(String key, T defaultValue) {
+  T? getNode<T>(String key) {
+    return yaml[key];
+  }
+
+  T getNodeOrDefault<T>(String key, T defaultValue) {
     return yaml[key] ?? defaultValue;
   }
 
-  dynamic getNodeException(String key, {String? fileName}) {
+  dynamic getNodeOrException(String key, {String? fileName}) {
     final value = yaml[key];
     if (value == null) {
       throw KeyNoFoundException(key, fileName: fileName);
@@ -54,7 +57,7 @@ abstract class YamlModel with YamlPrinterMixin {
     } else if (node is Iterable) {
       return List.of(node.map(_getModifiableNode));
     } else {
-      return node ?? '';
+      return node;
     }
   }
 

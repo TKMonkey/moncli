@@ -18,7 +18,9 @@ description: A Config to create a better experience with plugin
 # Input assets directory
 # The directory where you save your assets files, images, videos, etc
 assets_folder: assets
+
 exclude_subfolders: 
+
 exclude_extension_type: 
 
 # Output config

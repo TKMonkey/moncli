@@ -16,7 +16,7 @@ mixin PubspecMixin {
 
   Map orderDependenciesMap(
     String key,
-    Map initialMap, {
+    Map? initialMap, {
     List<PubPackageModel> list = const [],
     bool sort = false,
   }) {
@@ -35,15 +35,15 @@ mixin PubspecMixin {
         : dependencies;
   }
 
-  Map formatDependecies(Map initialMap) {
+  Map formatDependecies(Map? initialMap) {
     return Map.of(
-      initialMap.map(
+      (initialMap ?? {}).map(
         (key, value) => MapEntry(key, value ?? ''),
       ),
     );
   }
 
-  int compareMap(Map map, key1, key2) {
+  int compareMap(Map map, dynamic key1, dynamic key2) {
     if (map[key1] is Map) {
       return -1;
     }
