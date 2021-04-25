@@ -4,12 +4,12 @@ import 'package:moncli/src/utils/logger/colors.dart';
 /// A basic Logger which wraps [print] and applies various styles.
 /// Copy from Mason library
 
-Logger get logger => const Logger._();
+Logger get logger => Logger._();
 
 class Logger {
-  const Logger._();
+  Logger._();
 
-  final _queue = const <String>[];
+  final _queue = <String>[];
 
   /// Flushes internal message queue.
   void flush([Function(String)? print]) {

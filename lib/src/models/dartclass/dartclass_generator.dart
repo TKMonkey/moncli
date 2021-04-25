@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/yaml/line.dart';
 import 'package:moncli/src/utils/files/files_handler.dart';
@@ -22,6 +20,7 @@ mixin DartClassGenerator {
     createFolderUtils(op);
     deleteFileUtils(fo);
     createFileUtils(fo);
-    File(fo).writeAsStringSync(sb.toString());
+    writeFileUtils(fo, sb.toString());
+    // File(fo).writeAsStringSync();
   }
 }

@@ -4,14 +4,14 @@ import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> unused(ArgResults argResults) async {
-  bool remove = argResults['remove'];
+  final bool remove = argResults['remove'];
 
   final yaml = Pubspec.init();
 
   final dependencies = yaml.getDependencies();
   final listUnused = <PubPackageModel>[];
 
-  for (var name in dependencies.keys) {
+  for (final name in dependencies.keys) {
     if (name == 'flutter') {
       continue;
     }
@@ -35,8 +35,8 @@ Future<bool> unused(ArgResults argResults) async {
 
 void unusedReport(List<PubPackageModel> list) {
   if (list.isNotEmpty) {
-    logger.alert('> The next packages don\'t have any use in the project:');
-    for (var pack in list) {
+    logger.alert("> The next packages don't have any use in the project:");
+    for (final pack in list) {
       logger.info('- ${pack.name}: ${pack.version}');
     }
   }

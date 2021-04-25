@@ -30,6 +30,5 @@ class UnusedPkgSubCommand extends CommandBase {
     commandUtils
       ..existsPubspec()
       ..runAndUpdate(unused(argResults!));
-    ;
   }
 }

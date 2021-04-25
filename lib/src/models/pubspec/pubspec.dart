@@ -83,7 +83,7 @@ class Pubspec extends YamlModel with PubspecMixin {
 
   String getScriptFromPubspec(String key) {
     final scripts = getNodeOrException(key);
-    var command = '';
+    String? command;
 
     if (scripts is String && scripts.contains('.yaml')) {
       final scriptFile = _getScriptFile(scripts);

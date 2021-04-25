@@ -4,7 +4,7 @@ import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> remove(ArgResults argResults) async {
-  bool isDev = argResults['dev'];
+  final bool isDev = argResults['dev'];
   final yaml = Pubspec.init(isDev: isDev);
 
   final packageList = argResults.rest.map((pack) => PubPackageModel(pack)).toList();
@@ -21,7 +21,7 @@ Future<bool> remove(ArgResults argResults) async {
 void removeReport(ListMatch<PubPackageModel> list) {
   if (list.matched.isNotEmpty) {
     logger.success('> The next packages were removed from pubspec.yaml:');
-    for (var pack in list.matched) {
+    for (final pack in list.matched) {
       logger.info('✔ ${pack.name}');
     }
   }
@@ -31,7 +31,7 @@ void removeReport(ListMatch<PubPackageModel> list) {
       ..info('')
       ..err('> Package not found in pubspec.yaml:');
 
-    for (var pack in list.unmatched) {
+    for (final pack in list.unmatched) {
       logger.info('x ${pack.name}');
     }
   }

@@ -6,5 +6,5 @@ class KeyNoFoundException implements Exception {
   final String? fileName;
 
   @override
-  String toString() => 'Please, add param \"$key\" in your $fileName\n';
+  String toString() => 'Please, add param $key in your $fileName\n';
 }

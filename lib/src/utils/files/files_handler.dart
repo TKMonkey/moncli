@@ -1,5 +1,5 @@
 import 'package:dcli/dcli.dart'
-    show exists, StringAsProcess, createDir, copy, find, delete, write;
+    show exists, StringAsProcess, createDir, copy, find, delete;
 
 bool existsUtil(String path) {
   return exists(path);
@@ -21,6 +21,14 @@ void createFileUtils(String path) {
   if (!existsUtil(path)) {
     path.write('');
   }
+}
+
+void writeFileUtils(String path, String lines) {
+  if (!existsUtil(path)) {
+    path.write('');
+  }
+
+  path.write(lines);
 }
 
 void copyFileUtils(String from, String to) {

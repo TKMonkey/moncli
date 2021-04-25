@@ -49,13 +49,13 @@ class PubCommandUtils extends CommandUtils {
     }
   }
 
-  void runAndExecute(Future<String> runFunction) async {
+  Future<void> runAndExecute(Future<String> runFunction) async {
     final commandToRun = await runFunction;
 
     if (commandToRun.isNotEmpty) commandToRun.run;
   }
 
-  void runAndUpdate(Future<bool> runFunction) async {
+  Future<void> runAndUpdate(Future<bool> runFunction) async {
     final containsFlutter = await runFunction;
     updatePubspec(containsFlutter);
   }

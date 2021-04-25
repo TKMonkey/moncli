@@ -1,4 +1,3 @@
-import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
 import 'package:moncli/src/models/templates/asset/read_asset.dart';
 import 'package:moncli/src/utils/utils.dart';

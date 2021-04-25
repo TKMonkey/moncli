@@ -8,12 +8,11 @@ import 'package:moncli/src/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> install(ArgResults argResults) async {
-  bool isDev = argResults['dev'];
-  bool doSort = argResults['sort'];
+  final bool isDev = argResults['dev'];
+  final bool doSort = argResults['sort'];
 
-  final packageList = (await Future.wait(argResults.rest
-          .map((pack) async => await getPackageFromPub(pack, isDev))
-          .toList()))
+  final packageList = (await Future.wait(
+          argResults.rest.map((pack) async => getPackageFromPub(pack, isDev)).toList()))
       .splitMatch((pkg) => pkg.isValid);
 
   final yaml = Pubspec.init(isDev: isDev, doSort: doSort)
@@ -49,7 +48,7 @@ Future<PubPackageModel> getPackageFromPub(String pkgName, bool isDev) async {
 void installReport(ListMatch<PubPackageModel> list) {
   if (list.matched.isNotEmpty) {
     logger.success('> The next packages were added in pubspec.yaml:');
-    for (var pack in list.matched) {
+    for (final pack in list.matched) {
       logger.info('✔ ${pack.name}: ${pack.version}');
     }
   }
@@ -59,7 +58,7 @@ void installReport(ListMatch<PubPackageModel> list) {
       ..info('')
       ..err('> Package not found:');
 
-    for (var pack in list.unmatched) {
+    for (final pack in list.unmatched) {
       logger.info('x ${pack.name}');
     }
   }

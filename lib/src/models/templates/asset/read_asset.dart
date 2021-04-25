@@ -57,7 +57,8 @@ class ReadAssets extends YamlModel implements ITemplate {
 
   @override
   void create(ArgResults? argResults) {
-    bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
+    final bool noCreateAssetsManager =
+        argResults != null ? argResults['nocreate'] : false;
     final listFiles = readAllAssets();
 
     final pub = Pubspec.init();
