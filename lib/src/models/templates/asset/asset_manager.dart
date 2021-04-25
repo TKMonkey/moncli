@@ -57,12 +57,7 @@ class AssetManager extends YamlModel implements ITemplate {
   @override
   void create(ArgResults? argResults) {
     bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
-
-    final listFiles = getListOfFiles(assetsFolder)
-        .map((e) => AssetsFile.init(assetsFolder, e))
-        .where((af) =>
-            !excludeSubFolder.any((element) => af.parentFolder.contains(element)) &&
-            !excludeExtensionType.any((element) => af.type == element));
+    final listFiles = readAllAssets();
 
     listFiles.forEach((element) {
       print(element.toString());
@@ -71,7 +66,13 @@ class AssetManager extends YamlModel implements ITemplate {
     //final pub = Pubspec.init();
   }
 
-  void readAllAssets() {}
+  Iterable<AssetsFile> readAllAssets() {
+    return getListOfFiles(assetsFolder)
+        .map((element) => AssetsFile.init(assetsFolder, element, preFix, postFix))
+        .where((af) =>
+            !excludeSubFolder.any((element) => af.path.contains(element)) &&
+            !excludeExtensionType.any((element) => af.outputPath.contains('.$element')));
+  }
 
   @override
   List<ElementValidator> validators = [
