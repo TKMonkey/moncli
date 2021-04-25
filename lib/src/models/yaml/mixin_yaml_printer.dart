@@ -23,9 +23,8 @@ mixin YamlPrinterMixin {
       } else {
         sb.writeln(node.line);
       }
-
-      File(outputPubPath).writeAsStringSync(sb.toString());
     }
+    File(outputPubPath).writeAsStringSync(sb.toString());
   }
 
   /// Serializes [node] into a String and writes it to the [sink].

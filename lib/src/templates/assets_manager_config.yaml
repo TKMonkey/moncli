@@ -20,8 +20,15 @@ description: A Config to create a better experience with plugin
 assets_folder: assets
 
 exclude_subfolders: 
+  - font
+  - fonts
 
 exclude_extension_type: 
+  - json
+  - yaml
+  - ttf
+  - otf
+  - fnt
 
 # Output config
 #The directory for output file this folder, must be into \lib

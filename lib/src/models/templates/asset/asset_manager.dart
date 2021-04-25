@@ -1,139 +1,36 @@
-import 'dart:io';
+import 'package:moncli/src/models/dartclass/dartclass_generator.dart';
+import 'package:moncli/src/models/yaml/line.dart';
+import 'package:recase/recase.dart';
 
-import 'package:args/args.dart';
-import 'package:dcli/dcli.dart' as dcli;
-import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/pubspec/pubspec.dart';
-import 'package:moncli/src/models/templates/asset/asset_file.dart';
-import 'package:moncli/src/models/templates/i_template.dart';
-import 'package:moncli/src/models/yaml/element_validator.dart';
-import 'package:moncli/src/models/yaml/yaml.dart';
-import 'package:moncli/src/utils/utils.dart';
+import 'asset_file.dart';
 
-class AssetManager extends YamlModel implements ITemplate {
-  AssetManager.read() {
-    final file = File(assetsOutputPath);
-    readYamlMap(file);
-    getAllElements();
-  }
+class AssetManager with DartClassGenerator {
+  AssetManager({
+    required this.name,
+    required this.outputName,
+    required this.outputPath,
+    required this.data,
+  });
 
-  static const String _folderKey = 'assets_folder';
-  static const String _excludeSubFolderKey = 'exclude_subfolders';
-  static const String _excludeExtensionTypeKey = 'exclude_extension_type';
-  static const String _folderOutputKey = 'folder_output';
-  static const String _postFixKey = 'post_fix';
-  static const String _preFixKey = 'pre_fix';
-  static const String _pubspecStrategyKey = 'pubspec_strategy';
-  static const String _nameAssetsClassKey = 'name_assets_class';
-  static const String _nameAssetsFileKey = 'name_assets_file';
+  final String name;
+  final String outputName;
+  final String outputPath;
+  final Iterable<AssetsFile> data;
 
-  static const _myExcludeExtensionType = ['json', 'yaml', 'ttf', 'otf', 'fnt'];
-  static const _myExcludeSubFolder = ['fonts', 'font'];
+  void write() {
+    final rcName = ReCase(name);
+    final rcOutputName = ReCase(outputName).snakeCase;
+    final outName = rcOutputName.contains('.dart') ? rcOutputName : '$rcOutputName.dart';
 
-  late final String assetsFolder;
-  late final List excludeSubFolder;
-  late final List excludeExtensionType;
-  late final String folderOutput;
-  late final String postFix;
-  late final String preFix;
-  late final bool folderStrategy;
-  late final String nameAssetsClass;
-  late final String nameAssetsFileKey;
+    final List<Line> lines = [
+      KeyLine('class ${rcName.pascalCase} {'),
+      KeyLine('\t ${rcName.pascalCase}._();'),
+      const EmptyLine(),
+      for (final af in data)
+        KeyLine("\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
+      KeyLine('}'),
+    ];
 
-  @override
-  void getAllElements() {
-    assetsFolder = '$mainDirectory$slash${getNodeOrDefaultValue(_folderKey)}';
-
-    excludeSubFolder = getNodeOrDefaultValue<List>(_excludeSubFolderKey)
-      ..addAll(_myExcludeSubFolder);
-    excludeExtensionType = getNodeOrDefaultValue<List>(_excludeExtensionTypeKey)
-      ..addAll(_myExcludeExtensionType);
-
-    folderOutput = getNodeOrDefaultValue(_folderOutputKey);
-
-    postFix = getNodeOrDefaultValue(_postFixKey);
-    preFix = getNodeOrDefaultValue(_preFixKey);
-
-    folderStrategy = getNodeOrDefaultValue(_pubspecStrategyKey) == 'folder';
-
-    nameAssetsClass = getNodeOrDefaultValue(_nameAssetsClassKey);
-    nameAssetsFileKey = getNodeOrDefaultValue(_nameAssetsFileKey);
-  }
-
-  @override
-  void validateData() {
-    validate(validators);
-  }
-
-  @override
-  void create(ArgResults? argResults) {
-    bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
-    final listFiles = readAllAssets();
-
-    final pub = Pubspec.init();
-    final assetsFluterNode = pub.getNodeOrDefault<Map>('flutter', {});
-    assetsFluterNode['assets'] = getElementsToPub(folderStrategy, listFiles);
-    pub
-      ..assignNewValueNode('flutter', assetsFluterNode)
-      ..saveYaml();
-
-    print(pub.yaml);
-  }
-
-  Iterable<AssetsFile> readAllAssets() {
-    return getListOfFiles(assetsFolder)
-        .map((element) => AssetsFile.init(assetsFolder, element, preFix, postFix))
-        .where((af) =>
-            !excludeSubFolder.any((element) => af.path.contains(element)) &&
-            !excludeExtensionType.any((element) => af.outputPath.contains('.$element')));
-  }
-
-  @override
-  List<ElementValidator> validators = [
-    ElementValidator(key: _folderKey),
-    ElementValidator(key: _excludeSubFolderKey, isRequired: false),
-    ElementValidator(key: _excludeSubFolderKey, isRequired: false),
-    ElementValidator(key: _folderOutputKey),
-    ElementValidator(key: _postFixKey, isRequired: false),
-    ElementValidator(key: _preFixKey, isRequired: false),
-    ElementValidator(
-      key: _pubspecStrategyKey,
-      isRequired: false,
-      validValues: [
-        'folder',
-        'file',
-        '',
-      ],
-    ),
-    ElementValidator(key: _nameAssetsClassKey),
-    ElementValidator(key: _nameAssetsFileKey),
-  ];
-
-  @override
-  Map<String, dynamic> defaultValue = {
-    _folderKey: '',
-    _excludeSubFolderKey: [],
-    _excludeExtensionTypeKey: [],
-    _folderOutputKey: '',
-    _postFixKey: '',
-    _preFixKey: '',
-    _pubspecStrategyKey: 'folder',
-    _nameAssetsClassKey: '',
-    _nameAssetsFileKey: '',
-  };
-
-  Iterable<String> getElementsToPub(bool isFolder, Iterable<AssetsFile> allElements) {
-    return isFolder ? getFolderStrategy(allElements) : getSingleStrategy(allElements);
-  }
-
-  Iterable<String> getFolderStrategy(Iterable<AssetsFile> allElements) =>
-      allElements.map((e) => e.path).toSet();
-
-  Iterable<String> getSingleStrategy(Iterable<AssetsFile> allElements) =>
-      allElements.map((e) => e.outputPath);
-
-  @override
-  T getNodeOrDefaultValue<T>(String key) {
-    return getNodeOrDefault<T>(key, defaultValue[key]);
+    toDartString(lines, 'lib/$outputPath', outName);
   }
 }

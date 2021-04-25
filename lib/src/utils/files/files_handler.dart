@@ -1,12 +1,26 @@
-import 'package:dcli/dcli.dart' show exists, StringAsProcess, createDir, copy, find;
+import 'package:dcli/dcli.dart'
+    show exists, StringAsProcess, createDir, copy, find, delete, write;
 
 bool existsUtil(String path) {
   return exists(path);
 }
 
 void createFolderUtils(String path) {
-  final ss = createDir(path, recursive: true);
-  print('FOLDER: $ss');
+  if (!existsUtil(path)) {
+    createDir(path, recursive: true);
+  }
+}
+
+void deleteFileUtils(String path) {
+  if (existsUtil(path)) {
+    delete(path);
+  }
+}
+
+void createFileUtils(String path) {
+  if (!existsUtil(path)) {
+    path.write('');
+  }
 }
 
 void copyFileUtils(String from, String to) {

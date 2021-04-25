@@ -15,4 +15,5 @@ linter:
     avoid_positional_boolean_parameters: false
     avoid_relative_lib_imports: true
     type_annotate_public_apis: false
+    cascade_invocations: true
     

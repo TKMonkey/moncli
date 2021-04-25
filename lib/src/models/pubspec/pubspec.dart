@@ -29,7 +29,7 @@ class Pubspec extends YamlModel with PubspecMixin {
       if (isKeyNode(line, lines)) {
         lines.add(KeyLine(line));
       } else if (isEmptyNode(line, lines)) {
-        lines.add(EmptyLine(line));
+        lines.add(const EmptyLine());
       } else if (isCommentNode(line)) {
         lines.add(CommentLine(line));
       }

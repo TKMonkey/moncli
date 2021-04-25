@@ -1,6 +1,6 @@
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/base_command.dart';
-import 'package:moncli/src/models/templates/asset/asset_manager.dart';
+import 'package:moncli/src/models/templates/asset/read_asset.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class AssetManagerSubCommand extends CommandBase {
@@ -41,7 +41,7 @@ class AssetManagerSubCommand extends CommandBase {
 
     final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
     if (created) {
-      AssetManager.read()
+      ReadAssets.read()
         ..validateData()
         ..create(argResults);
     }

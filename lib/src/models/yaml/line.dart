@@ -8,7 +8,7 @@ abstract class Line {
 }
 
 class EmptyLine extends Line {
-  const EmptyLine(String line) : super(line);
+  const EmptyLine() : super('');
 }
 
 class KeyLine extends Line {
