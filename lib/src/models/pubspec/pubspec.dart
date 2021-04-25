@@ -13,8 +13,9 @@ const devDependenciesKey = 'dev_dependencies';
 
 class Pubspec extends YamlModel with PubspecMixin {
   Pubspec.init({this.isDev = false, this.doSort = false}) {
-    var file = File(pubspecFileName);
+    final file = File(pubspecFileName);
     readYamlMap(file);
+    readPrimaryLines(file);
   }
 
   final lines = <Line>[];
@@ -24,7 +25,7 @@ class Pubspec extends YamlModel with PubspecMixin {
   void readPrimaryLines(File file) {
     final linesFile = file.readAsLinesSync();
 
-    for (var line in linesFile) {
+    for (final line in linesFile) {
       if (isKeyNode(line, lines)) {
         lines.add(KeyLine(line));
       } else if (isEmptyNode(line, lines)) {
@@ -48,12 +49,13 @@ class Pubspec extends YamlModel with PubspecMixin {
     final dep = formatDependecies(getNode(key));
 
     final returnValues = <PubPackageModel>[];
-    for (final dependency in list)
+    for (final dependency in list) {
       returnValues.add(
         dependency.copyWith(
           isValid: dep.remove(dependency.name) != null,
         ),
       );
+    }
 
     assignNewValueNode(key, dep);
 

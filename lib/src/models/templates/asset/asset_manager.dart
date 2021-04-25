@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:moncli/src/base/constants.dart';
+import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/models/templates/asset/asset_file.dart';
 import 'package:moncli/src/models/templates/i_template.dart';
 import 'package:moncli/src/models/yaml/element_validator.dart';
@@ -26,25 +27,35 @@ class AssetManager extends YamlModel implements ITemplate {
   static const String _nameAssetsClassKey = 'name_assets_class';
   static const String _nameAssetsFileKey = 'name_assets_file';
 
+  static const _myExcludeExtensionType = ['json', 'yaml', 'ttf', 'otf', 'fnt'];
+  static const _myExcludeSubFolder = ['fonts', 'font'];
+
   late final String assetsFolder;
   late final List excludeSubFolder;
   late final List excludeExtensionType;
   late final String folderOutput;
   late final String postFix;
   late final String preFix;
-  late final String pubspecStrategy;
+  late final bool folderStrategy;
   late final String nameAssetsClass;
   late final String nameAssetsFileKey;
 
   @override
   void getAllElements() {
     assetsFolder = '$mainDirectory$slash${getNodeOrDefaultValue(_folderKey)}';
-    excludeSubFolder = getNodeOrDefaultValue(_excludeSubFolderKey);
-    excludeExtensionType = getNodeOrDefaultValue(_excludeExtensionTypeKey);
+
+    excludeSubFolder = getNodeOrDefaultValue<List>(_excludeSubFolderKey)
+      ..addAll(_myExcludeSubFolder);
+    excludeExtensionType = getNodeOrDefaultValue<List>(_excludeExtensionTypeKey)
+      ..addAll(_myExcludeExtensionType);
+
     folderOutput = getNodeOrDefaultValue(_folderOutputKey);
+
     postFix = getNodeOrDefaultValue(_postFixKey);
     preFix = getNodeOrDefaultValue(_preFixKey);
-    pubspecStrategy = getNodeOrDefaultValue(_pubspecStrategyKey);
+
+    folderStrategy = getNodeOrDefaultValue(_pubspecStrategyKey) == 'folder';
+
     nameAssetsClass = getNodeOrDefaultValue(_nameAssetsClassKey);
     nameAssetsFileKey = getNodeOrDefaultValue(_nameAssetsFileKey);
   }
@@ -59,11 +70,14 @@ class AssetManager extends YamlModel implements ITemplate {
     bool noCreateAssetsManager = argResults != null ? argResults['nocreate'] : false;
     final listFiles = readAllAssets();
 
-    listFiles.forEach((element) {
-      print(element.toString());
-    });
+    final pub = Pubspec.init();
+    final assetsFluterNode = pub.getNodeOrDefault<Map>('flutter', {});
+    assetsFluterNode['assets'] = getElementsToPub(folderStrategy, listFiles);
+    pub
+      ..assignNewValueNode('flutter', assetsFluterNode)
+      ..saveYaml();
 
-    //final pub = Pubspec.init();
+    print(pub.yaml);
   }
 
   Iterable<AssetsFile> readAllAssets() {
@@ -107,6 +121,16 @@ class AssetManager extends YamlModel implements ITemplate {
     _nameAssetsClassKey: '',
     _nameAssetsFileKey: '',
   };
+
+  Iterable<String> getElementsToPub(bool isFolder, Iterable<AssetsFile> allElements) {
+    return isFolder ? getFolderStrategy(allElements) : getSingleStrategy(allElements);
+  }
+
+  Iterable<String> getFolderStrategy(Iterable<AssetsFile> allElements) =>
+      allElements.map((e) => e.path).toSet();
+
+  Iterable<String> getSingleStrategy(Iterable<AssetsFile> allElements) =>
+      allElements.map((e) => e.outputPath);
 
   @override
   T getNodeOrDefaultValue<T>(String key) {

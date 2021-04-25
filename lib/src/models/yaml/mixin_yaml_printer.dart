@@ -4,16 +4,18 @@ import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/yaml/line.dart';
 
 mixin YamlPrinterMixin {
+  bool firtstFont = false;
+
   /// Serializes [yaml] into a String and returns it.
   void toYamlString(
     Map yaml,
     List<Line> listLines,
   ) {
-    var sb = StringBuffer();
+    final sb = StringBuffer();
 
-    for (var node in listLines) {
+    for (final node in listLines) {
       if (node is KeyLine) {
-        var sbk = StringBuffer();
+        final sbk = StringBuffer();
         writeYamlString({node.key: yaml[node.key]}, sbk);
 
         /// moves text to be inline with [hyphen '-']
@@ -53,22 +55,22 @@ mixin YamlPrinterMixin {
   ) {
     /// quotes single length special characters
     if (node.length == 1 && specialCharacters.contains(node)) {
-      ss..writeln("'${_escapeString(node)}'");
+      ss.writeln("'${_escapeString(node)}'");
 
       /// most numbers are found to be strings, and they should be displayed as
       /// such, not as numbers
     } else if (int.tryParse(node) != null || double.tryParse(node) != null) {
-      ss..writeln('${_escapeString(node)}');
+      ss.writeln(_escapeString(node));
 
       /// if contains escape sequences, maintain those
     } else if (node.contains('\r') || node.contains('\n') || node.contains('\t')) {
-      ss..writeln('${_withEscapes(node)}');
+      ss.writeln(_withEscapes(node));
 
       /// if it contains a [colon, ':'] then put it in quotes to not confuse Yaml
     } else if (node.contains('\\')) {
-      ss..writeln('${_escapeString(node).replaceAll(r'\', r'\\')}');
+      ss.writeln(_escapeString(node).replaceAll(r'\', r'\\'));
     } else {
-      ss..writeln('${_escapeString(node)}');
+      ss.writeln(_escapeString(node));
     }
   }
 
@@ -81,27 +83,33 @@ mixin YamlPrinterMixin {
   String _escapeString(String s) => s.replaceAll('"', r'\"').replaceAll('\n', r'\n');
 
   void _mapToYamlString(Map node, int indent, StringSink ss, bool isTopLevel) {
+    int newIndet = indent;
     if (!isTopLevel) {
       ss.writeln();
-      indent += 2;
+      newIndet += 2;
     }
 
     node.forEach((k, v) {
-      _writeIndent(indent, ss);
+      if (k == 'fonts' && v is List && !firtstFont) {
+        ss.writeln();
+        firtstFont = true;
+      }
+      _writeIndent(newIndet, ss);
       ss..write(k)..write(': ');
-      _writeYamlType(v, indent, ss, false);
+      _writeYamlType(v, newIndet, ss, false);
     });
   }
 
   void _listToYamlString(Iterable node, int indent, StringSink ss, bool isTopLevel) {
+    int newIndet = indent;
     if (!isTopLevel) {
       ss.writeln();
-      indent += 2;
+      newIndet += 2;
     }
-    for (var n in node) {
-      _writeIndent(indent, ss);
+    for (final n in node) {
+      _writeIndent(newIndet, ss);
       ss.write('- ');
-      _writeYamlType(n, indent, ss, false);
+      _writeYamlType(n, newIndet, ss, false);
     }
   }
 

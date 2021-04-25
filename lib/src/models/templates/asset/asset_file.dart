@@ -15,7 +15,7 @@ class AssetsFile {
     final outputPath = asf + element.split(asf).last;
     final tokeneizer = outputPath.split('/');
 
-    final path = tokeneizer.sublist(0, tokeneizer.length - 1).join('/');
+    final path = '${tokeneizer.sublist(0, tokeneizer.length - 1).join('/')}/';
     final nameFile = tokeneizer.last.split('.');
     final type = nameFile.last;
 
