@@ -1,5 +1,6 @@
-import 'package:moncli/src/base/constants.dart';
 import 'package:dcli/dcli.dart' show StringAsProcess;
+import 'package:moncli/src/base/constants.dart';
+
 import 'logger/prompt.dart';
 import 'utils.dart';
 
@@ -8,7 +9,9 @@ abstract class CommandUtils {
     final exists = existsUtil(templateFolderPath);
     var response = true;
     if (!exists) {
-      response = confirmDcli('Do you want to create ${green('template folder')} ?');
+      response = confirmDcli(
+          'Do you want to create ${green('template folder')} ?',
+          defaultValue: true);
       if (response) createFolderUtils(templateFolderPath);
     }
 
@@ -32,13 +35,16 @@ class PubCommandUtils extends CommandUtils {
     if (responseFolder) {
       exists = existsUtil(assetsOutputPath);
       if (!exists) {
-        response =
-            confirmDcli('Do you want to create ${green('assets template file')} ?');
+        response = confirmDcli(
+            'Do you want to create ${green('assets template file')} ?',
+            defaultValue: true);
       } else if (overwrite) {
         logger.alert('The file will be overwritten');
       }
     }
-    if (overwrite || response) copyFileUtils(assetsTemplatePath, assetsOutputPath);
+    if (overwrite || response) {
+      copyFileUtils(assetsTemplatePath, assetsOutputPath);
+    }
 
     return exists || response;
   }

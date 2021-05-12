@@ -1,7 +1,7 @@
 import 'package:dcli/dcli.dart' show confirm;
 
-bool confirmDcli(String message) {
-  return confirm(message);
+bool confirmDcli(String message, {bool? defaultValue}) {
+  return confirm(message, defaultValue: defaultValue);
 }
 
 // mixin PromptMessage {
