@@ -41,7 +41,8 @@ class ReadAssets extends YamlModel implements ITemplate {
   void getAllElements() {
     assetsFolder = '$mainDirectory$slash${getNodeOrDefaultValue(_folderKey)}';
     excludeSubFolder = getNodeOrDefaultValue<List>(_excludeSubFolderKey);
-    excludeExtensionType = getNodeOrDefaultValue<List>(_excludeExtensionTypeKey);
+    excludeExtensionType =
+        getNodeOrDefaultValue<List>(_excludeExtensionTypeKey);
     folderOutput = getNodeOrDefaultValue(_folderOutputKey);
     postFix = getNodeOrDefaultValue(_postFixKey);
     preFix = getNodeOrDefaultValue(_preFixKey);
@@ -80,10 +81,12 @@ class ReadAssets extends YamlModel implements ITemplate {
 
   Iterable<AssetsFile> readAllAssets() {
     return getListOfFiles(assetsFolder)
-        .map((element) => AssetsFile.init(assetsFolder, element, preFix, postFix))
+        .map((element) =>
+            AssetsFile.init(assetsFolder, element, preFix, postFix))
         .where((af) =>
             !excludeSubFolder.any((element) => af.path.contains(element)) &&
-            !excludeExtensionType.any((element) => af.outputPath.contains('.$element')));
+            !excludeExtensionType
+                .any((element) => af.outputPath.contains('.$element')));
   }
 
   @override
@@ -120,8 +123,11 @@ class ReadAssets extends YamlModel implements ITemplate {
     _nameAssetsFileKey: '',
   };
 
-  Iterable<String> getElementsToPub(bool isFolder, Iterable<AssetsFile> allElements) {
-    return isFolder ? getFolderStrategy(allElements) : getSingleStrategy(allElements);
+  Iterable<String> getElementsToPub(
+      bool isFolder, Iterable<AssetsFile> allElements) {
+    return isFolder
+        ? getFolderStrategy(allElements)
+        : getSingleStrategy(allElements);
   }
 
   Iterable<String> getFolderStrategy(Iterable<AssetsFile> allElements) =>
