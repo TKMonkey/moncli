@@ -4,6 +4,9 @@ import 'package:recase/recase.dart';
 
 import 'asset_file.dart';
 
+//TODO Order output for name
+// * Set comment with the name of subfolder
+
 class AssetManager with DartClassGenerator {
   AssetManager({
     required this.name,
@@ -27,7 +30,7 @@ class AssetManager with DartClassGenerator {
       KeyLine('\t ${rcName.pascalCase}._();'),
       const EmptyLine(),
       for (final af in data)
-        KeyLine("\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
+        KeyLine("\tString get ${ReCase(af.outputVar).camelCase} => '${af.outputPath}';"),
       KeyLine('}'),
     ];
 
