@@ -53,7 +53,11 @@ mixin YamlPrinterMixin {
     int indent,
   ) {
     /// quotes single length special characters
-    if (node.length == 1 && specialCharacters.contains(node)) {
+    final isSingleLengthSpecialCharacter =
+        node.length == 1 && specialCharacters.contains(node);
+    final containsGreaterThanChar = node.contains('>');
+
+    if (isSingleLengthSpecialCharacter || containsGreaterThanChar) {
       ss.writeln("'${_escapeString(node)}'");
 
       /// most numbers are found to be strings, and they should be displayed as
@@ -62,7 +66,9 @@ mixin YamlPrinterMixin {
       ss.writeln(_escapeString(node));
 
       /// if contains escape sequences, maintain those
-    } else if (node.contains('\r') || node.contains('\n') || node.contains('\t')) {
+    } else if (node.contains('\r') ||
+        node.contains('\n') ||
+        node.contains('\t')) {
       ss.writeln(_withEscapes(node));
 
       /// if it contains a [colon, ':'] then put it in quotes to not confuse Yaml
@@ -79,7 +85,8 @@ mixin YamlPrinterMixin {
       .replaceAll('\n', '\\n')
       .replaceAll('\"', '\\"');
 
-  String _escapeString(String s) => s.replaceAll('"', r'\"').replaceAll('\n', r'\n');
+  String _escapeString(String s) =>
+      s.replaceAll('"', r'\"').replaceAll('\n', r'\n');
 
   void _mapToYamlString(Map node, int indent, StringSink ss, bool isTopLevel) {
     int newIndet = indent;
@@ -99,7 +106,8 @@ mixin YamlPrinterMixin {
     });
   }
 
-  void _listToYamlString(Iterable node, int indent, StringSink ss, bool isTopLevel) {
+  void _listToYamlString(
+      Iterable node, int indent, StringSink ss, bool isTopLevel) {
     int newIndet = indent;
     if (!isTopLevel) {
       ss.writeln();
