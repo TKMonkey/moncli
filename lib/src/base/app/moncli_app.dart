@@ -28,7 +28,7 @@ class Moncli with CommandLineApp {
   }
 
   @override
-  String get name => 'Moncli';
+  String get name => 'moncli';
 
   @override
   String get version => 'Version: 0.0.1';

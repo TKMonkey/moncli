@@ -90,7 +90,7 @@ class ReadAssets extends YamlModel implements ITemplate {
   List<ElementValidator> validators = [
     ElementValidator(key: _folderKey),
     ElementValidator(key: _excludeSubFolderKey, isRequired: false),
-    ElementValidator(key: _excludeSubFolderKey, isRequired: false),
+    ElementValidator(key: _excludeExtensionTypeKey, isRequired: false),
     ElementValidator(key: _folderOutputKey),
     ElementValidator(key: _postFixKey, isRequired: false),
     ElementValidator(key: _preFixKey, isRequired: false),

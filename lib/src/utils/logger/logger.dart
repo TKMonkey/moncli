@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:moncli/src/utils/logger/colors.dart';
 
 /// A basic Logger which wraps [print] and applies various styles.
-/// Copy from Mason library
+/// Based from Mason library
 
 Logger get logger => Logger._();
 
