@@ -6,10 +6,10 @@ class AssetManagerSubCommand extends CommandBase {
   AssetManagerSubCommand() {
     argParser
       ..addFlag(
-        'nocreate',
-        abbr: 'n',
-        negatable: false,
-        help: 'No create the AssetManager class in Dart',
+        'create',
+        abbr: 'c',
+        defaultsTo: true,
+        help: 'Create the AssetManager class in Dart',
       )
       ..addFlag(
         'overwrite',
