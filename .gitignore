@@ -18,3 +18,5 @@ filetest/*
 filetest/pubspec_test.yaml
 
 .vscode
+
+.idea
