@@ -40,9 +40,7 @@ class AssetManagerSubCommand extends CommandBase {
 
     final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
     if (created) {
-      ReadAssets.read()
-        ..validateData()
-        ..create(argResults);
+      ReadAssets(argResults: argResults!);
     }
   }
 }
