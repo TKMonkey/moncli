@@ -16,6 +16,9 @@ class YamlMapNode implements IMapNode {
   Map<String, INode> get value => Map.unmodifiable(_value);
 
   @override
+  Map<String, INode> get mutableValue => Map.of(_value);
+
+  @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
     var firstFont = false;
 
