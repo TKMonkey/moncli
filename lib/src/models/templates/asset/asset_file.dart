@@ -34,7 +34,8 @@ class AssetsFile {
   final String outputPath;
 
   @override
-  String toString() => 'path: $path, outputVar: $outputVar, outputPath: $outputPath';
+  String toString() =>
+      'AssetsFile(path: $path, outputVar: $outputVar, outputPath: $outputPath)';
 }
 
 String getFixValue(
