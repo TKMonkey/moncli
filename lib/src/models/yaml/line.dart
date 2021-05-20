@@ -1,7 +1,34 @@
 abstract class Line {
+  static bool _isEmptyNode(String lineStr, Iterable<Line> lines) =>
+      lineStr.isEmpty && lines.isNotEmpty && lines.last is! EmptyLine;
+
+  static bool _isCommentNode(String lineStr) => lineStr.startsWith('#');
+
+  static bool _isSubNode(String lineStr) =>
+      lineStr.startsWith(' ') || !lineStr.contains(':');
+
+  static bool _isKeyNode(String lineStr, Iterable<Line> lines) =>
+      !_isEmptyNode(lineStr, lines) &&
+      !_isCommentNode(lineStr) &&
+      !_isSubNode(lineStr);
+
   const Line(this.line);
 
   final String line;
+
+  static Line? create(String string, Iterable<Line> lines) {
+    if (_isKeyNode(string, lines)) {
+      return KeyLine(string);
+    }
+
+    if (_isEmptyNode(string, lines)) {
+      return const EmptyLine();
+    }
+
+    if (_isCommentNode(string)) {
+      return CommentLine(string);
+    }
+  }
 
   @override
   String toString() => line;
