@@ -1,27 +1,22 @@
 import 'dart:collection';
 
+import 'package:moncli/src/models/node/i_map_node.dart';
+import 'package:moncli/src/models/node/i_node.dart';
 import 'package:moncli/src/models/pub_package.dart';
-import 'package:moncli/src/models/yaml/line.dart';
+import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 
 mixin PubspecMixin {
-  bool isEmptyNode(String lineStr, List<Line> lines) =>
-      lineStr.isEmpty && lines.isNotEmpty && lines.last is! EmptyLine;
-
-  bool isCommentNode(String lineStr) => lineStr.startsWith('#');
-
-  bool isSubNode(String lineStr) => lineStr.startsWith(' ') || !lineStr.contains(':');
-
-  bool isKeyNode(String lineStr, List<Line> lines) =>
-      !isEmptyNode(lineStr, lines) && !isCommentNode(lineStr) && !isSubNode(lineStr);
-
-  Map orderDependenciesMap(
+  Map<String, INode> orderDependenciesMap(
     String key,
-    Map? initialMap, {
+    IMapNode initialMap, {
     List<PubPackageModel> list = const [],
     bool sort = false,
   }) {
-    final dependencies = formatDependecies(initialMap)
-      ..addAll({for (var pkg in list) pkg.name: pkg.version});
+    final dependencies = initialMap.value
+      ..addAll({
+        for (var pkg in list)
+          pkg.name: INode.create(pkg.version, YamlNodeFactory.sInstance)
+      });
 
     return sort
         ? SplayTreeMap.from(
@@ -35,12 +30,12 @@ mixin PubspecMixin {
         : dependencies;
   }
 
-  Map formatDependecies(Map? initialMap) {
-    return Map.of(
-      (initialMap ?? {}).map(
-        (key, value) => MapEntry(key, value ?? ''),
-      ),
-    );
+  IMapNode formatDependencies(INode? initialMap) {
+    return (initialMap != null)
+        ? initialMap is IMapNode
+            ? initialMap
+            : YamlNodeFactory.sInstance.emptyIMapNode
+        : YamlNodeFactory.sInstance.emptyIMapNode;
   }
 
   int compareMap(Map map, dynamic key1, dynamic key2) {

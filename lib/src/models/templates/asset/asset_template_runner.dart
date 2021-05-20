@@ -1,3 +1,5 @@
+import 'package:moncli/src/models/node/i_node.dart';
+import 'package:moncli/src/models/node/i_node_factory.dart';
 import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/models/templates/asset/asset_file.dart';
 import 'package:moncli/src/models/templates/asset/asset_manager.dart';
@@ -14,17 +16,27 @@ class AssetTemplateRunnnerParams {
 
 class AssetTemplateRunnner
     implements ITemplateRunner<AssetTemplate, AssetTemplateRunnnerParams> {
+  final INodeFactory _nodeFactory;
+
+  static const flutterKey = "flutter";
+  static const assetsKey = "assets";
+
+  AssetTemplateRunnner(this._nodeFactory);
+
   @override
   void call(AssetTemplate template, AssetTemplateRunnnerParams params) {
     final listFiles = _readAllAssets(template);
-
     final pub = Pubspec.init();
-    final assetsFluterNode = pub.getNodeOrDefault<Map>('flutter', {});
-    assetsFluterNode['assets'] =
-        _getElementsToPub(template.folderStrategy, listFiles);
-    pub
-      ..assignNewValueNode('flutter', assetsFluterNode)
-      ..saveYaml();
+    final assetsFlutterNode = pub
+        .getNodeOrDefault(flutterKey, _nodeFactory.emptyIMapNode)
+        .mutableValue;
+
+    assetsFlutterNode[assetsKey] = INode.create(
+        _getElementsToPub(template.folderStrategy, listFiles), _nodeFactory);
+
+    pub[flutterKey] = _nodeFactory.createMapNode(assetsFlutterNode);
+
+    pub.saveYaml();
 
     if (params.create) {
       AssetManager(
@@ -42,9 +54,9 @@ class AssetTemplateRunnner
             template.assetsFolder, element, template.preFix, template.postFix))
         .where((af) =>
             !template.excludeSubFolder
-                .any((element) => af.path.contains(element)) &&
+                .any((element) => af.path.contains(element.value)) &&
             !template.excludeExtensionType
-                .any((element) => af.outputPath.contains('.$element')));
+                .any((element) => af.outputPath.contains('.${element.value}')));
   }
 
   Iterable<String> _getElementsToPub(
