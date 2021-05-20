@@ -11,14 +11,16 @@ Future<bool> unused(ArgResults argResults) async {
   final dependencies = yaml.getDependencies();
   final listUnused = <PubPackageModel>[];
 
-  for (final name in dependencies.keys) {
+  for (final name in dependencies.value.keys) {
     if (name == 'flutter') {
       continue;
     }
 
     final isUsingPackage = isUsedInProject(name);
     if (!isUsingPackage) {
-      listUnused.add(PubPackageModel(name, version: dependencies[name]));
+      //TODO: Check dependencies.value[name]!.value os w'rmoeg as expected
+      listUnused
+          .add(PubPackageModel(name, version: dependencies.value[name]!.value));
     }
   }
 
