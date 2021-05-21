@@ -4,6 +4,9 @@ import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class AssetManagerSubCommand extends CommandBase {
+  static const createFlag = 'create';
+  static const overwriteFlag = 'overwrite';
+
   AssetManagerSubCommand() {
     argParser
       ..addFlag(
