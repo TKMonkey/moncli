@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/yaml/yaml.dart';
 import 'package:moncli/src/models/yaml/line/yaml_line.dart';
+import 'package:moncli/src/models/yaml/yaml.dart';
 
 mixin YamlPrinterMixin {
   bool firstFont = false;
