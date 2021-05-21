@@ -4,7 +4,7 @@ import 'package:moncli/src/utils/files/files_handler.dart';
 
 mixin DartClassGenerator {
   void toDartString(
-    List<Line> listLines,
+    List<YamlLine> listLines,
     String outputpath,
     String outputName,
   ) {

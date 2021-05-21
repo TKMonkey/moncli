@@ -20,14 +20,16 @@ class AssetManager with DartClassGenerator {
   void write() {
     final rcName = ReCase(name);
     final rcOutputName = ReCase(outputName).snakeCase;
-    final outName = rcOutputName.contains('.dart') ? rcOutputName : '$rcOutputName.dart';
+    final outName =
+        rcOutputName.contains('.dart') ? rcOutputName : '$rcOutputName.dart';
 
-    final List<Line> lines = [
+    final List<YamlLine> lines = [
       KeyLine('class ${rcName.pascalCase} {'),
       KeyLine('\t ${rcName.pascalCase}._();'),
       const EmptyLine(),
       for (final af in data)
-        KeyLine("\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
+        KeyLine(
+            "\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
       KeyLine('}'),
     ];
 

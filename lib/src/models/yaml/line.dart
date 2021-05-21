@@ -1,5 +1,9 @@
-abstract class Line {
-  static bool _isEmptyNode(String lineStr, Iterable<Line> lines) =>
+import 'package:moncli/src/models/node/i_node.dart';
+import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
+import 'package:moncli/src/models/yaml/yaml.dart';
+
+abstract class YamlLine {
+  static bool _isEmptyNode(String lineStr, Iterable<YamlLine> lines) =>
       lineStr.isEmpty && lines.isNotEmpty && lines.last is! EmptyLine;
 
   static bool _isCommentNode(String lineStr) => lineStr.startsWith('#');
@@ -7,16 +11,16 @@ abstract class Line {
   static bool _isSubNode(String lineStr) =>
       lineStr.startsWith(' ') || !lineStr.contains(':');
 
-  static bool _isKeyNode(String lineStr, Iterable<Line> lines) =>
+  static bool _isKeyNode(String lineStr, Iterable<YamlLine> lines) =>
       !_isEmptyNode(lineStr, lines) &&
       !_isCommentNode(lineStr) &&
       !_isSubNode(lineStr);
 
-  const Line(this.line);
+  const YamlLine(this.line);
 
   final String line;
 
-  static Line? create(String string, Iterable<Line> lines) {
+  static YamlLine? create(String string, Iterable<YamlLine> lines) {
     if (_isKeyNode(string, lines)) {
       return KeyLine(string);
     }
@@ -34,11 +38,11 @@ abstract class Line {
   String toString() => line;
 }
 
-class EmptyLine extends Line {
+class EmptyLine extends YamlLine {
   const EmptyLine() : super('');
 }
 
-class KeyLine extends Line {
+class KeyLine extends YamlLine {
   KeyLine(String line) : super(line) {
     final split = line.split(' ');
     key = _getKey(split);
@@ -46,12 +50,12 @@ class KeyLine extends Line {
     other = _getOther(split);
   }
 
-  final subNodes = <Line>[];
+  final subNodes = <YamlLine>[];
   late final String key;
   late final String value;
   late final String other;
 
-  void add(Line subNode) {
+  void add(YamlLine subNode) {
     subNodes.add(subNode);
   }
 
@@ -62,10 +66,10 @@ class KeyLine extends Line {
   String _getOther(List<String> split) => split.length > 2 ? split[2] : '';
 }
 
-class CommentLine extends Line {
+class CommentLine extends YamlLine {
   const CommentLine(String line) : super(line);
 }
 
-class SubLine extends Line {
+class SubLine extends YamlLine {
   const SubLine(String line) : super(line);
 }

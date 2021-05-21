@@ -21,7 +21,7 @@ class Pubspec extends Yaml with PubspecMixin {
     readPrimaryLines(File(pubspecFileName));
   }
 
-  final lines = <Line>[];
+  final lines = <YamlLine>[];
   final bool isDev;
   final bool doSort;
 
@@ -29,7 +29,7 @@ class Pubspec extends Yaml with PubspecMixin {
     final linesFile = file.readAsLinesSync();
 
     for (final line in linesFile) {
-      final newLine = Line.create(line, lines);
+      final newLine = YamlLine.create(line, lines);
       if (newLine != null) {
         lines.add(newLine);
       }

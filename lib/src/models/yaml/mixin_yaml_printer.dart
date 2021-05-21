@@ -12,7 +12,7 @@ mixin YamlPrinterMixin {
   /// Serializes [yaml] into a String and returns it.
   void toYamlString(
     Yaml yaml,
-    List<Line> listLines,
+    List<YamlLine> listLines,
   ) {
     final sb = StringBuffer();
 
