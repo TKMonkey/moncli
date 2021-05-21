@@ -40,12 +40,3 @@ abstract class YamlLine {
   @override
   String toString() => line;
 }
-
-class SubLine extends YamlLine {
-  const SubLine(String line) : super(line);
-
-  @override
-  void writeIntoSink(StringSink sink, Yaml yaml) {
-    sink.writeln(line);
-  }
-}
