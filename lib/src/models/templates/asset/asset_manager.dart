@@ -1,4 +1,5 @@
 import 'package:moncli/src/models/dartclass/dartclass_generator.dart';
+import 'package:moncli/src/models/yaml/line/empty_line.dart';
 import 'package:moncli/src/models/yaml/line/yaml_line.dart';
 import 'package:recase/recase.dart';
 

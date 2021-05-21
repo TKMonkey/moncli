@@ -1,4 +1,5 @@
 import 'package:moncli/src/models/node/i_node.dart';
+import 'package:moncli/src/models/yaml/line/empty_line.dart';
 import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 import 'package:moncli/src/models/yaml/yaml.dart';
 
@@ -38,15 +39,6 @@ abstract class YamlLine {
 
   @override
   String toString() => line;
-}
-
-class EmptyLine extends YamlLine {
-  const EmptyLine() : super('');
-
-  @override
-  void writeIntoSink(StringSink sink, Yaml yaml) {
-    sink.writeln(line);
-  }
 }
 
 class KeyLine extends YamlLine {
