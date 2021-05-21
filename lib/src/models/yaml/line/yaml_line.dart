@@ -1,9 +1,10 @@
+import 'package:moncli/src/models/line.dart';
 import 'package:moncli/src/models/yaml/line/comment_line.dart';
 import 'package:moncli/src/models/yaml/line/empty_line.dart';
 import 'package:moncli/src/models/yaml/line/key_line.dart';
 import 'package:moncli/src/models/yaml/yaml.dart';
 
-abstract class YamlLine {
+abstract class YamlLine extends Line {
   static bool _isEmptyNode(String lineStr, Iterable<YamlLine> lines) =>
       lineStr.isEmpty && lines.isNotEmpty && lines.last is! EmptyLine;
 
@@ -17,9 +18,7 @@ abstract class YamlLine {
       !_isCommentNode(lineStr) &&
       !_isSubNode(lineStr);
 
-  const YamlLine(this.line);
-
-  final String line;
+  const YamlLine(String line) : super(line);
 
   static YamlLine? create(String string, Iterable<YamlLine> lines) {
     if (_isKeyNode(string, lines)) {
@@ -36,7 +35,4 @@ abstract class YamlLine {
   }
 
   void writeIntoSink(StringSink sink, Yaml yaml);
-
-  @override
-  String toString() => line;
 }
