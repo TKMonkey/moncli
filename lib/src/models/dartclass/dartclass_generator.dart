@@ -1,5 +1,5 @@
 import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/yaml/yaml_line.dart';
+import 'package:moncli/src/models/yaml/line/yaml_line.dart';
 import 'package:moncli/src/utils/files/files_handler.dart';
 
 mixin DartClassGenerator {

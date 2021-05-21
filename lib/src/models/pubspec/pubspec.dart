@@ -7,7 +7,7 @@ import 'package:moncli/src/models/node/i_string_node.dart';
 import 'package:moncli/src/models/pub_package.dart';
 import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 import 'package:moncli/src/models/yaml/yaml.dart';
-import 'package:moncli/src/models/yaml/yaml_line.dart';
+import 'package:moncli/src/models/yaml/line/yaml_line.dart';
 import 'package:yaml/yaml.dart';
 
 import 'mixin_pubspec.dart';
