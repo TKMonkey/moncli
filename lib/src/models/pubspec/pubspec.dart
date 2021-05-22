@@ -14,6 +14,8 @@ import 'package:yaml/yaml.dart';
 
 import 'mixin_pubspec.dart';
 
+const assetsKey = 'assets';
+const flutterKey = 'flutter';
 const dependenciesKey = 'dependencies';
 const devDependenciesKey = 'dev_dependencies';
 
@@ -147,14 +149,14 @@ class Pubspec extends Yaml with PubspecMixin {
       formatDependencies(getNodeAs<IMapNode>(dependenciesKey));
 
   bool get containsFlutterKey =>
-      getNodeOrDefault('dependencies', YamlNodeFactory.sInstance.emptyIMapNode)
+      getNodeOrDefault(dependenciesKey, YamlNodeFactory.sInstance.emptyIMapNode)
           .value
-          .containsKey('flutter');
+          .containsKey(flutterKey);
 
   bool get containsAssetsKey =>
-      getNodeOrDefault('flutter', YamlNodeFactory.sInstance.emptyIMapNode)
+      getNodeOrDefault(flutterKey, YamlNodeFactory.sInstance.emptyIMapNode)
           .value
-          .containsKey('assets');
+          .containsKey(assetsKey);
 
   Map<String, dynamic> _getScriptFile(String scriptsFile) {
     final path = '$mainDirectory$slash$scriptsFile';
