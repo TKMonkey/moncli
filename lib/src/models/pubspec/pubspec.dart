@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/node/i_map_node.dart';
 import 'package:moncli/src/models/node/i_node.dart';
+import 'package:moncli/src/models/node/i_null_node.dart';
 import 'package:moncli/src/models/node/i_string_node.dart';
 import 'package:moncli/src/models/pub_package.dart';
+import 'package:moncli/src/models/yaml/line/empty_line.dart';
 import 'package:moncli/src/models/yaml/line/yaml_line.dart';
 import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 import 'package:moncli/src/models/yaml/yaml.dart';
@@ -24,6 +26,43 @@ class Pubspec extends Yaml with PubspecMixin {
   final lines = <YamlLine>[];
   final bool isDev;
   final bool doSort;
+
+  @override
+  void operator []=(String key, INode value) {
+    _addToLinesIfNeeded(key, value);
+    super[key] = value;
+  }
+
+  @override
+  void addAll(Map<String, INode> other) {
+    for (final entry in other.entries) {
+      _addToLinesIfNeeded(entry.key, entry.value);
+    }
+    super.addAll(other);
+  }
+
+  @override
+  void addEntries(Iterable<MapEntry<String, INode>> newEntries) {
+    for (final entry in newEntries) {
+      _addToLinesIfNeeded(entry.key, entry.value);
+    }
+    internalMap.addEntries(newEntries);
+  }
+
+  @override
+  INode putIfAbsent(String key, INode Function() ifAbsent) {
+    if (this[key] is! INullNode) {
+      return this[key];
+    }
+
+    //Calling ifAbsent and caching value to prevent it from being called more than once
+    final ifAbsentValue = ifAbsent();
+
+    _addToLinesIfNeeded(key, ifAbsentValue);
+
+    //Create new ifAbsent function to return cached value instead of calling original ifAbsent again
+    return super.putIfAbsent(key, () => ifAbsentValue);
+  }
 
   void readPrimaryLines(File file) {
     final linesFile = file.readAsLinesSync();
@@ -122,5 +161,20 @@ class Pubspec extends Yaml with PubspecMixin {
 
     final file = File(path);
     return Map.of(loadYaml(file.readAsStringSync()));
+  }
+
+  /// Adds new line to lines if key is not currently in the yaml file
+  void _addToLinesIfNeeded(String key, INode value) {
+    if (this[key] is! INullNode) {
+      return;
+    }
+
+    final newLine = YamlLine.create('$key:', lines);
+
+    if (newLine == null) {
+      return;
+    }
+
+    lines..add(const EmptyLine())..add(newLine);
   }
 }
