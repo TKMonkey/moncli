@@ -15,7 +15,8 @@ class MoncliMap implements Map<String, INode> {
   Map<String, INode> internalMap;
   final INullNode _nullNode;
 
-  MoncliMap(this._nullNode, [this.internalMap = const {}]);
+  MoncliMap(this._nullNode, [Map<String, INode>? internalMap])
+      : internalMap = internalMap ?? Map.from({});
 
   @override
   INode operator [](Object? key) {
