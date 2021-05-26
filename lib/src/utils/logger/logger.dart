@@ -1,4 +1,6 @@
 import 'dart:io';
+
+import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/utils/logger/colors.dart';
 
 /// A basic Logger which wraps [print] and applies various styles.
@@ -41,4 +43,17 @@ class Logger {
 
   /// Writes delayed message to stdout.
   void delayed(String message) => _queue.add(message);
+
+  void reportNodeValidators(Iterable<NodeValidator> nodeValidators) {
+    if (nodeValidators.isNotEmpty) {
+      logger.err('Errors with validators');
+    }
+
+    nodeValidators
+        .map((nodeValidator) => nodeValidator.toReasonMapEntry())
+        .forEach(
+          (mapEntry) =>
+              logger.info('${yellow(mapEntry.key)}: ${mapEntry.value}'),
+        );
+  }
 }
