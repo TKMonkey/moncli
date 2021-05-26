@@ -135,25 +135,8 @@ class MoncliMap implements Map<String, INode> {
     return value;
   }
 
-  void validate(List<NodeValidator> validators) {
-    final filter = validators
-        .map((validator) => this[validator.key].validate(validator))
-        .where((element) => !element.isValid)
-        .toList()
-        .asMap()
-        .map((key, validator) => MapEntry(validator.key, validator.reason));
-
-    reportErrorsValidator(filter);
-  }
-
-  void reportErrorsValidator(Map<String, String> validateMap) {
-    if (validateMap.isNotEmpty) {
-      logger.err('Errors with validators');
-      for (final element in validateMap.entries) {
-        logger.info('${yellow(element.key)}: ${element.value}');
-      }
-
-      throw const ValidatorsException();
-    }
-  }
+  Iterable<NodeValidator> getValidation(Iterable<NodeValidator> validators) =>
+      validators
+          .map((validator) => this[validator.key].validate(validator))
+          .where((element) => !element.isValid);
 }
