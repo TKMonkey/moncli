@@ -8,20 +8,27 @@ class NodeValidator {
   final String key;
   final bool isRequired;
   final List<dynamic> validValues;
-  String reason = '';
+  String _reason = '';
 
-  void validateValue(dynamic value) {
-    reason = validValues.isEmpty || validValues.contains(value)
-        ? ""
-        : "valid values are: $validValues but received: $value";
+  String get reason => _reason;
+
+  void validateValue(dynamic? value) {
+    if (isRequired && value == null) {
+      _reason = '$key is required';
+      return;
+    }
+
+    if (validValues.isNotEmpty && !validValues.contains(value)) {
+      _reason = "valid values are: $validValues but received: $value";
+    }
   }
 
-  bool get isValid => reason.isEmpty;
+  bool get isValid => _reason.isEmpty;
 
   @override
   String toString() {
-    return 'NodeValidator{key: $key, isRequired: $isRequired, validValues: $validValues, reason: $reason}';
+    return 'NodeValidator{key: $key, isRequired: $isRequired, validValues: $validValues, reason: $_reason}';
   }
 
-  MapEntry<String, String> toReasonMapEntry() => MapEntry(key, reason);
+  MapEntry<String, String> toReasonMapEntry() => MapEntry(key, _reason);
 }
