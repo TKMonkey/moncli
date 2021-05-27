@@ -16,8 +16,6 @@ class YamlNullNode implements INullNode {
   }
 
   @override
-  NodeValidator validate(NodeValidator elementValidator) => elementValidator
-    ..reason = elementValidator.isRequired
-        ? '${elementValidator.key} is required'
-        : "";
+  NodeValidator validate(NodeValidator elementValidator) =>
+      elementValidator..validateValue(null);
 }
