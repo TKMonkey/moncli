@@ -2,8 +2,12 @@ class NodeValidator {
   NodeValidator({
     required this.key,
     this.isRequired = true,
-    this.validValues = const [],
-  });
+    validValues = const [],
+  }) : validValues = isRequired
+            ? validValues
+            : validValues.isEmpty
+                ? []
+                : [...validValues, null];
 
   final String key;
   final bool isRequired;

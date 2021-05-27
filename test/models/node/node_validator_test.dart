@@ -107,7 +107,8 @@ void main() {
         });
       });
       group("not required", () {
-        test("null value, isValid should be set to true", () {
+        test("null value and empty validValues, isValid should be set to true",
+            () {
           //Arrange
           final nodeValidator =
               NodeValidator(key: "testKey", validValues: [], isRequired: false);
@@ -119,6 +120,38 @@ void main() {
           // Assert
           expect(nodeValidator.isValid, isTrue);
         });
+
+        test(
+            "null value and non-empty validValues, isValid should be set to true",
+            () {
+          //Arrange
+          final nodeValidator = NodeValidator(
+              key: "testKey",
+              validValues: ["ooneValue", "anotherValue"],
+              isRequired: false);
+
+          //Act
+          // ignore: cascade_invocations
+          nodeValidator.validateValue(null);
+
+          // Assert
+          expect(nodeValidator.isValid, isTrue);
+        });
+
+        test("null value and empty validValues, isValid should be set to true",
+            () {
+          //Arrange
+          final nodeValidator =
+              NodeValidator(key: "testKey", validValues: [], isRequired: false);
+
+          //Act
+          // ignore: cascade_invocations
+          nodeValidator.validateValue(null);
+
+          // Assert
+          expect(nodeValidator.isValid, isTrue);
+        });
+
         test("non-empty value and empty validValues, isValid should be true",
             () {
           //Arrange
