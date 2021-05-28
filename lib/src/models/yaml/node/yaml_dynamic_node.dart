@@ -11,7 +11,7 @@ class YamlDynamicNode implements IDynamicNode {
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
-    return value.toString();
+    return "${value.toString()}\n";
   }
 
   @override
