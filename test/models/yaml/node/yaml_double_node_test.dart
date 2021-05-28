@@ -45,7 +45,7 @@ void main() {
   group("toSerializedString", () {
     final inputAndExpected = {
       Input(value: 10.5, currentIndentation: 0, topLevelValue: true):
-          "!!float 10.5\n",
+          "!!float 10.5 \n",
       Input(value: 10.5, currentIndentation: 0, topLevelValue: false):
           "!!float 10.5\n",
       Input(value: 10.5, currentIndentation: 10, topLevelValue: true):
@@ -78,7 +78,7 @@ void main() {
       final expected = value;
 
       test(
-          "$value value, $currentIndentation currentIndentation and $topLevelValue topLevelValue, must return $expected",
+          "$nodeValue value, $currentIndentation currentIndentation and $topLevelValue topLevelValue, must return $expected",
           () {
         // Arrange
         final yamlBoolNode = YamlDoubleNode(nodeValue);

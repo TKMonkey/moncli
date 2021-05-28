@@ -66,7 +66,7 @@ void main() {
       final expected = value;
 
       test(
-          "$value value, $currentIndentation currentIndentation and $topLevelValue topLevelValue, must return $expected",
+          "$nodeValue value, $currentIndentation currentIndentation and $topLevelValue topLevelValue, must return $expected",
           () {
         // Arrange
         final yamlBoolNode = YamlIntNode(nodeValue);
