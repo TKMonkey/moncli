@@ -7,7 +7,7 @@ class YamlNullNode implements INullNode {
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
-    return '';
+    return '\n';
   }
 
   @override
