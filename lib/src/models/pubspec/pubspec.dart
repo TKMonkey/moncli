@@ -70,7 +70,7 @@ class Pubspec extends Yaml with PubspecMixin {
     final linesFile = file.readAsLinesSync();
 
     for (final line in linesFile) {
-      final newLine = YamlLine.create(line, lines);
+      final newLine = YamlLine.create(line);
       if (newLine != null) {
         lines.add(newLine);
       }
@@ -171,7 +171,7 @@ class Pubspec extends Yaml with PubspecMixin {
       return;
     }
 
-    final newLine = YamlLine.create('$key:', lines);
+    final newLine = YamlLine.create('$key:');
 
     if (newLine == null) {
       return;
