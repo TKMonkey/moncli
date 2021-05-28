@@ -60,7 +60,6 @@ abstract class AssetTemplate extends Template {
           validValues: [
             'folder',
             'file',
-            '',
           ],
         ),
         NodeValidator(key: _nameAssetsClassKey),
