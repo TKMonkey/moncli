@@ -41,7 +41,7 @@ class YamlStringNode implements IStringNode {
   String toSerializedString(int currentIndentation, bool isTopLevel) {
     final StringBuffer ss = StringBuffer();
 
-    /// quotes single length special characters
+    /// quotes if string contains special characters
     if (_mustAddQuotes(_value)) {
       ss.writeln("'${_escapeString(_value)}'");
 
@@ -56,8 +56,6 @@ class YamlStringNode implements IStringNode {
         _value.contains('\n') ||
         _value.contains('\t')) {
       ss.writeln(_withEscapes(_value));
-
-      /// if it contains a [colon, ':'] then put it in quotes to not confuse Yaml
     } else if (_value.contains('\\')) {
       ss.writeln(_escapeString(_value).replaceAll(r'\', r'\\'));
     } else {
