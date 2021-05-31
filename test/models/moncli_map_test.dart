@@ -9,8 +9,8 @@ import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
-class NullNode implements INullNode {
-  const NullNode();
+class _NullNode implements INullNode {
+  const _NullNode();
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
@@ -27,17 +27,17 @@ class NullNode implements INullNode {
 }
 
 MoncliMap createMoncliMap() {
-  const nullNodeInstance = NullNode();
+  const nullNodeInstance = _NullNode();
   return MoncliMap(nullNodeInstance);
 }
 
-class MapNode implements IMapNode {
+class _MapNode implements IMapNode {
   final Map<String, INode> _value;
 
-  const MapNode(this._value);
+  const _MapNode(this._value);
 
   @override
-  IMapNode get empty => const MapNode({});
+  IMapNode get empty => const _MapNode({});
 
   @override
   Map<String, INode> get mutableValue => Map.from(_value);
@@ -56,13 +56,13 @@ class MapNode implements IMapNode {
   Map<String, INode> get value => Map.unmodifiable(_value);
 }
 
-class StringNode implements IStringNode {
+class _StringNode implements IStringNode {
   final String _value;
 
-  StringNode(this._value);
+  _StringNode(this._value);
 
   @override
-  IStringNode get empty => StringNode("");
+  IStringNode get empty => _StringNode("");
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
@@ -95,11 +95,11 @@ void main() {
       final moncliMap = createMoncliMap();
 
       //Act
-      const mapNode = MapNode({"oneKey": NullNode()});
+      const mapNode = _MapNode({"oneKey": _NullNode()});
       moncliMap["customMap"] = mapNode;
 
       //Assert
-      expect(moncliMap.getNodeAs<MapNode>("customMap"), isA<IMapNode>());
+      expect(moncliMap.getNodeAs<_MapNode>("customMap"), isA<IMapNode>());
     });
 
     test("Should throw an exception if casting to the wrong type", () {
@@ -107,7 +107,7 @@ void main() {
       final moncliMap = createMoncliMap();
 
       //Act
-      const mapNode = MapNode({"oneKey": NullNode()});
+      const mapNode = _MapNode({"oneKey": _NullNode()});
       moncliMap["customMap"] = mapNode;
 
       //Assert
@@ -122,10 +122,10 @@ void main() {
       final moncliMap = createMoncliMap();
 
       // Act
-      const mapNode = MapNode({"oneKey": NullNode()});
+      const mapNode = _MapNode({"oneKey": _NullNode()});
       moncliMap["customMap"] = mapNode;
       final actualValue = moncliMap.getNodeOrDefault(
-          "customMap", const MapNode({"anotherKey": NullNode()}));
+          "customMap", const _MapNode({"anotherKey": _NullNode()}));
 
       // Assert
       expect(actualValue, equals(mapNode));
@@ -136,7 +136,7 @@ void main() {
       final moncliMap = createMoncliMap();
 
       // Act
-      const defaultMap = MapNode({"anotherKey": NullNode()});
+      const defaultMap = _MapNode({"anotherKey": _NullNode()});
       final actualValue = moncliMap.getNodeOrDefault("customMap", defaultMap);
 
       // Assert
@@ -150,7 +150,7 @@ void main() {
       final moncliMap = createMoncliMap();
 
       // Act
-      const mapNode = MapNode({"oneKey": NullNode()});
+      const mapNode = _MapNode({"oneKey": _NullNode()});
       moncliMap["customMap"] = mapNode;
       final actualValue = moncliMap.getNodeOrException("customMap");
 
@@ -174,7 +174,7 @@ void main() {
       final nodeValidator1 = NodeValidator(
           key: "name", validValues: ["James", "Juan", "Robinson"]);
       final moncliMap = createMoncliMap();
-      final nameNode = StringNode("James");
+      final nameNode = _StringNode("James");
 
       moncliMap["name"] = nameNode;
 
@@ -190,7 +190,7 @@ void main() {
       final nodeValidator1 = NodeValidator(
           key: "name", validValues: ["James", "Juan", "Robinson"]);
       final moncliMap = createMoncliMap();
-      final nameNode = StringNode("James1");
+      final nameNode = _StringNode("James1");
 
       moncliMap["name"] = nameNode;
 
