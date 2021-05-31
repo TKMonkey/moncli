@@ -4,7 +4,7 @@ import 'package:moncli/src/models/node/node_validator.dart';
 class YamlDoubleNode implements IDoubleNode {
   final double _value;
 
-  YamlDoubleNode(this._value);
+  const YamlDoubleNode(this._value);
 
   @override
   double get value => _value;
