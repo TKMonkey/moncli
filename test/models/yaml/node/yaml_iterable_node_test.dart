@@ -31,8 +31,12 @@ void main() {
           "non-empty iterable param, value must be an iterable with the same items as param",
           () {
         // Arrange
-        final params = List<YamlIntNode>.from(
-            [YamlIntNode(1), YamlIntNode(2), YamlIntNode(3), YamlIntNode(4)]);
+        final params = List<YamlIntNode>.from([
+          const YamlIntNode(1),
+          const YamlIntNode(2),
+          const YamlIntNode(3),
+          const YamlIntNode(4)
+        ]);
         final yamlIterableNode = YamlIterableNode(params);
 
         // Act
@@ -45,10 +49,10 @@ void main() {
 
     group("toSerializedString", () {
       final yamlIntNodes = List<YamlIntNode>.from([
-        YamlIntNode(1),
-        YamlIntNode(2),
-        YamlIntNode(3),
-        YamlIntNode(4),
+        const YamlIntNode(1),
+        const YamlIntNode(2),
+        const YamlIntNode(3),
+        const YamlIntNode(4),
       ]);
 
       final inputAndExpected = {
