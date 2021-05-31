@@ -4,7 +4,7 @@ import 'package:moncli/src/models/node/node_validator.dart';
 class YamlIntNode implements IIntNode {
   final int _value;
 
-  YamlIntNode(this._value);
+  const YamlIntNode(this._value);
 
   @override
   int get value => _value;
