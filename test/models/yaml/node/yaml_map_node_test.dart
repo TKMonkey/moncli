@@ -44,6 +44,15 @@ void main() {
             ),
           ),
           const MapEntry(
+            'fonts',
+            YamlIterableNode(
+              [
+                YamlStringNode("aFont"),
+                YamlStringNode("anotherFont"),
+              ],
+            ),
+          ),
+          const MapEntry(
             'aMap',
             YamlMapNode(
               {
@@ -94,22 +103,22 @@ void main() {
           value: getCustomMap(),
           currentIndentation: 0,
           topLevelValue: true,
-        ): "aString: aStringValue\nanInt: 15\naDouble: !!float 15.0\nanIterable: \n  - 15\n  - 16\naMap: \n  anInternalInt: 15\n  anotherInternalInt: 16\n",
+        ): "aString: aStringValue\nanInt: 15\naDouble: !!float 15.0\nanIterable: \n  - 15\n  - 16\n\nfonts: \n  - aFont\n  - anotherFont\naMap: \n  anInternalInt: 15\n  anotherInternalInt: 16\n",
         Input(
           value: getCustomMap(),
           currentIndentation: 0,
           topLevelValue: false,
-        ): "\n  aString: aStringValue\n  anInt: 15\n  aDouble: !!float 15.0\n  anIterable: \n    - 15\n    - 16\n  aMap: \n    anInternalInt: 15\n    anotherInternalInt: 16\n",
+        ): "\n  aString: aStringValue\n  anInt: 15\n  aDouble: !!float 15.0\n  anIterable: \n    - 15\n    - 16\n\n  fonts: \n    - aFont\n    - anotherFont\n  aMap: \n    anInternalInt: 15\n    anotherInternalInt: 16\n",
         Input(
           value: getCustomMap(),
           currentIndentation: 10,
           topLevelValue: true,
-        ): "          aString: aStringValue\n          anInt: 15\n          aDouble: !!float 15.0\n          anIterable: \n            - 15\n            - 16\n          aMap: \n            anInternalInt: 15\n            anotherInternalInt: 16\n",
+        ): "          aString: aStringValue\n          anInt: 15\n          aDouble: !!float 15.0\n          anIterable: \n            - 15\n            - 16\n\n          fonts: \n            - aFont\n            - anotherFont\n          aMap: \n            anInternalInt: 15\n            anotherInternalInt: 16\n",
         Input(
           value: getCustomMap(),
           currentIndentation: 10,
           topLevelValue: false,
-        ): "\n            aString: aStringValue\n            anInt: 15\n            aDouble: !!float 15.0\n            anIterable: \n              - 15\n              - 16\n            aMap: \n              anInternalInt: 15\n              anotherInternalInt: 16\n",
+        ): "\n            aString: aStringValue\n            anInt: 15\n            aDouble: !!float 15.0\n            anIterable: \n              - 15\n              - 16\n\n            fonts: \n              - aFont\n              - anotherFont\n            aMap: \n              anInternalInt: 15\n              anotherInternalInt: 16\n",
       };
 
       // ignore: cascade_invocations

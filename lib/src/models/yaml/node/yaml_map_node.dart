@@ -9,6 +9,8 @@ class YamlMapNode implements IMapNode {
 
   const YamlMapNode(this._value);
 
+  Set<String> get requiresEmptyLineSpace => const {"fonts"};
+
   @override
   IMapNode get empty => sEmpty;
 
@@ -20,8 +22,6 @@ class YamlMapNode implements IMapNode {
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
-    var firstFont = false;
-
     final StringBuffer ss = StringBuffer();
     int newIndentation = currentIndentation;
     if (!isTopLevel) {
@@ -31,11 +31,12 @@ class YamlMapNode implements IMapNode {
 
     _value.forEach(
       (k, v) {
-        if (k == 'fonts' && v is List && !firstFont) {
+        if (requiresEmptyLineSpace.contains(k)) {
           ss.writeln();
-          firstFont = true;
         }
+
         _writeIndent(newIndentation, ss);
+
         ss
           ..write(k)
           ..write(': ')
