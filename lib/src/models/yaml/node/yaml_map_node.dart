@@ -12,9 +12,6 @@ class YamlMapNode implements IMapNode {
   Set<String> get requiresEmptyLineSpace => const {"fonts"};
 
   @override
-  IMapNode get empty => sEmpty;
-
-  @override
   Map<String, INode> get value => Map.unmodifiable(_value);
 
   @override

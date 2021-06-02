@@ -18,9 +18,6 @@ class YamlIterableNode<T> implements IIterableNode<T> {
   }
 
   @override
-  IIterableNode<T> empty() => sEmpty();
-
-  @override
   Iterable<INode<T>> get value => List.unmodifiable(_value);
 
   @override

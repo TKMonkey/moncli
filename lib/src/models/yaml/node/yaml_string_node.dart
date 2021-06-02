@@ -32,9 +32,6 @@ class YamlStringNode implements IStringNode {
   const YamlStringNode(this._value);
 
   @override
-  IStringNode get empty => sEmpty;
-
-  @override
   String get value => _value;
 
   @override
