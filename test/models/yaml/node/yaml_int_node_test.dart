@@ -31,7 +31,7 @@ void main() {
   group("Constructor", () {
     test("positive param, value must be the received param", () {
       // Arrange
-      final yamlIntNode = YamlIntNode(10);
+      const yamlIntNode = YamlIntNode(10);
       // Act
       final value = yamlIntNode.value;
       // Assert
@@ -40,7 +40,7 @@ void main() {
 
     test("negative param, value must be the received param", () {
       // Arrange
-      final yamlIntNode = YamlIntNode(-10);
+      const yamlIntNode = YamlIntNode(-10);
       // Act
       final value = yamlIntNode.value;
       // Assert
@@ -49,7 +49,7 @@ void main() {
 
     test("zero param, value must be the received param", () {
       // Arrange
-      final yamlIntNode = YamlIntNode(0);
+      const yamlIntNode = YamlIntNode(0);
       // Act
       final value = yamlIntNode.value;
       // Assert
