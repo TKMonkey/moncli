@@ -29,10 +29,5 @@ class NodeValidator {
 
   bool get isValid => _reason.isEmpty;
 
-  @override
-  String toString() {
-    return 'NodeValidator{key: $key, isRequired: $isRequired, validValues: $validValues, reason: $_reason}';
-  }
-
-  MapEntry<String, String> toReasonMapEntry() => MapEntry(key, _reason);
+  MapEntry<String, String> get mapEntry => MapEntry(key, _reason);
 }

@@ -220,7 +220,7 @@ void main() {
 
       //Act
       // ignore: cascade_invocations
-      final mapEntry = nodeValidator.toReasonMapEntry();
+      final mapEntry = nodeValidator.mapEntry;
 
       // Assert
       const expectedMap = MapEntry("testKey", "");
@@ -238,7 +238,7 @@ void main() {
 
       //Act
       // ignore: cascade_invocations
-      final mapEntry = nodeValidator.toReasonMapEntry();
+      final mapEntry = nodeValidator.mapEntry;
 
       // Assert
       expect(mapEntry.key, equals("testKey"));

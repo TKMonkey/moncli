@@ -49,9 +49,7 @@ class Logger {
       logger.err('Errors with validators');
     }
 
-    nodeValidators
-        .map((nodeValidator) => nodeValidator.toReasonMapEntry())
-        .forEach(
+    nodeValidators.map((nodeValidator) => nodeValidator.mapEntry).forEach(
           (mapEntry) =>
               logger.info('${yellow(mapEntry.key)}: ${mapEntry.value}'),
         );
