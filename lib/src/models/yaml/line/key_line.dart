@@ -11,14 +11,9 @@ class KeyLine extends YamlLine {
     other = _getOther(split);
   }
 
-  final subNodes = <YamlLine>[];
   late final String key;
   late final String value;
   late final String other;
-
-  void add(YamlLine subNode) {
-    subNodes.add(subNode);
-  }
 
   String _getKey(List<String> split) => split[0].replaceAll(':', '');
 
@@ -38,11 +33,7 @@ class KeyLine extends YamlLine {
 
   /// Serializes [node] into a String and writes it to the [sink].
   void _writeYamlString(INode node, StringSink sink) {
-    _writeYamlType(node, 0, sink, true);
-  }
-
-  void _writeYamlType(INode node, int indent, StringSink ss, bool isTopLevel) {
-    final yamlString = node.toSerializedString(indent, isTopLevel);
-    ss.write(yamlString);
+    final yamlString = node.toSerializedString(0, true);
+    sink.write(yamlString);
   }
 }
