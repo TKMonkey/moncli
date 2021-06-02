@@ -1,15 +1,20 @@
+import 'dart:collection';
+
 import 'package:moncli/src/models/node/i_iterable_node.dart';
 import 'package:moncli/src/models/node/i_node.dart';
 import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 
-class YamlIterableNode<T> implements IIterableNode<T> {
+class YamlIterableNode<T> with IterableMixin implements IIterableNode<T> {
   static YamlIterableNode<T> sEmpty<T>() =>
       YamlIterableNode<T>(Iterable<INode<T>>.empty());
 
   final Iterable<INode<T>> _value;
 
   const YamlIterableNode(this._value);
+
+  @override
+  Iterator get iterator => value.iterator;
 
   @override
   IIterableNode<R> castTo<R>() {
