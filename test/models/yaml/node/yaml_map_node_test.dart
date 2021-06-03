@@ -1,4 +1,5 @@
 import 'package:moncli/src/models/node/i_node.dart';
+import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_double_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_int_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_iterable_node.dart';
@@ -15,6 +16,20 @@ class Input {
       {required this.value,
       required this.currentIndentation,
       required this.topLevelValue});
+}
+
+class MockNodeValidator extends NodeValidator {
+  dynamic? receivedValue;
+
+  MockNodeValidator(
+      {required String key, Iterable<dynamic> validValues = const []})
+      : super(key: key, validValues: validValues);
+
+  @override
+  void validateValue(value) {
+    receivedValue = value;
+    super.validateValue(value);
+  }
 }
 
 void main() {
@@ -95,6 +110,41 @@ void main() {
         expect(value['aMap']?.value['anInternalInt']?.value, equals(15));
         expect(value['aMap']?.value['anotherInternalInt']?.value, equals(16));
       });
+    });
+
+    group("validate", () {
+      test("should not call node validator validateValue with own value", () {
+        // Arrange
+        final nodeValidator = MockNodeValidator(key: "aKey");
+        const Map<String, INode> nodeMap = {
+          "key1": YamlIntNode(1),
+          "key2": YamlStringNode("aString")
+        };
+        const yamlMapNode = YamlMapNode(nodeMap);
+
+        // Act
+        // ignore: cascade_invocations
+        yamlMapNode.validate(nodeValidator);
+
+        // Assert
+        expect(nodeValidator.receivedValue, isNull);
+      });
+    });
+
+    test("mutableValue, should return a mutable map instance", () {
+      // Arrange
+      const Map<String, INode> nodeMap = {
+        "key1": YamlIntNode(1),
+        "key2": YamlStringNode("aString")
+      };
+      const yamlMapNode = YamlMapNode(nodeMap);
+
+      // Act
+      final mutableValue = yamlMapNode.mutableValue;
+      mutableValue["aNewKey"] = const YamlIntNode(3);
+
+      // Assert
+      expect(mutableValue["aNewKey"]?.value, equals(3));
     });
 
     group("toSerializedString", () {
