@@ -5,7 +5,7 @@ import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_null_node.dart';
 
 class YamlMapNode extends MoncliMap implements IMapNode {
-  static final sEmpty = YamlMapNode(<String, INode>{});
+  static final IMapNode sEmpty = YamlMapNode(<String, INode>{});
 
   final Map<String, INode> _value;
 

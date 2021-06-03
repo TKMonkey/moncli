@@ -112,6 +112,14 @@ void main() {
       });
     });
 
+    test("sEmpty should be an empty map", () {
+      // Act
+      final empty = YamlMapNode.sEmpty;
+
+      // Assert
+      expect(empty, isEmpty);
+    });
+
     group("validate", () {
       test("should not call node validator validateValue with own value", () {
         // Arrange
