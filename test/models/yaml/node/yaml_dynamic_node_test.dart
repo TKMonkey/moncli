@@ -1,3 +1,4 @@
+import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_dynamic_node.dart';
 import 'package:test/test.dart';
 
@@ -24,6 +25,20 @@ class Input {
       required this.topLevelValue});
 }
 
+class MockNodeValidator extends NodeValidator {
+  dynamic? receivedValue;
+
+  MockNodeValidator(
+      {required String key, Iterable<String> validValues = const []})
+      : super(key: key, validValues: validValues);
+
+  @override
+  void validateValue(value) {
+    receivedValue = value;
+    super.validateValue(value);
+  }
+}
+
 void main() {
   group("Constructor", () {
     test("class param, value must be the received param", () {
@@ -34,6 +49,35 @@ void main() {
       final value = yamlDynamiNode.value;
       // Assert
       expect(value, equals(testObject));
+    });
+  });
+
+  group("validate", () {
+    test("should call node validator validateValue with own value", () {
+      // Arrange
+      final nodeValidator = MockNodeValidator(key: "aKey");
+      const yamlDynamicNode = YamlDynamicNode("Testing");
+
+      // Act
+      // ignore: cascade_invocations
+      yamlDynamicNode.validate(nodeValidator);
+
+      // Assert
+      expect(nodeValidator.receivedValue, equals("Testing"));
+    });
+
+    test("validation not passed, should return invalid node validator", () {
+      // Arrange
+      final nodeValidator =
+          MockNodeValidator(key: "aKey", validValues: ["aTest", 'anotherTest']);
+      const yamlDynamicNode = YamlDynamicNode("Testing");
+
+      // Act
+      // ignore: cascade_invocations
+      final newNodeValidator = yamlDynamicNode.validate(nodeValidator);
+
+      // Assert
+      expect(newNodeValidator.isValid, isFalse);
     });
   });
 

@@ -4,7 +4,7 @@ import 'package:moncli/src/models/node/node_validator.dart';
 class YamlDynamicNode implements IDynamicNode {
   final dynamic _value;
 
-  YamlDynamicNode(this._value);
+  const YamlDynamicNode(this._value);
 
   @override
   dynamic get value => _value;
