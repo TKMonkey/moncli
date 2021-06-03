@@ -62,6 +62,16 @@ void main() {
       });
     });
 
+    group("empty", () {
+      test("should return an empty iterable", () {
+        // Act
+        final empty = YamlIterableNode.sEmpty();
+
+        // Assert
+        expect(empty.value, isEmpty);
+      });
+    });
+
     group("validate", () {
       test("should not call node validator validateValue with own value", () {
         // Arrange
@@ -78,14 +88,17 @@ void main() {
       });
     });
 
-    group("empty", () {
-      test("should return an empty iterable", () {
-        // Act
-        final empty = YamlIterableNode.sEmpty();
+    test("mutableValue, should return a mutable list instance", () {
+      // Arrange
+      const nodeIterable = [YamlIntNode(1), YamlIntNode(2)];
+      const yamlIterableNode = YamlIterableNode(nodeIterable);
 
-        // Assert
-        expect(empty.value, isEmpty);
-      });
+      // Act
+      final mutableValue = yamlIterableNode.mutableValue
+        ..add(const YamlIntNode(3));
+
+      // Assert
+      expect(mutableValue[2].value, equals(3));
     });
 
     group("castTo", () {

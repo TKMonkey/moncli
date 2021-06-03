@@ -17,13 +17,16 @@ class YamlIterableNode<T> with IterableMixin implements IIterableNode<T> {
   Iterator get iterator => value.iterator;
 
   @override
+  Iterable<INode<T>> get value => List.unmodifiable(_value);
+
+  @override
+  List<INode<T>> get mutableValue => List.of(_value);
+
+  @override
   IIterableNode<R> castTo<R>() {
     return YamlNodeFactory.sInstance
         .createIterableNode<R>(_value.map((item) => item.value as R));
   }
-
-  @override
-  Iterable<INode<T>> get value => List.unmodifiable(_value);
 
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
