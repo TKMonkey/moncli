@@ -67,12 +67,12 @@ void main() {
               ],
             ),
           ),
-          const MapEntry(
+          MapEntry(
             'aMap',
             YamlMapNode(
               {
-                'anInternalInt': YamlIntNode(15),
-                'anotherInternalInt': YamlIntNode(16)
+                'anInternalInt': const YamlIntNode(15),
+                'anotherInternalInt': const YamlIntNode(16)
               },
             ),
           ),
@@ -83,7 +83,7 @@ void main() {
     group("Constructor", () {
       test("empty map param. value must be an empty map", () {
         // Arrange
-        const yamlMapNode = YamlMapNode({});
+        final yamlMapNode = YamlMapNode({});
 
         // Act
         final value = yamlMapNode.value;
@@ -120,7 +120,7 @@ void main() {
           "key1": YamlIntNode(1),
           "key2": YamlStringNode("aString")
         };
-        const yamlMapNode = YamlMapNode(nodeMap);
+        final yamlMapNode = YamlMapNode(nodeMap);
 
         // Act
         // ignore: cascade_invocations
@@ -137,7 +137,7 @@ void main() {
         "key1": YamlIntNode(1),
         "key2": YamlStringNode("aString")
       };
-      const yamlMapNode = YamlMapNode(nodeMap);
+      final yamlMapNode = YamlMapNode(nodeMap);
 
       // Act
       final mutableValue = yamlMapNode.mutableValue;

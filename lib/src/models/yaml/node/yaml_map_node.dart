@@ -1,13 +1,15 @@
+import 'package:moncli/src/models/moncli_map.dart';
 import 'package:moncli/src/models/node/i_map_node.dart';
 import 'package:moncli/src/models/node/i_node.dart';
 import 'package:moncli/src/models/node/node_validator.dart';
+import 'package:moncli/src/models/yaml/node/yaml_null_node.dart';
 
-class YamlMapNode implements IMapNode {
-  static const sEmpty = YamlMapNode(<String, INode>{});
+class YamlMapNode extends MoncliMap implements IMapNode {
+  static final sEmpty = YamlMapNode(<String, INode>{});
 
   final Map<String, INode> _value;
 
-  const YamlMapNode(this._value);
+  YamlMapNode(this._value) : super(const YamlNullNode(), _value);
 
   Set<String> get requiresEmptyLineSpace => const {"fonts"};
 
