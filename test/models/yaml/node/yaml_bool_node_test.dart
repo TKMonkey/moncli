@@ -1,3 +1,4 @@
+import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_bool_node.dart';
 import 'package:test/test.dart';
 
@@ -10,6 +11,20 @@ class Input {
       {required this.value,
       required this.currentIndentation,
       required this.topLevelValue});
+}
+
+class MockNodeValidator extends NodeValidator {
+  dynamic? receivedValue;
+
+  MockNodeValidator(
+      {required String key, Iterable<String> validValues = const []})
+      : super(key: key, validValues: validValues);
+
+  @override
+  void validateValue(value) {
+    receivedValue = value;
+    super.validateValue(value);
+  }
 }
 
 void main() {
@@ -33,6 +48,21 @@ void main() {
 
         // Assert
         expect(value, isFalse);
+      });
+    });
+
+    group("validate", () {
+      test("should not call node validator validateValue with own value", () {
+        // Arrange
+        final nodeValidator = MockNodeValidator(key: "aKey");
+        const yamlBoolNode = YamlBoolNode(true);
+
+        // Act
+        // ignore: cascade_invocations
+        yamlBoolNode.validate(nodeValidator);
+
+        // Assert
+        expect(nodeValidator.receivedValue, isNull);
       });
     });
 

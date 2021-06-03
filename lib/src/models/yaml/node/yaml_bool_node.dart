@@ -4,7 +4,7 @@ import 'package:moncli/src/models/node/node_validator.dart';
 class YamlBoolNode implements IBoolNode {
   final bool _value;
 
-  YamlBoolNode(this._value);
+  const YamlBoolNode(this._value);
 
   @override
   bool get value => _value;
@@ -12,11 +12,6 @@ class YamlBoolNode implements IBoolNode {
   @override
   String toSerializedString(int currentIndentation, bool isTopLevel) {
     return "${value.toString()}\n";
-  }
-
-  @override
-  String toString() {
-    return 'YamlBoolNode{_value: $_value}';
   }
 
   @override
