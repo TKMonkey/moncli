@@ -6,6 +6,7 @@ import 'package:moncli/src/models/node/i_node.dart';
 import 'package:moncli/src/models/node/i_null_node.dart';
 import 'package:moncli/src/models/node/i_string_node.dart';
 import 'package:moncli/src/models/node/node_validator.dart';
+import 'package:moncli/src/models/yaml/node/yaml_int_node.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
@@ -89,6 +90,34 @@ void main() {
     expect(nonExistingValue, isNotNull);
   });
 
+  group("MapMixin", () {
+    test("clear, must clear map", () {
+      // Arrange
+      final moncliMap = createMoncliMap();
+      moncliMap["key1"] = const YamlIntNode(1);
+      moncliMap["key2"] = const YamlIntNode(2);
+
+      // Act
+      moncliMap.clear();
+
+      // Assert
+      expect(moncliMap, isEmpty);
+    });
+
+    test("remove, must remove entry from map", () {
+      // Arrange
+      final moncliMap = createMoncliMap();
+      moncliMap["key1"] = const YamlIntNode(1);
+      moncliMap["key2"] = const YamlIntNode(2);
+
+      // Act
+      moncliMap.remove("key1");
+
+      // Assert
+      expect(moncliMap.length, 1);
+    });
+  });
+
   group("getNodeAs", () {
     test("Should return INode casted to non-generic INode class", () {
       //Arrange
@@ -168,7 +197,7 @@ void main() {
     });
   });
 
-  group("validate", () {
+  group("getValidation", () {
     test("Should return empty iterable if no errors found", () {
       // Arrange
       final nodeValidator1 = NodeValidator(
