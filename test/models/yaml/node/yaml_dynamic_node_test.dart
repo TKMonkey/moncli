@@ -6,7 +6,7 @@ class TestClass {
   final String name;
   final int age;
 
-  TestClass({required this.name, required this.age});
+  const TestClass({required this.name, required this.age});
 
   @override
   String toString() {
@@ -43,8 +43,8 @@ void main() {
   group("Constructor", () {
     test("class param, value must be the received param", () {
       // Arrange
-      final testObject = TestClass(name: "myName", age: 29);
-      final yamlDynamiNode = YamlDynamicNode(testObject);
+      const testObject = TestClass(name: "myName", age: 29);
+      const yamlDynamiNode = YamlDynamicNode(testObject);
       // Act
       final value = yamlDynamiNode.value;
       // Assert
@@ -84,51 +84,51 @@ void main() {
   group("toSerializedString", () {
     final inputAndExpected = {
       Input(
-          value: TestClass(name: "James", age: 29),
+          value: const TestClass(name: "James", age: 29),
           currentIndentation: 0,
           topLevelValue: true): "TestClass{name: James, age: 29}\n",
       Input(
-          value: TestClass(name: "James", age: 29),
+          value: const TestClass(name: "James", age: 29),
           currentIndentation: 0,
           topLevelValue: false): "TestClass{name: James, age: 29}\n",
       Input(
-          value: TestClass(name: "James", age: 29),
+          value: const TestClass(name: "James", age: 29),
           currentIndentation: 10,
           topLevelValue: true): "TestClass{name: James, age: 29}\n",
       Input(
-          value: TestClass(name: "James", age: 29),
+          value: const TestClass(name: "James", age: 29),
           currentIndentation: 10,
           topLevelValue: false): "TestClass{name: James, age: 29}\n",
       Input(
-          value: TestClass(name: "John", age: 100),
+          value: const TestClass(name: "John", age: 100),
           currentIndentation: 0,
           topLevelValue: true): "TestClass{name: John, age: 100}\n",
       Input(
-          value: TestClass(name: "John", age: 100),
+          value: const TestClass(name: "John", age: 100),
           currentIndentation: 0,
           topLevelValue: false): "TestClass{name: John, age: 100}\n",
       Input(
-          value: TestClass(name: "John", age: 100),
+          value: const TestClass(name: "John", age: 100),
           currentIndentation: 10,
           topLevelValue: true): "TestClass{name: John, age: 100}\n",
       Input(
-          value: TestClass(name: "John", age: 100),
+          value: const TestClass(name: "John", age: 100),
           currentIndentation: 10,
           topLevelValue: false): "TestClass{name: John, age: 100}\n",
       Input(
-          value: TestClass(name: "Robinson", age: 33),
+          value: const TestClass(name: "Robinson", age: 33),
           currentIndentation: 0,
           topLevelValue: true): "TestClass{name: Robinson, age: 33}\n",
       Input(
-          value: TestClass(name: "Robinson", age: 33),
+          value: const TestClass(name: "Robinson", age: 33),
           currentIndentation: 0,
           topLevelValue: false): "TestClass{name: Robinson, age: 33}\n",
       Input(
-          value: TestClass(name: "Robinson", age: 33),
+          value: const TestClass(name: "Robinson", age: 33),
           currentIndentation: 10,
           topLevelValue: true): "TestClass{name: Robinson, age: 33}\n",
       Input(
-          value: TestClass(name: "Robinson", age: 33),
+          value: const TestClass(name: "Robinson", age: 33),
           currentIndentation: 10,
           topLevelValue: false): "TestClass{name: Robinson, age: 33}\n",
     };
