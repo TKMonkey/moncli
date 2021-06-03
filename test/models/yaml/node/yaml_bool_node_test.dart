@@ -32,7 +32,7 @@ void main() {
     group("Constructor", () {
       test("true param, value must be true", () {
         // Arrange
-        final yamlBoolNode = YamlBoolNode(true);
+        const yamlBoolNode = YamlBoolNode(true);
         // Act
         final value = yamlBoolNode.value;
 
@@ -42,7 +42,7 @@ void main() {
 
       test("false param, value must be false", () {
         // Arrange
-        final yamlBoolNode = YamlBoolNode(false);
+        const yamlBoolNode = YamlBoolNode(false);
         // Act
         final value = yamlBoolNode.value;
 
