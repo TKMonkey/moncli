@@ -4,7 +4,7 @@ import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> unused(ArgResults argResults) async {
-  final bool remove = argResults['remove'];
+  final bool remove = argResults['remove'] as bool;
 
   final yaml = Pubspec.init();
 
@@ -18,9 +18,9 @@ Future<bool> unused(ArgResults argResults) async {
 
     final isUsingPackage = isUsedInProject(name);
     if (!isUsingPackage) {
-      //TODO: Check dependencies.value[name]!.value os w'rmoeg as expected
-      listUnused
-          .add(PubPackageModel(name, version: dependencies.value[name]!.value));
+      //TODO: Check dependencies.value[name]!.value is working as expected
+      listUnused.add(PubPackageModel(name,
+          version: dependencies.value[name]!.value as String));
     }
   }
 

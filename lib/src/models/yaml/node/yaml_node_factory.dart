@@ -61,11 +61,11 @@ class YamlNodeFactory implements INodeFactory {
   }
 
   @override
-  IMapNode createMapNode(Map<dynamic, dynamic> node) {
+  IMapNode createMapNode(Map node) {
     return YamlMapNode(
       node.map(
         (key, value) => MapEntry(
-          key,
+          key.toString(),
           INode.create(value, this),
         ),
       ),
@@ -74,7 +74,7 @@ class YamlNodeFactory implements INodeFactory {
 
   @override
   INullNode createNullNode() {
-    return YamlNullNode();
+    return const YamlNullNode();
   }
 
   @override

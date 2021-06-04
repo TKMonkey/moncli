@@ -2,6 +2,7 @@ import 'package:args/command_runner.dart';
 import 'package:moncli/src/base/exceptions/exceptions.dart';
 import 'package:moncli/src/command/comand.dart';
 import 'package:moncli/src/utils/utils.dart';
+
 import 'command_line_app.dart';
 
 class Moncli with CommandLineApp {
@@ -51,7 +52,7 @@ class Moncli with CommandLineApp {
       executeOptions(arguments);
     } else {
       await runner.run(arguments).catchError(
-        (error) {
+        (Object error) {
           if (error is UsageException) {
             logger
               ..err(error.message)

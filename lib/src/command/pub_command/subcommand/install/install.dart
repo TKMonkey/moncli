@@ -2,17 +2,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:http/http.dart' as http;
 import 'package:moncli/src/models/pub_package.dart';
 import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
-import 'package:http/http.dart' as http;
 
 Future<bool> install(ArgResults argResults) async {
-  final bool isDev = argResults['dev'];
-  final bool doSort = argResults['sort'];
+  final bool isDev = argResults['dev'] as bool;
+  final bool doSort = argResults['sort'] as bool;
 
-  final packageList = (await Future.wait(
-          argResults.rest.map((pack) async => getPackageFromPub(pack, isDev)).toList()))
+  final packageList = (await Future.wait(argResults.rest
+          .map((pack) async => getPackageFromPub(pack, isDev))
+          .toList()))
       .splitMatch((pkg) => pkg.isValid);
 
   final yaml = Pubspec.init(isDev: isDev, doSort: doSort)

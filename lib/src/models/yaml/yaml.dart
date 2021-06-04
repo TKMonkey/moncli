@@ -10,7 +10,7 @@ import 'mixin_yaml_printer.dart';
 
 /// MoncliMap specialized in Yaml files
 class Yaml extends MoncliMap with YamlPrinterMixin {
-  Yaml(File file) : super(YamlNullNode()) {
+  Yaml(File file) : super(const YamlNullNode()) {
     internalMap = Map.of(
       (loadYaml(file.readAsStringSync()) as Map<dynamic, dynamic>).map(
         (key, value) => MapEntry(

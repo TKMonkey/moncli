@@ -131,7 +131,7 @@ class Pubspec extends Yaml with PubspecMixin {
     //TODO: Understand and check this
     if (scripts is IStringNode && scripts.value.contains('.yaml')) {
       final scriptFile = _getScriptFile(scripts.value);
-      command = scriptFile[key];
+      command = scriptFile[key] as String?;
     } else if (scripts is IStringNode) {
       command = scripts.value;
     } else if (scripts is IMapNode) {
@@ -162,7 +162,7 @@ class Pubspec extends Yaml with PubspecMixin {
     final path = '$mainDirectory$slash$scriptsFile';
 
     final file = File(path);
-    return Map.of(loadYaml(file.readAsStringSync()));
+    return Map.of(loadYaml(file.readAsStringSync()) as Map<String, dynamic>);
   }
 
   /// Adds new line to lines if key is not currently in the yaml file

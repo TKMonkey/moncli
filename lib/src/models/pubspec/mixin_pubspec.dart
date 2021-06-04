@@ -38,7 +38,7 @@ mixin PubspecMixin {
         : YamlNodeFactory.sInstance.emptyIMapNode;
   }
 
-  int compareMap(Map map, dynamic key1, dynamic key2) {
+  int compareMap(Map map, String key1, String key2) {
     if (map[key1] is Map) {
       return -1;
     }

@@ -2,21 +2,21 @@ class NodeValidator {
   NodeValidator({
     required this.key,
     this.isRequired = true,
-    validValues = const [],
+    Iterable<dynamic> validValues = const [],
   }) : validValues = isRequired
             ? validValues
             : validValues.isEmpty
-                ? []
-                : [...validValues, null];
+                ? <dynamic>{}
+                : {...validValues, null};
 
   final String key;
   final bool isRequired;
-  final List<dynamic> validValues;
+  final Iterable<dynamic> validValues;
   String _reason = '';
 
   String get reason => _reason;
 
-  void validateValue(dynamic? value) {
+  void validateValue(dynamic value) {
     if (isRequired && value == null) {
       _reason = '$key is required';
       return;

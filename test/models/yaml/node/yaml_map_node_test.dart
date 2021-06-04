@@ -19,7 +19,7 @@ class Input {
 }
 
 class MockNodeValidator extends NodeValidator {
-  dynamic? receivedValue;
+  dynamic receivedValue;
 
   MockNodeValidator(
       {required String key, Iterable<dynamic> validValues = const []})
@@ -37,6 +37,26 @@ void main() {
     Map<String, INode> getCustomMap() {
       return Map.fromEntries(
         [
+          MapEntry(
+            1.toString(),
+            const YamlStringNode("aValueForAnIntKey"),
+          ),
+          MapEntry(
+            true.toString(),
+            const YamlStringNode("aValueForABoolKey"),
+          ),
+          MapEntry(
+            3.0.toString(),
+            const YamlStringNode("aValueForADoubleKey"),
+          ),
+          MapEntry(
+            {"aKey": 10}.toString(),
+            const YamlStringNode("aValueForAMapKey"),
+          ),
+          MapEntry(
+            [1, 2, 3].toString(),
+            const YamlStringNode("aValueForAnIterableKey"),
+          ),
           const MapEntry(
             'aString',
             YamlStringNode("aStringValue"),
@@ -102,6 +122,13 @@ void main() {
         final value = yamlMapNode.value;
 
         // Assert
+        expect(value["1"]?.value, equals("aValueForAnIntKey"));
+        expect(value["true"]?.value, equals("aValueForABoolKey"));
+        expect(value["3.0"]?.value, equals("aValueForADoubleKey"));
+        expect(
+            value[{"aKey": 10}.toString()]?.value, equals("aValueForAMapKey"));
+        expect(value[[1, 2, 3].toString()]?.value,
+            equals("aValueForAnIterableKey"));
         expect(value['aString']?.value, equals("aStringValue"));
         expect(value['anInt']?.value, equals(15));
         expect(value['aDouble']?.value, equals(15.0));
@@ -161,22 +188,22 @@ void main() {
           value: getCustomMap(),
           currentIndentation: 0,
           topLevelValue: true,
-        ): "aString: aStringValue\nanInt: 15\naDouble: !!float 15.0\nanIterable: \n  - 15\n  - 16\n\nfonts: \n  - aFont\n  - anotherFont\naMap: \n  anInternalInt: 15\n  anotherInternalInt: 16\n",
+        ): '1: aValueForAnIntKey\ntrue: aValueForABoolKey\n3.0: aValueForADoubleKey\n{aKey: 10}: aValueForAMapKey\n[1, 2, 3]: aValueForAnIterableKey\naString: aStringValue\nanInt: 15\naDouble: !!float 15.0\nanIterable: \n  - 15\n  - 16\n\nfonts: \n  - aFont\n  - anotherFont\naMap: \n  anInternalInt: 15\n  anotherInternalInt: 16\n',
         Input(
           value: getCustomMap(),
           currentIndentation: 0,
           topLevelValue: false,
-        ): "\n  aString: aStringValue\n  anInt: 15\n  aDouble: !!float 15.0\n  anIterable: \n    - 15\n    - 16\n\n  fonts: \n    - aFont\n    - anotherFont\n  aMap: \n    anInternalInt: 15\n    anotherInternalInt: 16\n",
+        ): '\n  1: aValueForAnIntKey\n  true: aValueForABoolKey\n  3.0: aValueForADoubleKey\n  {aKey: 10}: aValueForAMapKey\n  [1, 2, 3]: aValueForAnIterableKey\n  aString: aStringValue\n  anInt: 15\n  aDouble: !!float 15.0\n  anIterable: \n    - 15\n    - 16\n\n  fonts: \n    - aFont\n    - anotherFont\n  aMap: \n    anInternalInt: 15\n    anotherInternalInt: 16\n',
         Input(
           value: getCustomMap(),
           currentIndentation: 10,
           topLevelValue: true,
-        ): "          aString: aStringValue\n          anInt: 15\n          aDouble: !!float 15.0\n          anIterable: \n            - 15\n            - 16\n\n          fonts: \n            - aFont\n            - anotherFont\n          aMap: \n            anInternalInt: 15\n            anotherInternalInt: 16\n",
+        ): "          1: aValueForAnIntKey\n          true: aValueForABoolKey\n          3.0: aValueForADoubleKey\n          {aKey: 10}: aValueForAMapKey\n          [1, 2, 3]: aValueForAnIterableKey\n          aString: aStringValue\n          anInt: 15\n          aDouble: !!float 15.0\n          anIterable: \n            - 15\n            - 16\n\n          fonts: \n            - aFont\n            - anotherFont\n          aMap: \n            anInternalInt: 15\n            anotherInternalInt: 16\n",
         Input(
           value: getCustomMap(),
           currentIndentation: 10,
           topLevelValue: false,
-        ): "\n            aString: aStringValue\n            anInt: 15\n            aDouble: !!float 15.0\n            anIterable: \n              - 15\n              - 16\n\n            fonts: \n              - aFont\n              - anotherFont\n            aMap: \n              anInternalInt: 15\n              anotherInternalInt: 16\n",
+        ): "\n            1: aValueForAnIntKey\n            true: aValueForABoolKey\n            3.0: aValueForADoubleKey\n            {aKey: 10}: aValueForAMapKey\n            [1, 2, 3]: aValueForAnIterableKey\n            aString: aStringValue\n            anInt: 15\n            aDouble: !!float 15.0\n            anIterable: \n              - 15\n              - 16\n\n            fonts: \n              - aFont\n              - anotherFont\n            aMap: \n              anInternalInt: 15\n              anotherInternalInt: 16\n",
       };
 
       // ignore: cascade_invocations

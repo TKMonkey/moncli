@@ -39,16 +39,18 @@ class AssetManagerSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    final overwrite = argResults != null ? argResults![overwriteFlag] : false;
+    final bool overwrite = argResults![overwriteFlag] as bool;
 
     commandUtils.existsPubspec();
 
     final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
+    final bool mustCreate = argResults![createFlag] as bool;
+
     if (created) {
       final readAssets = ReadAssets();
       readAssets(
         ReadAssetsParams(
-            create: argResults![createFlag],
+            create: mustCreate,
             nodeFactory: YamlNodeFactory.sInstance,
             assetsOutputPath: assetsOutputPath),
       );
