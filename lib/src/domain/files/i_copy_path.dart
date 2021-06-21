@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:moncli/src/command/pub_command/subcommand/asset/i_files_repository';
 import 'package:moncli/src/domain/files/i_exists_path.dart';
 import 'package:moncli/src/utils/logger/logger.dart';
@@ -7,6 +8,7 @@ abstract class ICopyFile {
       {required bool overwrite});
 }
 
+@LazySingleton(as: ICopyFile)
 class CopyPath implements ICopyFile {
   final IExistsPath existsPath;
   final IFilesRepository filesRepository;

@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:moncli/src/domain/files/i_exists/i_exists_assets_template.dart';
 import 'package:moncli/src/domain/files/i_exists/i_existss_pub_spec.dart';
 import 'package:moncli/src/domain/files/i_handle_assets_template_creation.dart';
@@ -19,6 +20,7 @@ class ReadAssetsParams {
   });
 }
 
+@lazySingleton
 class ReadAssets {
   final IExistsPubspec existsPubspec;
   final IExistsAssetsTemplate existsAssetsTemplate;

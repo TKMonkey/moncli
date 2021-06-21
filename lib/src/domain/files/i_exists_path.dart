@@ -1,9 +1,11 @@
+import 'package:injectable/injectable.dart';
 import 'package:moncli/src/command/pub_command/subcommand/asset/i_files_repository';
 
 abstract class IExistsPath {
   bool call(String path);
 }
 
+@LazySingleton(as: IExistsPath)
 class ExistsPath implements IExistsPath {
   final IFilesRepository filesRepository;
 

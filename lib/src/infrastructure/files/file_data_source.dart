@@ -1,8 +1,10 @@
 import 'package:dcli/dcli.dart';
+import 'package:injectable/injectable.dart';
 import 'package:moncli/src/base/constants.dart';
 
 import 'files_repository.dart';
 
+@LazySingleton(as: IFileDataSource)
 class FileDataSource implements IFileDataSource {
   final IPathConstants pathConstants;
 

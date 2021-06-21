@@ -1,3 +1,5 @@
+import 'package:injectable/injectable.dart';
+
 const env = 'TEST';
 
 final mainDirectory = env.isEmpty ? '' : 'filetest';
@@ -32,10 +34,11 @@ abstract class IPathConstants {
   String get assetsOutputPath;
 }
 
+@LazySingleton(as: IPathConstants)
 class PathConstants implements IPathConstants {
-  final String _env;
+  final _env = "TEST";
 
-  PathConstants(this._env);
+  PathConstants();
 
   @override
   String get assetsOutputPath => '$templateFolderPath/$assetsTemplateName';

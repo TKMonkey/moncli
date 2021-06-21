@@ -1,12 +1,14 @@
 import 'package:args/command_runner.dart';
+import 'package:injectable/injectable.dart';
 import 'package:moncli/src/base/exceptions/exceptions.dart';
 import 'package:moncli/src/command/comand.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 import 'command_line_app.dart';
 
+@lazySingleton
 class Moncli with CommandLineApp {
-  Moncli() {
+  Moncli(PubCommand pubCommand) {
     runner.argParser.addFlag(
       'printer',
       abbr: 'p',
@@ -21,11 +23,11 @@ class Moncli with CommandLineApp {
       help: 'Print the version for the cli.',
     );
 
-    _configureCommand();
+    _configureCommand(pubCommand);
   }
 
-  void _configureCommand() {
-    runner.addCommand(PubCommand());
+  void _configureCommand(PubCommand pubCommand) {
+    runner.addCommand(pubCommand);
   }
 
   @override
