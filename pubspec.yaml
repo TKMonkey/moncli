@@ -10,7 +10,9 @@ dependencies:
   ansicolor: ^2.0.1
   args: ^2.0.0
   dcli: ^0.51.9
+  get_it: ^7.1.4
   http: ^0.13.1
+  injectable: ^1.4.1
   recase: ^4.0.0
   yaml: ^3.1.0
 
@@ -19,6 +21,7 @@ dependencies:
 dev_dependencies:
   # pedantic: ^1.11.0
   build_runner: ^2.0.4
+  injectable_generator:
   lint: ^1.5.3
   mockito: ^5.0.9
   # very_good_analysis: ^2.0.0
