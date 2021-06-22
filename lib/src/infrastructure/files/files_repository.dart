@@ -46,5 +46,5 @@ class FileRepository implements IFilesRepository {
 
   @override
   void copyFile(String sourcePath, String destinationPath) =>
-      copy(sourcePath, destinationPath);
+      filesDataSource.copyFile(sourcePath, destinationPath);
 }
