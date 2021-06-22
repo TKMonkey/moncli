@@ -28,7 +28,7 @@ class CreatePath implements ICreatePath {
     final exists = existsPath(path);
 
     if (exists) {
-      logger.alert("The file $path will be overwritten");
+      logger.alert("The path $path will be overwritten");
     }
 
     _createPath(path, isFile);
