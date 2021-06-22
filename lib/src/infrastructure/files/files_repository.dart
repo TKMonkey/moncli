@@ -1,6 +1,6 @@
 import 'package:dcli/dcli.dart';
 import 'package:injectable/injectable.dart';
-import 'package:moncli/src/command/pub_command/subcommand/asset/i_files_repository';
+import 'package:moncli/src/domain/files/i_files_repository.dart';
 
 abstract class IFileDataSource {
   bool existsPath(String path);
