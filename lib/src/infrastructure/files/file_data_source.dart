@@ -11,17 +11,15 @@ class FileDataSource implements IFileDataSource {
   FileDataSource(this.pathConstants);
 
   @override
-  bool existsPath(String path) {
-    return exists(path);
-  }
+  bool existsPath(String path) => exists(path);
 
   @override
-  void createFile(String path) {
-    path.write('');
-  }
+  void createFile(String path) => path.write('');
 
   @override
-  void createDirectory(String path) {
-    createDir(path, recursive: true);
-  }
+  void createDirectory(String path) => createDir(path, recursive: true);
+
+  @override
+  void copyFile(String sourcePath, String destinationPath) =>
+      copy(sourcePath, destinationPath);
 }

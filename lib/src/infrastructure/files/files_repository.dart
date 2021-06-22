@@ -9,6 +9,8 @@ abstract class IFileDataSource {
   void createFile(String path);
 
   void createDirectory(String path);
+
+  void copyFile(String sourcePath, String destinationPath);
 }
 
 abstract class IUserPromptDataSource {
