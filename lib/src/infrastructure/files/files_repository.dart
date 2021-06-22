@@ -21,16 +21,15 @@ abstract class IUserPromptDataSource {
 class FileRepository implements IFilesRepository {
   final PubCommandUtils commandUtils;
   final IFileDataSource filesDataSource;
-  final IUserPromptDataSource userPromtDataSource;
+  final IUserPromptDataSource userPromptDataSource;
 
-  FileRepository(
-      this.commandUtils, this.filesDataSource, this.userPromtDataSource);
+  FileRepository(this.filesDataSource, this.userPromptDataSource);
 
   @override
   bool existsPath(String path) => filesDataSource.existsPath(path);
 
   @override
-  bool canCreatePath(String path, String boldStatement) => userPromtDataSource
+  bool canCreatePath(String path, String boldStatement) => userPromptDataSource
       .getTrueOrFalse("Do you want to create ${green(boldStatement)}?");
 
   @override
