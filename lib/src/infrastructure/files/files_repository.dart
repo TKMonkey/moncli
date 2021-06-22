@@ -19,7 +19,6 @@ abstract class IUserPromptDataSource {
 
 @LazySingleton(as: IFilesRepository)
 class FileRepository implements IFilesRepository {
-  final PubCommandUtils commandUtils;
   final IFileDataSource filesDataSource;
   final IUserPromptDataSource userPromptDataSource;
 
