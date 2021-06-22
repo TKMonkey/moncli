@@ -15,5 +15,5 @@ class CanCreateTemplatesDirectory implements ICanCreateTemplatesDirectory {
 
   @override
   bool call() =>
-      canCreatePath(pathConstants.assetsOutputPath, "template directory");
+      canCreatePath(pathConstants.templateFolderPath, "templates directory");
 }
