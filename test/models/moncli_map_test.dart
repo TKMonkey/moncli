@@ -7,8 +7,7 @@ import 'package:moncli/src/models/node/i_null_node.dart';
 import 'package:moncli/src/models/node/i_string_node.dart';
 import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_int_node.dart';
-import 'package:test/expect.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
 class _NullNode implements INullNode {
   const _NullNode();
