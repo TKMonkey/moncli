@@ -1,11 +1,13 @@
 import 'dart:io';
+
 import 'package:moncli/src/base/exceptions/exceptions.dart';
 import 'package:moncli/src/utils/utils.dart';
 import 'package:yaml/yaml.dart';
+
 import 'element_validator.dart';
 import 'mixin_yaml_printer.dart';
 
-abstract class YamlModel with YamlPrinterMixin {
+class YamlModel with YamlPrinterMixin {
   late final Map yaml;
 
   void readYamlMap(File file) {
@@ -53,7 +55,8 @@ abstract class YamlModel with YamlPrinterMixin {
 
   dynamic _getModifiableNode(node) {
     if (node is Map) {
-      return Map.of(node.map((key, value) => MapEntry(key, _getModifiableNode(value))));
+      return Map.of(
+          node.map((key, value) => MapEntry(key, _getModifiableNode(value))));
     } else if (node is Iterable) {
       return List.of(node.map(_getModifiableNode));
     } else {

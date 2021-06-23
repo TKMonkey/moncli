@@ -1,12 +1,26 @@
-import 'package:args/args.dart';
+import 'package:meta/meta.dart';
 import 'package:moncli/src/models/yaml/element_validator.dart';
 
+/// Abstracts a template file.
+///
+/// It defines general methods to allow creating a representation of a template
+/// file [in any format] into memory that can be processed afterwards
 abstract class ITemplate {
-  void getAllElements();
-  void validateData();
-  void create(ArgResults? argResults);
+  @protected
+  List<ElementValidator> get validators;
 
-  late final List<ElementValidator> validators;
-  late final Map<String, dynamic> defaultValue;
+  @protected
+  Map<String, dynamic> get defaultValue;
+
+  @protected
+  void readAllElements();
+
+  @protected
   T getNodeOrDefaultValue<T>(String key);
+
+  @protected
+  void readFile(String sourceFilePath);
+
+  @protected
+  void validate();
 }
