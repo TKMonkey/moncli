@@ -4,21 +4,23 @@ import 'package:moncli/src/models/pubspec/pubspec.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 Future<bool> unused(ArgResults argResults) async {
-  final bool remove = argResults['remove'];
+  final bool remove = argResults['remove'] as bool;
 
   final yaml = Pubspec.init();
 
   final dependencies = yaml.getDependencies();
   final listUnused = <PubPackageModel>[];
 
-  for (final name in dependencies.keys) {
+  for (final name in dependencies.value.keys) {
     if (name == 'flutter') {
       continue;
     }
 
     final isUsingPackage = isUsedInProject(name);
     if (!isUsingPackage) {
-      listUnused.add(PubPackageModel(name, version: dependencies[name]));
+      //TODO: Check dependencies.value[name]!.value is working as expected
+      listUnused.add(PubPackageModel(name,
+          version: dependencies.value[name]!.value as String));
     }
   }
 

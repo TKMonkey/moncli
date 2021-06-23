@@ -1,7 +1,8 @@
 import 'package:moncli/src/models/dartclass/dartclass_generator.dart';
-import 'package:moncli/src/models/yaml/line.dart';
+import 'package:moncli/src/models/yaml/line/empty_line.dart';
 import 'package:recase/recase.dart';
 
+import '../../line.dart';
 import 'asset_file.dart';
 
 class AssetManager with DartClassGenerator {
@@ -20,15 +21,17 @@ class AssetManager with DartClassGenerator {
   void write() {
     final rcName = ReCase(name);
     final rcOutputName = ReCase(outputName).snakeCase;
-    final outName = rcOutputName.contains('.dart') ? rcOutputName : '$rcOutputName.dart';
+    final outName =
+        rcOutputName.contains('.dart') ? rcOutputName : '$rcOutputName.dart';
 
     final List<Line> lines = [
-      KeyLine('class ${rcName.pascalCase} {'),
-      KeyLine('\t ${rcName.pascalCase}._();'),
+      Line('class ${rcName.pascalCase} {'),
+      Line('\t ${rcName.pascalCase}._();'),
       const EmptyLine(),
       for (final af in data)
-        KeyLine("\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
-      KeyLine('}'),
+        Line(
+            "\tstatic const ${ReCase(af.outputVar).camelCase} = '${af.outputPath}';"),
+      const Line('}'),
     ];
 
     toDartString(lines, 'lib/$outputPath', outName);

@@ -1,17 +1,24 @@
-import 'package:args/args.dart';
-import 'package:moncli/src/base/constants.dart';
-import 'package:moncli/src/models/templates/asset/asset_template.dart';
+import 'package:moncli/src/models/node/i_node_factory.dart';
 import 'package:moncli/src/models/templates/asset/asset_template_runner.dart';
-import 'package:moncli/src/models/templates/asset/asset_template_yaml.dart';
+import 'package:moncli/src/models/templates/asset/yaml_asset_template.dart';
+
+class ReadAssetsParams {
+  final bool create;
+  final INodeFactory nodeFactory;
+  final String assetsOutputPath;
+
+  ReadAssetsParams({
+    required this.create,
+    required this.nodeFactory,
+    required this.assetsOutputPath,
+  });
+}
 
 class ReadAssets {
-  final AssetTemplate _template;
-  final AssetTemplateRunnner _templateRunner;
+  void call(ReadAssetsParams params) {
+    final template = YamlAssetTemplate(params.assetsOutputPath);
+    final templateRunner = AssetTemplateRunnner(params.nodeFactory);
 
-  ReadAssets({required ArgResults argResults})
-      : _template = AssetTemplateYaml(assetsOutputPath),
-        _templateRunner = AssetTemplateRunnner() {
-    _templateRunner(
-        _template, AssetTemplateRunnnerParams(create: argResults['create']));
+    templateRunner(template, AssetTemplateRunnnerParams(create: params.create));
   }
 }

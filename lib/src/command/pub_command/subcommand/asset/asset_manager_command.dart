@@ -1,18 +1,23 @@
 import 'package:moncli/src/base/base_command.dart';
+import 'package:moncli/src/base/constants.dart';
 import 'package:moncli/src/models/templates/asset/read_asset.dart';
+import 'package:moncli/src/models/yaml/node/yaml_node_factory.dart';
 import 'package:moncli/src/utils/utils.dart';
 
 class AssetManagerSubCommand extends CommandBase {
+  static const createFlag = 'create';
+  static const overwriteFlag = 'overwrite';
+
   AssetManagerSubCommand() {
     argParser
       ..addFlag(
-        'create',
+        createFlag,
         abbr: 'c',
         defaultsTo: true,
         help: 'Create the AssetManager class in Dart',
       )
       ..addFlag(
-        'overwrite',
+        overwriteFlag,
         abbr: 'o',
         negatable: false,
         help: 'Override current asset_manager_config with default template',
@@ -34,13 +39,21 @@ class AssetManagerSubCommand extends CommandBase {
 
   @override
   Future<void> run() async {
-    final overwrite = argResults != null ? argResults!['overwrite'] : false;
+    final bool overwrite = argResults![overwriteFlag] as bool;
 
     commandUtils.existsPubspec();
 
     final created = commandUtils.createAssetsTemplate(overwrite: overwrite);
+    final bool mustCreate = argResults![createFlag] as bool;
+
     if (created) {
-      ReadAssets(argResults: argResults!);
+      final readAssets = ReadAssets();
+      readAssets(
+        ReadAssetsParams(
+            create: mustCreate,
+            nodeFactory: YamlNodeFactory.sInstance,
+            assetsOutputPath: assetsOutputPath),
+      );
     }
   }
 }
