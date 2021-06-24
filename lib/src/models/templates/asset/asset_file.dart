@@ -13,14 +13,16 @@ class AssetsFile {
   ) {
     final asf = assetsFolder.endsWith('/') ? assetsFolder : '$assetsFolder/';
     final outputPath = asf + element.split(asf).last;
-    final tokeneizer = outputPath.split('/');
+    final tokenizer = outputPath.split('/');
 
-    final path = '${tokeneizer.sublist(0, tokeneizer.length - 1).join('/')}/';
-    final nameFile = tokeneizer.last.split('.');
-    final type = nameFile.last;
+    final path = "${_joinWithouthLast(splitText: tokenizer, separator: "/")}/";
+    final splitFileName = tokenizer.last.split('.');
+    final nameFile =
+        _joinWithouthLast(splitText: splitFileName, separator: ".");
+    final type = splitFileName.last;
 
     final outputVar =
-        '${getFixValue(prefix, tokeneizer, type)}${nameFile.first}${getFixValue(postFix, tokeneizer, type)}';
+        '${getFixValue(prefix, tokenizer, type, prefix: true)}$nameFile${getFixValue(postFix, tokenizer, type)}';
 
     return AssetsFile._(
       path: path,
@@ -37,6 +39,10 @@ class AssetsFile {
   String toString() =>
       'AssetsFile(path: $path, outputVar: $outputVar, outputPath: $outputPath)';
 }
+
+String _joinWithouthLast(
+        {required List<String> splitText, required String separator}) =>
+    splitText.sublist(0, splitText.length - 1).join(separator);
 
 String getFixValue(
   String str,
@@ -58,6 +64,6 @@ String getFixValue(
   return str.isEmpty
       ? ''
       : prefix
-          ? '_$endStr'
-          : '$endStr"_"';
+          ? "${endStr}_"
+          : "_$endStr";
 }
