@@ -71,6 +71,16 @@ class YamlStringNode implements IStringNode {
     return 'YamlStringNode{_value: $_value}';
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is YamlStringNode &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
+
+  @override
+  int get hashCode => _value.hashCode;
+
   String _withEscapes(String s) => s
       .replaceAll('\r', '\\r')
       .replaceAll('\t', '\\t')

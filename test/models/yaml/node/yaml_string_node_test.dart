@@ -387,6 +387,15 @@ void main() {
           });
         });
       });
+
+      test("equals", () {
+        // Arrange
+        const aString = "aString";
+        const yamlStringNode = YamlStringNode(aString);
+
+        // Assert
+        expect(yamlStringNode, const YamlStringNode(aString));
+      });
     });
   });
 }
