@@ -14,7 +14,7 @@ class Input {
 }
 
 class MockNodeValidator extends NodeValidator {
-  dynamic? receivedValue;
+  dynamic receivedValue;
 
   MockNodeValidator(
       {required String key, Iterable<dynamic> validValues = const []})
@@ -121,5 +121,13 @@ void main() {
         expect(serializedString, expected);
       });
     });
+  });
+
+  test("group", () {
+    // Arrange
+    const myInt = YamlIntNode(1);
+
+    // Assert
+    expect(myInt, const YamlIntNode(1));
   });
 }
