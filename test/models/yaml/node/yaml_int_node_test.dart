@@ -123,7 +123,7 @@ void main() {
     });
   });
 
-  test("group", () {
+  test("equals", () {
     // Arrange
     const myInt = YamlIntNode(1);
 
