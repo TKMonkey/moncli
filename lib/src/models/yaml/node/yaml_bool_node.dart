@@ -18,4 +18,14 @@ class YamlBoolNode implements IBoolNode {
   NodeValidator validate(NodeValidator elementValidator) {
     return elementValidator;
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is YamlBoolNode &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
+
+  @override
+  int get hashCode => _value.hashCode;
 }

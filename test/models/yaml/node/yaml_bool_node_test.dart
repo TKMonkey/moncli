@@ -107,5 +107,13 @@ void main() {
         });
       });
     });
+
+    test("equals", () {
+      // Arrange
+      const myNode = YamlBoolNode(true);
+
+      // Assert
+      expect(myNode, YamlBoolNode(true));
+    });
   });
 }
