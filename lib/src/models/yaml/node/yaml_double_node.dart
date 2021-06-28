@@ -22,4 +22,14 @@ class YamlDoubleNode implements IDoubleNode {
   @override
   NodeValidator validate(NodeValidator elementValidator) =>
       elementValidator..validateValue(_value);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is YamlDoubleNode &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
+
+  @override
+  int get hashCode => _value.hashCode;
 }

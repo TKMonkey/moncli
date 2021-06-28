@@ -134,5 +134,13 @@ void main() {
         expect(serializedString, expected);
       });
     });
+
+    test("equals", () {
+      // Arrange
+      const myNode = YamlDoubleNode(5.3);
+
+      // Assert
+      expect(myNode, YamlDoubleNode(5.3));
+    });
   });
 }
