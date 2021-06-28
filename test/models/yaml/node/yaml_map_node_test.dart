@@ -1,9 +1,11 @@
 import 'package:moncli/src/models/node/i_node.dart';
 import 'package:moncli/src/models/node/node_validator.dart';
+import 'package:moncli/src/models/yaml/node/yaml_bool_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_double_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_int_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_iterable_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_map_node.dart';
+import 'package:moncli/src/models/yaml/node/yaml_null_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_string_node.dart';
 import 'package:test/test.dart';
 
@@ -226,6 +228,58 @@ void main() {
           expect(serializedString, expected);
         });
       });
+    });
+
+    test("equals", () {
+      // Arrange
+      final myMap = YamlMapNode(Map.fromEntries([
+        const MapEntry("key1", YamlStringNode("value1")),
+        const MapEntry("key2", YamlIntNode(2)),
+        const MapEntry("key3", YamlNullNode()),
+        const MapEntry("key4", YamlDoubleNode(1.1)),
+        const MapEntry("key5", YamlBoolNode(false)),
+        const MapEntry(
+          "key6",
+          YamlIterableNode(
+            [YamlStringNode("a"), YamlStringNode("b")],
+          ),
+        ),
+        MapEntry(
+          "key7",
+          YamlMapNode(
+            Map.fromEntries([
+              const MapEntry("internalKey1", YamlStringNode("a")),
+              const MapEntry("internalKey1", YamlStringNode("a"))
+            ]),
+          ),
+        )
+      ]));
+
+      // Assert
+      expect(
+          myMap,
+          YamlMapNode(Map.fromEntries([
+            MapEntry("key1", YamlStringNode("value1")),
+            MapEntry("key2", YamlIntNode(2)),
+            MapEntry("key3", YamlNullNode()),
+            MapEntry("key4", YamlDoubleNode(1.1)),
+            MapEntry("key5", YamlBoolNode(false)),
+            MapEntry(
+              "key6",
+              YamlIterableNode(
+                [YamlStringNode("a"), YamlStringNode("b")],
+              ),
+            ),
+            MapEntry(
+              "key7",
+              YamlMapNode(
+                Map.fromEntries([
+                  const MapEntry("internalKey1", YamlStringNode("a")),
+                  const MapEntry("internalKey1", YamlStringNode("a"))
+                ]),
+              ),
+            ),
+          ])));
     });
   });
 }
