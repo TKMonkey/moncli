@@ -91,5 +91,13 @@ void main() {
         });
       });
     });
+
+    test("equals", () {
+      // Arrange
+      const yamlNullNode = YamlNullNode();
+
+      // Assert
+      expect(yamlNullNode, YamlNullNode());
+    });
   });
 }
