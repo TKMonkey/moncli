@@ -63,4 +63,14 @@ class YamlIterableNode<T> with IterableMixin implements IIterableNode<T> {
 
   void _writeIndent(int indentation, StringSink ss) =>
       ss.write(' ' * indentation);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is YamlIterableNode &&
+          runtimeType == other.runtimeType &&
+          _value == other._value;
+
+  @override
+  int get hashCode => _value.hashCode;
 }

@@ -1,6 +1,7 @@
 import 'package:moncli/src/models/node/node_validator.dart';
 import 'package:moncli/src/models/yaml/node/yaml_int_node.dart';
 import 'package:moncli/src/models/yaml/node/yaml_iterable_node.dart';
+import 'package:moncli/src/models/yaml/node/yaml_string_node.dart';
 import 'package:test/test.dart';
 
 class Input {
@@ -162,6 +163,27 @@ void main() {
           expect(serializedString, expected);
         });
       });
+    });
+
+    test("equals", () {
+      // Arrange
+      const myNode = YamlIterableNode(
+        [
+          YamlStringNode("aString"),
+          YamlStringNode("anotherString"),
+        ],
+      );
+
+      // Assert
+      expect(
+        myNode,
+        YamlIterableNode(
+          [
+            YamlStringNode("aString"),
+            YamlStringNode("anotherString"),
+          ],
+        ),
+      );
     });
   });
 }
