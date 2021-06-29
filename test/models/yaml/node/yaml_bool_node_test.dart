@@ -108,12 +108,46 @@ void main() {
       });
     });
 
-    test("equals", () {
-      // Arrange
-      const myNode = YamlBoolNode(true);
+    group("test", () {
+      test("true should equals another true instance", () {
+        // Arrange
+        const myNode = YamlBoolNode(true);
 
-      // Assert
-      expect(myNode, YamlBoolNode(true));
+        // Assert
+        expect(myNode, YamlBoolNode(true));
+      });
+
+      test("false should equals another false instance", () {
+        // Arrange
+        const myNode = YamlBoolNode(false);
+
+        // Assert
+        expect(myNode, YamlBoolNode(false));
+      });
+    });
+
+    group("hashCode", () {
+      test("same node value should return same hashCode", () {
+        // Arrange
+        const myNode = YamlBoolNode(true);
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(hashCode, YamlBoolNode(true).hashCode);
+      });
+
+      test("different node value should return different hashCode", () {
+        // Arrange
+        const myNode = YamlBoolNode(true);
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(hashCode, isNot(YamlBoolNode(false).hashCode));
+      });
     });
   });
 }
