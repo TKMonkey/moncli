@@ -45,7 +45,7 @@ void main() {
         expect(hashCode, CommentLine("# aKey: a value").hashCode);
       });
 
-      test("same line should return different hashCode", () {
+      test("different line should return different hashCode", () {
         // Arrange
         const commentLine = CommentLine("# aKey: a value");
 

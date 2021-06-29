@@ -73,7 +73,7 @@ void main() {
         expect(hashCode, KeyLine("aKey: a value").hashCode);
       });
 
-      test("same line should return different hashCode", () {
+      test("different line should return different hashCode", () {
         // Arrange
         final keyLine = KeyLine("aKey: a value");
 
