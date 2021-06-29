@@ -396,6 +396,31 @@ void main() {
         // Assert
         expect(yamlStringNode, const YamlStringNode(aString));
       });
+
+      group("hashCode", () {
+        test("same node value should return same hashCode", () {
+          // Arrange
+          const myNode = YamlStringNode("a Yaml String");
+
+          // Act
+          final hashCode = myNode.hashCode;
+
+          // Assert
+          expect(hashCode, YamlStringNode("a Yaml String").hashCode);
+        });
+
+        test("different node value should return different hashCode", () {
+          // Arrange
+          const myNode = YamlStringNode("a Yaml String");
+
+          // Act
+          final hashCode = myNode.hashCode;
+
+          // Assert
+          expect(
+              hashCode, isNot(YamlStringNode("another Yaml String").hashCode));
+        });
+      });
     });
   });
 }
