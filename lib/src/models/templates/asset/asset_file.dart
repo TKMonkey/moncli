@@ -15,14 +15,13 @@ class AssetsFile {
     final outputPath = asf + element.split(asf).last;
     final tokenizer = outputPath.split('/');
 
-    final path = "${_joinWithouthLast(splitText: tokenizer, separator: "/")}/";
+    final path = "${_joinWithoutLast(splitText: tokenizer, separator: "/")}/";
     final splitFileName = tokenizer.last.split('.');
-    final nameFile =
-        _joinWithouthLast(splitText: splitFileName, separator: ".");
+    final nameFile = _joinWithoutLast(splitText: splitFileName, separator: ".");
     final type = splitFileName.last;
 
     final outputVar =
-        '${getFixValue(prefix, tokenizer, type, prefix: true)}$nameFile${getFixValue(postFix, tokenizer, type)}';
+        '${_getAffixValue(prefix, tokenizer, type, isPrefix: true)}$nameFile${_getAffixValue(postFix, tokenizer, type)}';
 
     return AssetsFile._(
       path: path,
@@ -40,20 +39,20 @@ class AssetsFile {
       'AssetsFile(path: $path, outputVar: $outputVar, outputPath: $outputPath)';
 }
 
-String _joinWithouthLast(
+String _joinWithoutLast(
         {required List<String> splitText, required String separator}) =>
     splitText.sublist(0, splitText.length - 1).join(separator);
 
-String getFixValue(
+String _getAffixValue(
   String str,
-  List<String> tokeneizer,
+  List<String> tokenizer,
   String type, {
-  bool prefix = false,
+  bool isPrefix = false,
 }) {
   String endStr = str;
 
   if (str == 'folder_name') {
-    endStr = (tokeneizer
+    endStr = (tokenizer
           ..removeWhere((element) => element.contains('.'))
           ..toList())
         .last;
@@ -63,7 +62,7 @@ String getFixValue(
 
   return str.isEmpty
       ? ''
-      : prefix
+      : isPrefix
           ? "${endStr}_"
           : "_$endStr";
 }
