@@ -52,6 +52,14 @@ void main() {
                 "oneKey: \n  - a string from the node\n  - another string from the node\n"));
       });
     });
+
+    test("equals", () {
+      // Arrange
+      final keyLine = KeyLine("aKey: a value");
+
+      // Assert
+      expect(keyLine, KeyLine("aKey: a value"));
+    });
   });
 }
 

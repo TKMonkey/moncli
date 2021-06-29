@@ -36,4 +36,17 @@ class KeyLine extends YamlLine {
     final yamlString = node.toSerializedString(0, true);
     sink.write(yamlString);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is KeyLine &&
+            runtimeType == other.runtimeType &&
+            key == other.key &&
+            value == other.value &&
+            this.other == other.other;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ value.hashCode ^ other.hashCode;
 }
