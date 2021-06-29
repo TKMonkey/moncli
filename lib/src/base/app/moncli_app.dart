@@ -61,7 +61,7 @@ class Moncli with CommandLineApp {
               ..info(error.usage);
           } else if (error is FormatException) {
             logger.err(error.message);
-          } else if (error is KeyNoFoundException) {
+          } else if (error is KeyNotFoundException) {
             logger.err(error.toString());
           } else if (error is! ValidatorsException) {
             throw error;
