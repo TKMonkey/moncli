@@ -72,5 +72,8 @@ class YamlIterableNode<T> with IterableMixin implements IIterableNode<T> {
           _value == other._value;
 
   @override
-  int get hashCode => _value.hashCode;
+  int get hashCode => _value.fold(
+      0,
+      (previousValue, element) =>
+          previousValue.hashCode + 31 ^ element.hashCode);
 }

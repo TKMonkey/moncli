@@ -167,7 +167,7 @@ void main() {
 
     test("equals", () {
       // Arrange
-      const myNode = YamlIterableNode(
+      final myNode = YamlIterableNode(
         [
           YamlStringNode("aString"),
           YamlStringNode("anotherString"),
@@ -184,6 +184,53 @@ void main() {
           ],
         ),
       );
+    });
+
+    group("hashCode", () {
+      test("same node value should return same hashCode", () {
+        // Arrange
+        const myNode = YamlIterableNode(
+          [
+            YamlStringNode("aString"),
+            YamlStringNode("anotherString"),
+          ],
+        );
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(
+            hashCode,
+            YamlIterableNode(
+              [
+                YamlStringNode("aString"),
+                YamlStringNode("anotherString"),
+              ],
+            ).hashCode);
+      });
+
+      test("different node value should return different hashCode", () {
+        // Arrange
+        const myNode = YamlIterableNode(
+          [
+            YamlStringNode("aString"),
+            YamlStringNode("anotherString"),
+          ],
+        );
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(
+            hashCode,
+            isNot(YamlIterableNode(
+              [
+                YamlStringNode("aString"),
+              ],
+            ).hashCode));
+      });
     });
   });
 }
