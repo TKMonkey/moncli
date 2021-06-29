@@ -24,5 +24,13 @@ void main() {
         expect(sink.toString(), equals("# This is a comment line\n"));
       });
     });
+
+    test("comment", () {
+      // Arrange
+      const commentLine = CommentLine("# this is a comment line");
+
+      // Assert
+      expect(commentLine, CommentLine("# this is a comment line"));
+    });
   });
 }
