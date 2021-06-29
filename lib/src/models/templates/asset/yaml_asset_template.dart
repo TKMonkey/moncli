@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:moncli/src/base/exceptions/validators_exception.dart';
 import 'package:moncli/src/models/node/i_iterable_node.dart';
 import 'package:moncli/src/models/node/i_node.dart';
@@ -13,7 +11,7 @@ class YamlAssetTemplate extends AssetTemplate {
   final Yaml _yaml;
 
   YamlAssetTemplate(String sourceFilePath)
-      : _yaml = Yaml(File(sourceFilePath)),
+      : _yaml = Yaml.fromFilePath(sourceFilePath),
         super(YamlNodeFactory.sInstance);
 
   @override
