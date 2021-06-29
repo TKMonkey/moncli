@@ -40,7 +40,7 @@ class MoncliMap with MapMixin<String, INode> {
   INode getNodeOrException(String key, {String? fileName}) {
     final value = this[key];
     if (value is INullNode) {
-      throw KeyNoFoundException(key, fileName: fileName);
+      throw KeyNotFoundException(key, fileName: fileName);
     }
 
     return value;

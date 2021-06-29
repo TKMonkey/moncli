@@ -193,7 +193,7 @@ void main() {
 
       // Assert
       expect(() => moncliMap.getNodeOrException("customMap"),
-          throwsA(isA<KeyNoFoundException>()));
+          throwsA(isA<KeyNotFoundException>()));
     });
   });
 
