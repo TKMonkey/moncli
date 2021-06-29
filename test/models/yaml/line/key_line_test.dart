@@ -60,6 +60,30 @@ void main() {
       // Assert
       expect(keyLine, KeyLine("aKey: a value"));
     });
+
+    group("hashCode", () {
+      test("same line should return same hashCode", () {
+        // Arrange
+        final keyLine = KeyLine("aKey: a value");
+
+        // Act
+        final hashCode = keyLine.hashCode;
+
+        // Assert
+        expect(hashCode, KeyLine("aKey: a value").hashCode);
+      });
+
+      test("same line should return different hashCode", () {
+        // Arrange
+        final keyLine = KeyLine("aKey: a value");
+
+        // Act
+        final hashCode = keyLine.hashCode;
+
+        // Assert
+        expect(hashCode, isNot(KeyLine("anotherKey: another value").hashCode));
+      });
+    });
   });
 }
 
