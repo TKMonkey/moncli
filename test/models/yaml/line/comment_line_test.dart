@@ -32,5 +32,30 @@ void main() {
       // Assert
       expect(commentLine, CommentLine("# this is a comment line"));
     });
+
+    group("hashCode", () {
+      test("same line should return same hashCode", () {
+        // Arrange
+        const commentLine = CommentLine("# aKey: a value");
+
+        // Act
+        final hashCode = commentLine.hashCode;
+
+        // Assert
+        expect(hashCode, CommentLine("# aKey: a value").hashCode);
+      });
+
+      test("same line should return different hashCode", () {
+        // Arrange
+        const commentLine = CommentLine("# aKey: a value");
+
+        // Act
+        final hashCode = commentLine.hashCode;
+
+        // Assert
+        expect(hashCode,
+            isNot(CommentLine("# anotherKey: another value").hashCode));
+      });
+    });
   });
 }
