@@ -12,8 +12,10 @@ class CommentLine extends YamlLine {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CommentLine && runtimeType == other.runtimeType;
+      super == other &&
+          other is CommentLine &&
+          runtimeType == other.runtimeType;
 
   @override
-  int get hashCode => 0;
+  int get hashCode => super.hashCode;
 }

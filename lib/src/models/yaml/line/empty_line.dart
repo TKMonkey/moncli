@@ -12,8 +12,8 @@ class EmptyLine extends YamlLine {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is EmptyLine && runtimeType == other.runtimeType;
+      super == other && other is EmptyLine && runtimeType == other.runtimeType;
 
   @override
-  int get hashCode => 0;
+  int get hashCode => super.hashCode;
 }

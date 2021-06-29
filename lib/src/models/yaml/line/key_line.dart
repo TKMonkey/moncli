@@ -38,15 +38,16 @@ class KeyLine extends YamlLine {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is KeyLine &&
-            runtimeType == other.runtimeType &&
-            key == other.key &&
-            value == other.value &&
-            this.other == other.other;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is KeyLine &&
+          runtimeType == other.runtimeType &&
+          key == other.key &&
+          value == other.value &&
+          this.other == other.other;
 
   @override
-  int get hashCode => key.hashCode ^ value.hashCode ^ other.hashCode;
+  int get hashCode =>
+      super.hashCode ^ key.hashCode ^ value.hashCode ^ other.hashCode;
 }
