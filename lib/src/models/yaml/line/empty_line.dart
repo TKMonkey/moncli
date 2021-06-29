@@ -8,4 +8,12 @@ class EmptyLine extends YamlLine {
   void writeIntoSink(StringSink sink, Yaml yaml) {
     sink.writeln(line);
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is EmptyLine && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => 0;
 }

@@ -23,5 +23,13 @@ void main() {
         expect(sink.toString(), equals("\n"));
       });
     });
+
+    test("equals", () {
+      // Arrange
+      const emptyLine = EmptyLine();
+
+      // Assert
+      expect(emptyLine, EmptyLine());
+    });
   });
 }
