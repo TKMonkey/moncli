@@ -130,4 +130,28 @@ void main() {
     // Assert
     expect(myInt, const YamlIntNode(1));
   });
+
+  group("hashCode", () {
+    test("same node value should return same hashCode", () {
+      // Arrange
+      const myNode = YamlIntNode(1);
+
+      // Act
+      final hashCode = myNode.hashCode;
+
+      // Assert
+      expect(hashCode, YamlIntNode(1).hashCode);
+    });
+
+    test("different node value should return different hashCode", () {
+      // Arrange
+      const myNode = YamlIntNode(2);
+
+      // Act
+      final hashCode = myNode.hashCode;
+
+      // Assert
+      expect(hashCode, isNot(YamlIntNode(1).hashCode));
+    });
+  });
 }
