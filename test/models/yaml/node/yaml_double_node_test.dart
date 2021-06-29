@@ -142,5 +142,29 @@ void main() {
       // Assert
       expect(myNode, YamlDoubleNode(5.3));
     });
+
+    group("hashCode", () {
+      test("same node value should return same hashCode", () {
+        // Arrange
+        const myNode = YamlDoubleNode(1.4);
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(hashCode, YamlDoubleNode(1.4).hashCode);
+      });
+
+      test("different node value should return different hashCode", () {
+        // Arrange
+        const myNode = YamlDoubleNode(2.5);
+
+        // Act
+        final hashCode = myNode.hashCode;
+
+        // Assert
+        expect(hashCode, isNot(YamlDoubleNode(1.1).hashCode));
+      });
+    });
   });
 }
