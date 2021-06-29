@@ -31,5 +31,16 @@ void main() {
       // Assert
       expect(emptyLine, EmptyLine());
     });
+
+    test("hashCode, two EmptyLine instances must share hashCode", () {
+      // Arrange
+      const emptyLine = EmptyLine();
+
+      // Act
+      final hashCode = emptyLine.hashCode;
+
+      // Assert
+      expect(hashCode, EmptyLine().hashCode);
+    });
   });
 }
